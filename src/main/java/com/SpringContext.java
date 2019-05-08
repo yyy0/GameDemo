@@ -2,6 +2,10 @@ package com;
 
 import com.yxm.command.Command;
 import com.yxm.command.CommandFacade;
+import com.yxm.common.GlobalService;
+import com.yxm.login.LoginService;
+import com.yxm.map.WorldService;
+import com.yxm.user.account.AccountService;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -26,6 +30,18 @@ public class SpringContext implements ApplicationContextAware {
 
     @Autowired
     public CommandFacade commandFacade;
+
+    @Autowired
+    public WorldService worldService;
+
+    @Autowired
+    public AccountService accountService;
+
+    @Autowired
+    public LoginService loginService;
+
+    @Autowired
+    public GlobalService globalService;
 
 
     @Override
@@ -57,6 +73,22 @@ public class SpringContext implements ApplicationContextAware {
 
     public static Command getCommand() {
         return instance.command;
+    }
+
+    public static WorldService getWorldService() {
+        return instance.worldService;
+    }
+
+    public static AccountService getAccountService() {
+        return instance.accountService;
+    }
+
+    public static LoginService getLoginService() {
+        return instance.loginService;
+    }
+
+    public static GlobalService getGlobalService() {
+        return instance.globalService;
     }
 
 

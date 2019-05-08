@@ -1,9 +1,11 @@
 package com.yxm.server;
 
+import com.SpringContext;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.*;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
@@ -20,18 +22,19 @@ import java.util.concurrent.TimeUnit;
  * @author yuxianming
  * @date 2019/4/24 15:52
  */
-public class EchoServer {
+public class GameServer {
 
     private static final String APPLICATION_CONTEXT = "applicationContext.xml";
     private static ClassPathXmlApplicationContext applicationContext;
     static final boolean SSL = System.getProperty("ssl") != null;
     static final int PORT = 8888;
-    private static Logger logger = LoggerFactory.getLogger("ON-OFF");
+    private static Logger logger = LoggerFactory.getLogger(GameServer.class);
 
     public static void main(String[] args) throws Exception {
 
         applicationContext = new ClassPathXmlApplicationContext(APPLICATION_CONTEXT);
         applicationContext.start();
+        SpringContext.getGlobalService().onStart();
         // Configure SSL.
         final SslContext sslCtx;
         if (SSL) {
@@ -41,33 +44,30 @@ public class EchoServer {
             sslCtx = null;
         }
 
-        // Configure the server.
+        //因为bossGroup仅接收客户端连接，不做复杂的逻辑处理，为了尽可能减少资源的占用，取值越小越好
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+        //workerGroup作为worker，处理boss接收的连接的流量和将接收的连接注册进入这个worker
         EventLoopGroup workerGroup = new NioEventLoopGroup();
-        final EchoServerHandler serverHandler = new EchoServerHandler();
+
+        //ChannelHandler用于处理请求响应的业务逻辑相关代码
+        final GameServerHandler serverHandler = new GameServerHandler();
 
         long start = System.nanoTime();
         try {
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup)
+                    //指定使用NioServerSocketChannel产生一个Channel用来接收连接
                     .channel(NioServerSocketChannel.class)
-                    .option(ChannelOption.SO_BACKLOG, 100)
+                    //BACKLOG用于构造服务端套接字ServerSocket对象，标识当服务器请求处理线程全满时，用于临时存放已完成三次握手的请求的队列的最大长度。如果未设置或所设置的值小于1，Java将使用默认值50。
+                    //Option是为了NioServerSocketChannel设置的，用来接收传入连接的
+                    .option(ChannelOption.SO_BACKLOG, 1024)
+                    .childOption(ChannelOption.SO_KEEPALIVE, true)
                     .handler(new LoggingHandler(LogLevel.INFO))
-                    .childHandler(new ChannelInitializer<SocketChannel>() {
-                        @Override
-                        public void initChannel(SocketChannel ch) throws Exception {
-                            ChannelPipeline p = ch.pipeline();
-                            if (sslCtx != null) {
-                                p.addLast(sslCtx.newHandler(ch.alloc()));
-                            }
-                            //p.addLast(new LoggingHandler(LogLevel.INFO));
-                            p.addLast(serverHandler);
-                        }
-                    });
+                    .childHandler(new MyChannelHandler());
             // Start the server.
             long end = System.nanoTime() - start;
             logger.info("服务器启动，耗时{}s", TimeUnit.NANOSECONDS.toSeconds(end));
-            // Wait until the server socket is closed.
+            // 绑定端口
             ChannelFuture f = b.bind(PORT).sync();
 
             f.channel().closeFuture().sync();

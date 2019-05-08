@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.core.convert.support.GenericConversionService;
+import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
@@ -23,14 +23,14 @@ public class CommandFacade {
     @Autowired
     private Command command;
     Logger logger = LoggerFactory.getLogger("gm日志");
-    private ConversionService conversionService = new GenericConversionService();
+
+    private ConversionService conversionService = new DefaultConversionService();
     //private Command command = new Command();
 
     public void doCommand(ChannelHandlerContext ctx, Object msg) throws InvocationTargetException, IllegalAccessException {
 
 
         String command = (String) msg;
-        System.out.println("开始执行指令：" + msg);
         Pattern p = Pattern.compile("\\s+");
         Matcher m = p.matcher(command);
         command = m.replaceAll(" ");
@@ -42,7 +42,7 @@ public class CommandFacade {
         for (Method method : methods) {
             if (method.getName().equalsIgnoreCase(methodName)) {
                 method.setAccessible(true);
-                System.out.println("使用gm指令" + methodName);
+                System.out.println("使用gm指令" + method.getName());
                 invoke(method, strs);
                 return;
             }
@@ -64,25 +64,40 @@ public class CommandFacade {
                 break;
             }
             case 2: {
-                Class<?> class1 = paramType[1];
-                method.invoke(command, conversionService.convert(split[1], class1));
+                Class<?> class1 = paramType[0];
+                Class<?> class2 = paramType[1];
+                method.invoke(command, conversionService.convert(split[1], class1), conversionService.convert(split[2], class2));
                 break;
             }
             case 3: {
-                Class<?> class1 = paramType[2];
-                method.invoke(command, conversionService.convert(split[1], class1));
+                Class<?> class1 = paramType[0];
+                Class<?> class2 = paramType[1];
+                Class<?> class3 = paramType[2];
+                method.invoke(command, conversionService.convert(split[1], class1), conversionService.convert(split[2], class2),
+                        conversionService.convert(split[3], class3));
                 break;
             }
             case 4: {
-                Class<?> class1 = paramType[3];
-                method.invoke(command, conversionService.convert(split[1], class1));
+                Class<?> class1 = paramType[0];
+                Class<?> class2 = paramType[1];
+                Class<?> class3 = paramType[2];
+                Class<?> class4 = paramType[3];
+                method.invoke(command, conversionService.convert(split[1], class1), conversionService.convert(split[2], class2),
+                        conversionService.convert(split[3], class3), conversionService.convert(split[4], class4));
                 break;
             }
             case 5: {
-                Class<?> class1 = paramType[4];
-                method.invoke(command, conversionService.convert(split[1], class1));
+                Class<?> class1 = paramType[0];
+                Class<?> class2 = paramType[1];
+                Class<?> class3 = paramType[2];
+                Class<?> class4 = paramType[3];
+                Class<?> class5 = paramType[4];
+                method.invoke(command, conversionService.convert(split[1], class1), conversionService.convert(split[2], class2),
+                        conversionService.convert(split[3], class3), conversionService.convert(split[4], class4), conversionService.convert(split[5], class5));
                 break;
             }
+            default:
+                break;
         }
     }
 

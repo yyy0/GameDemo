@@ -906,36 +906,65 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
-    <table id="228" parent="2" name="player"/>
-    <column id="229" parent="228" name="playerid">
+    <table id="228" parent="2" name="account"/>
+    <table id="229" parent="2" name="map_common"/>
+    <column id="230" parent="228" name="accountId">
       <Position>1</Position>
-      <DataType>int(10)|0s</DataType>
+      <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="230" parent="228" name="accountid">
+    <column id="231" parent="228" name="gridY">
       <Position>2</Position>
-      <DataType>varchar(255)|0s</DataType>
+      <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="231" parent="228" name="name">
+    <column id="232" parent="228" name="gridX">
       <Position>3</Position>
-      <DataType>varchar(255)|0s</DataType>
+      <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="232" parent="228" name="level">
+    <column id="233" parent="228" name="mapid">
       <Position>4</Position>
-      <DataType>varchar(10)|0s</DataType>
+      <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="233" parent="228" name="job">
+    <column id="234" parent="228" name="name">
       <Position>5</Position>
-      <DataType>int(10)|0s</DataType>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="234" parent="228" name="PRIMARY">
+    <column id="235" parent="228" name="pwd">
+      <Position>6</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="236" parent="228" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
-      <ColNames>playerid</ColNames>
+      <ColNames>accountId</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="237" parent="229" name="mapid">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="238" parent="229" name="accounts">
+      <Position>2</Position>
+      <DataType>longtext|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="239" parent="229" name="mapper">
+      <Position>3</Position>
+      <DataType>tinyblob|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="240" parent="229" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>mapid</ColNames>
       <Primary>1</Primary>
     </key>
   </database-model>

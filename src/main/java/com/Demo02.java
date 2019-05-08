@@ -1,7 +1,7 @@
 package com;
 
-import com.yxm.command.Command;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.yxm.tool.JsonUtils;
+import com.yxm.user.account.Person;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,19 +10,16 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class Demo02 {
-    @Autowired
-    private Command command;
 
     public static void main(String[] args) {
-        new Demo02().test();
+        Person p = new Person("小明", 11);
+        String json = JsonUtils.obj2json(p);
+        System.out.println(json);
+        Person p2 = JsonUtils.json2pojo(json, Person.class);
+        System.out.println(p2);
+        Person p3 = JsonUtils.json2pojo(json, Person.class);
+        System.out.println(p3);
+
     }
 
-    public void test() {
-
-        if (null == command) {
-            System.out.println("注入失败");
-        } else {
-            command.test();
-        }
-    }
 }

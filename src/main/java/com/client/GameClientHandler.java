@@ -1,41 +1,50 @@
 package com.client;
 
-import io.netty.buffer.ByteBuf;
+import com.yxm.server.message.MessageContent;
+import com.yxm.tool.ObjectByteUtil;
+import com.yxm.user.account.Person;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
-
-import java.nio.charset.Charset;
 
 /**
  * @author yuxianming
  * @date 2019/4/24 12:30
  */
-public class EchoClientHandler extends ChannelInboundHandlerAdapter {
+public class GameClientHandler extends ChannelInboundHandlerAdapter {
 
 
     /**
      * Creates a client-side handler.
      */
-//    public EchoClientHandler() {
-//        firstMessage = Unpooled.buffer(EchoClient.SIZE);
+//    public GameClientHandler() {
+//        firstMessage = Unpooled.buffer(GameClient.SIZE);
 //        for (int i = 0; i < firstMessage.capacity(); i++) {
 //            firstMessage.writeByte((byte) i);
 //        }
 //    }
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
-        // ctx.writeAndFlush(firstMessage);
+
+        Person p = new Person("小明", 10);
+        byte[] content = ObjectByteUtil.objectToByteArray(p);
+        int length = content.length;
+        MessageContent messageContent = new MessageContent(length, p);
+        ctx.writeAndFlush(messageContent);
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         try {
-            ByteBuf bb = (ByteBuf) msg;
-            byte[] respByte = new byte[bb.readableBytes()];
-            bb.readBytes(respByte);
-            String respStr = new String(respByte, Charset.forName("UTF-8"));
-            System.out.println("客户端--收到响应：" + respStr);
+
+            MessageContent messageContent = (MessageContent) msg;
+            Person p = (Person) messageContent.getContent();
+            System.out.println(p);
+//            ByteBuf bb = (ByteBuf) msg;
+//            byte[] respByte = new byte[bb.readableBytes()];
+//            bb.readBytes(respByte);
+//            String respStr = new String(respByte, Charset.forName("UTF-8"));
+//            System.out.println("客户端--收到响应：" + respStr);
 
             // 直接转成对象
 //          handlerObject(ctx, msg);
