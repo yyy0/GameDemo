@@ -1,6 +1,6 @@
 package com.yxm.session;
 
-import com.yxm.user.account.Account;
+import com.yxm.user.account.model.Account;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

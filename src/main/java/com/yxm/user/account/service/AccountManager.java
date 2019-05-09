@@ -1,5 +1,6 @@
-package com.yxm.user.account;
+package com.yxm.user.account.service;
 
+import com.yxm.user.account.model.Account;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;

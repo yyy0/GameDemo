@@ -1,10 +1,11 @@
 package com;
 
 import com.yxm.tool.JsonUtils;
-import com.yxm.user.account.Person;
+import com.yxm.user.account.model.Person;
 import org.springframework.stereotype.Component;
 
 /**
+ * demo测试类2
  * @author yuxianming
  * @date 2019/4/23 16:38
  */

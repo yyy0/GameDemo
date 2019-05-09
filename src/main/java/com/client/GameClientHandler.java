@@ -1,9 +1,8 @@
 package com.client;
 
-import com.yxm.packet.CM_GMcommand;
+import com.yxm.command.packet.CM_GMcommand;
 import com.yxm.server.message.MessageContent;
 import com.yxm.tool.ObjectByteUtil;
-import com.yxm.user.account.Person;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;

@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
+ * 服务器正式启动类
  * @author yuxianming
  * @date 2019/5/9 15:10
  */

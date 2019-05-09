@@ -1,9 +1,9 @@
-package com.yxm.map;
+package com.yxm.map.entity;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yxm.tool.JsonUtils;
-import com.yxm.user.account.Account;
+import com.yxm.user.account.model.Account;
 
 import javax.persistence.*;
 import java.util.List;

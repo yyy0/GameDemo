@@ -1,10 +1,10 @@
-package com.yxm.login;
+package com.yxm.login.service;
 
 import com.SpringContext;
-import com.yxm.map.MapManager;
-import com.yxm.map.MapResource;
-import com.yxm.map.WorldService;
-import com.yxm.user.account.Account;
+import com.yxm.map.resource.MapResource;
+import com.yxm.map.service.MapManager;
+import com.yxm.map.service.WorldService;
+import com.yxm.user.account.model.Account;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +16,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class LoginService {
-    Logger logger = LoggerFactory.getLogger("登陆日志：");
-
+    private Logger logger = LoggerFactory.getLogger("登陆日志：");
 
     @Autowired
     private MapManager mapManager;
@@ -52,13 +51,13 @@ public class LoginService {
 
     }
 
-    public void reg(String accounId, String name, String pwd) {
-        Account tempAcc = SpringContext.getAccountService().getAccount(accounId);
+    public void reg(String accountId, String name, String pwd) {
+        Account tempAcc = SpringContext.getAccountService().getAccount(accountId);
         if (tempAcc != null) {
-            logger.error("该账号已存在！！账号id：[{}] 账号名称：[{}]", accounId, tempAcc.getName());
+            logger.error("该账号已存在！！账号id：[{}] 账号名称：[{}]", accountId, tempAcc.getName());
             return;
         }
-        Account account = Account.valueOf(accounId, name, pwd);
+        Account account = Account.valueOf(accountId, name, pwd);
         SpringContext.getAccountService().createAccount(account);
 
     }

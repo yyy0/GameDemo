@@ -1,4 +1,4 @@
-package com.yxm.user.account;
+package com.yxm.user.account.model;
 
 import java.io.Serializable;
 

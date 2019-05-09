@@ -1,4 +1,4 @@
-package com.yxm.command;
+package com.yxm.command.service;
 
 import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Logger;
@@ -28,8 +28,6 @@ public class CommandFacade {
     //private Command command = new Command();
 
     public void doCommand(ChannelHandlerContext ctx, String command) throws InvocationTargetException, IllegalAccessException {
-
-
 
         try {
             Pattern p = Pattern.compile("\\s+");

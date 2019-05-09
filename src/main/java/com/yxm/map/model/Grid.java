@@ -1,4 +1,4 @@
-package com.yxm.map;
+package com.yxm.map.model;
 
 /**
  * @author yuxianming

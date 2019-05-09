@@ -1,7 +1,10 @@
-package com.yxm.map;
+package com.yxm.map.service;
 
 import com.SpringContext;
-import com.yxm.user.account.Account;
+import com.yxm.map.model.Grid;
+import com.yxm.map.model.MapInfo;
+import com.yxm.map.resource.MapResource;
+import com.yxm.user.account.model.Account;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,11 +1,11 @@
 package com;
 
-import com.yxm.command.Command;
-import com.yxm.command.CommandFacade;
+import com.yxm.command.service.Command;
+import com.yxm.command.service.CommandFacade;
 import com.yxm.common.GlobalService;
-import com.yxm.login.LoginService;
-import com.yxm.map.WorldService;
-import com.yxm.user.account.AccountService;
+import com.yxm.login.service.LoginService;
+import com.yxm.map.service.WorldService;
+import com.yxm.user.account.service.AccountService;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;

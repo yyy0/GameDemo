@@ -1,6 +1,7 @@
-package com.yxm.user.account;
+package com.yxm.user.account.entity;
 
 import com.yxm.tool.JsonUtils;
+import com.yxm.user.account.model.Account;
 
 import javax.persistence.*;
 import java.io.Serializable;

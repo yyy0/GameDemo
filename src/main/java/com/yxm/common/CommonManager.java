@@ -11,9 +11,9 @@ import javax.persistence.Persistence;
 
 
 /**
+ * 抽象数据持续化，增删改查
  * @author yuxianming
  * @date 2019/4/29 17:44
- * 抽象数据持续化，增删改查
  */
 @Component
 public class CommonManager<K, T> {

@@ -1,11 +1,14 @@
 package com;
 
 
-import com.yxm.user.account.Account;
+import com.yxm.user.account.model.Account;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+/**
+ * demo测试类
+ */
 public class DemoTest {
 
     private static final String APPLICATION_CONTEXT = "applicationContext.xml";
@@ -40,7 +43,6 @@ public class DemoTest {
 //        SpringContext.getLoginService().reg("xiaoming","小明","123");
 //        SpringContext.getLoginService().login("yxm","123456");
 //        SpringContext.getCommand().changeMap("yxm",1002);
-
 
 
     }

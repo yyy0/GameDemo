@@ -1,8 +1,8 @@
-package com.yxm.command;
+package com.yxm.command.service;
 
 import com.SpringContext;
-import com.yxm.map.Grid;
-import com.yxm.user.account.Account;
+import com.yxm.map.model.Grid;
+import com.yxm.user.account.model.Account;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
@@ -14,8 +14,6 @@ import java.lang.reflect.Method;
  */
 @Component
 public class Command {
-
-
 
     public void test() {
         System.out.println("测试指令系统--1");

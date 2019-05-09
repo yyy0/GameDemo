@@ -1,5 +1,8 @@
-package com.yxm.map;
+package com.yxm.map.service;
 
+import com.yxm.map.entity.MapCommonEnt;
+import com.yxm.map.model.MapInfo;
+import com.yxm.map.resource.MapResource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;

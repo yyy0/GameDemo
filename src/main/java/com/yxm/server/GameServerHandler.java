@@ -1,18 +1,14 @@
 package com.yxm.server;
 
 import com.SpringContext;
-import com.yxm.command.CommandFacade;
-import com.yxm.packet.CM_GMcommand;
+import com.yxm.command.packet.CM_GMcommand;
 import com.yxm.server.message.MessageContent;
 import com.yxm.tool.ObjectByteUtil;
-import com.yxm.user.account.Person;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.lang.reflect.Field;

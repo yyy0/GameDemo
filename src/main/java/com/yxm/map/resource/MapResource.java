@@ -1,4 +1,4 @@
-package com.yxm.map;
+package com.yxm.map.resource;
 
 /**
  * @author yuxianming
@@ -6,12 +6,6 @@ package com.yxm.map;
  */
 public class MapResource {
 
-    /**
-     * 坐标标记 ☺：玩家， □：可行走点  ■：阻挡点
-     */
-    public static final char USER = '☺';
-    public static final char ROAD = '□';
-    public static final char WALL = '■';
 
     /**
      * 地图id

@@ -1,4 +1,4 @@
-package com.yxm.packet;
+package com.yxm.command.packet;
 
 import java.io.Serializable;
 
