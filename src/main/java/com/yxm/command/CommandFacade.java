@@ -27,27 +27,31 @@ public class CommandFacade {
     private ConversionService conversionService = new DefaultConversionService();
     //private Command command = new Command();
 
-    public void doCommand(ChannelHandlerContext ctx, Object msg) throws InvocationTargetException, IllegalAccessException {
+    public void doCommand(ChannelHandlerContext ctx, String command) throws InvocationTargetException, IllegalAccessException {
 
 
-        String command = (String) msg;
-        Pattern p = Pattern.compile("\\s+");
-        Matcher m = p.matcher(command);
-        command = m.replaceAll(" ");
-        String methodName = null;
-        //处理命令字符串，反射调用
-        String[] strs = command.split(" ");
-        methodName = strs[0];
-        Method[] methods = Command.class.getDeclaredMethods();
-        for (Method method : methods) {
-            if (method.getName().equalsIgnoreCase(methodName)) {
-                method.setAccessible(true);
-                System.out.println("使用gm指令" + method.getName());
-                invoke(method, strs);
-                return;
+
+        try {
+            Pattern p = Pattern.compile("\\s+");
+            Matcher m = p.matcher(command);
+            command = m.replaceAll(" ");
+            String methodName = null;
+            //处理命令字符串，反射调用
+            String[] strs = command.split(" ");
+            methodName = strs[0];
+            Method[] methods = Command.class.getDeclaredMethods();
+            for (Method method : methods) {
+                if (method.getName().equalsIgnoreCase(methodName)) {
+                    method.setAccessible(true);
+                    System.out.println("使用gm指令" + method.getName());
+                    invoke(method, strs);
+                    return;
+                }
             }
+            logger.error("找不到对应指令");
+        }catch (Exception e){
+            logger.error(command,e);
         }
-        logger.error("找不到对应指令");
 
     }
 

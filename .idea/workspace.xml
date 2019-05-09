@@ -5,41 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e0eed4a1-e6c2-4b20-96d7-b050bb2a2ba7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/yxm/session/SessionManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/yxm/session/SessionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/yxm/session/SessionUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/Start.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/yxm/packet/CM_GMcommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/yxm/session/TSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yxm/session/TSession.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/yxm/user/account/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yxm/user/account/Person.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/persistence.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/Demo02.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/Demo02.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/DemoTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/DemoTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/SpringContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/SpringContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/client/GameClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/client/GameClient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/client/GameClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/client/GameClientHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yxm/command/CommandFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yxm/command/CommandFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yxm/server/GameServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yxm/server/GameServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yxm/server/GameServerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yxm/server/GameServerHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yxm/user/account/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yxm/user/account/AccountService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/jdbc.properties" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/client/GameClientHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/client/GameClientHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yxm/command/Command.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yxm/command/Command.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/yxm/command/CommandFacade.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yxm/command/CommandFacade.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yxm/common/CommonManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yxm/common/CommonManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yxm/common/GlobalService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yxm/common/GlobalService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yxm/login/LoginService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yxm/login/LoginService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yxm/map/MapInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yxm/map/MapInfo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yxm/map/MapManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yxm/map/MapManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yxm/map/MapResource.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yxm/map/MapResource.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yxm/map/WorldService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yxm/map/WorldService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/yxm/server/GameServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yxm/server/GameServer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/yxm/server/GameServerHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yxm/server/GameServerHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yxm/server/message/MessageContent.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yxm/server/message/MessageContent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yxm/server/message/MessageDecoder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yxm/server/message/MessageDecoder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/yxm/session/TSession.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yxm/session/TSession.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yxm/tool/JsonUtils$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yxm/tool/JsonUtils$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yxm/tool/JsonUtils$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yxm/tool/JsonUtils$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yxm/tool/JsonUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yxm/tool/JsonUtils.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yxm/tool/ObjectByteUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yxm/tool/ObjectByteUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yxm/tool/TimeUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yxm/tool/TimeUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yxm/user/account/Account.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yxm/user/account/Account.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yxm/user/account/AccountManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yxm/user/account/AccountManager.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/yxm/user/account/AccountService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yxm/user/account/AccountService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yxm/user/account/Person.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yxm/user/account/Person.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jdbc.properties" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -81,23 +62,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/server/GameServer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="69" selection-start-line="69" selection-end-line="69" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/client/GameClientHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+            <state relative-caret-position="43">
+              <caret line="32" column="49" lean-forward="true" selection-start-line="32" selection-start-column="49" selection-end-line="32" selection-end-column="49" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -106,67 +75,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/session/TSession.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/command/CommandFacade.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19">
-              <caret line="31" column="15" selection-start-line="31" selection-start-column="15" selection-end-line="31" selection-end-column="15" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#636#637#0" expanded="true" />
-                <element signature="e#674#675#0" expanded="true" />
-                <element signature="e#1041#1042#0" expanded="true" />
-                <element signature="e#1071#1072#0" expanded="true" />
-                <element signature="e#1106#1107#0" expanded="true" />
-                <element signature="e#1136#1137#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/session/SessionUtil.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="138">
-              <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/session/SessionManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="138">
-              <caret line="6" column="27" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/server/GameServerHandler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-925">
-              <caret line="25" selection-start-line="25" selection-end-line="25" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/user/account/Person.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="112">
-              <caret line="12" column="43" selection-start-line="12" selection-start-column="43" selection-end-line="12" selection-end-column="43" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/server/message/MessageDecoder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1239">
-              <caret line="68" column="58" selection-start-line="68" selection-start-column="58" selection-end-line="68" selection-end-column="58" />
+            <state relative-caret-position="78">
+              <caret line="52" column="36" lean-forward="true" selection-start-line="52" selection-start-column="36" selection-end-line="52" selection-end-column="36" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -175,24 +87,80 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/session/SessionService.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/map/MapManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="295">
-              <caret line="21" selection-start-line="21" selection-end-line="21" />
+            <state relative-caret-position="-345">
+              <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/map/WorldService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-805">
+              <caret line="62" column="80" selection-start-line="62" selection-start-column="80" selection-end-line="62" selection-end-column="80" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#395#396#0" expanded="true" />
-                <element signature="e#431#432#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/server/message/MessageContent.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/map/MapResource.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="138">
-              <caret line="33" selection-start-line="33" selection-end-line="33" />
+            <state relative-caret-position="1259">
+              <caret line="116" column="5" lean-forward="true" selection-start-line="116" selection-start-column="5" selection-end-line="116" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/command/Command.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="87">
+              <caret line="35" column="40" selection-start-line="35" selection-start-column="40" selection-end-line="35" selection-end-column="40" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/login/LoginService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="79">
+              <caret line="55" column="60" selection-start-line="55" selection-start-column="60" selection-end-line="55" selection-end-column="60" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/user/account/AccountService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="65">
+              <caret line="42" column="20" selection-start-line="42" selection-start-column="20" selection-end-line="42" selection-end-column="20" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1052#1053#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/common/CommonManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="18">
+              <caret line="53" column="13" selection-start-line="53" selection-start-column="13" selection-end-line="53" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -227,8 +195,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/yxm/user/account/PlayerEntity.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/yxm/map/WorldMap.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yxm/map/Grid.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yxm/common/AbstractEnity.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yxm/user/account/AccountManager.java" />
@@ -243,10 +209,8 @@
         <option value="$PROJECT_DIR$/src/main/java/com/yxm/server/MessageEncoder.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yxm/tool/ObjectByteUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yxm/map/MapResource.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/yxm/command/CommandFacade.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yxm/map/MapInfo.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yxm/server/MyChannelHandler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/yxm/server/GameServer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/client/ClientChannelHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/client/GameClient.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yxm/server/message/MessageHead.java" />
@@ -254,8 +218,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/yxm/server/message/MessageContent.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yxm/server/message/MessageDecoder.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yxm/server/message/MessageEncoder.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/yxm/server/GameServerHandler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/client/GameClientHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yxm/dispatcher/HandlerAnno.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yxm/dispatcher/HandlerDefintion.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yxm/session/SessionAttributeKey.java" />
@@ -268,7 +230,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/yxm/user/account/Account.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yxm/common/CommonManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yxm/command/Command.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/yxm/user/account/AccountService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/Demo02.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/DemoTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yxm/tool/JsonUtils.java" />
@@ -278,6 +239,13 @@
         <option value="$PROJECT_DIR$/src/main/java/com/yxm/session/SessionService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yxm/session/TSession.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yxm/user/account/Person.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/Start.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/yxm/server/GameServer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/yxm/server/GameServerHandler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/yxm/packet/CM_GMcommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/yxm/user/account/AccountService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/yxm/command/CommandFacade.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/client/GameClientHandler.java" />
       </list>
     </option>
   </component>
@@ -339,65 +307,6 @@
             <path>
               <item name="GameDemo" type="b2602c69:ProjectViewProjectNode" />
               <item name="GameDemo" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GameDemo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GameDemo" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GameDemo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GameDemo" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GameDemo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GameDemo" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GameDemo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GameDemo" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GameDemo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GameDemo" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GameDemo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GameDemo" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="yxm" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GameDemo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GameDemo" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GameDemo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GameDemo" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="META-INF" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="GameDemo" type="b2602c69:ProjectViewProjectNode" />
@@ -505,12 +414,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WorldMap" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.yxm.map.WorldMap" />
+    <configuration name="Start" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.Start" />
       <module name="GameDemo" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.yxm.map.*" />
+          <option name="PATTERN" value="com.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -523,15 +432,15 @@
       <item itemvalue="Application.DemoTest" />
       <item itemvalue="Application.GameClient" />
       <item itemvalue="Application.GameServer" />
-      <item itemvalue="Application.WorldMap" />
+      <item itemvalue="Application.Start" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.GameClient" />
+        <item itemvalue="Application.Start" />
         <item itemvalue="Application.GameServer" />
         <item itemvalue="Application.DemoTest" />
         <item itemvalue="Application.Demo02" />
-        <item itemvalue="Application.WorldMap" />
       </list>
     </recent_temporary>
   </component>
@@ -557,7 +466,7 @@
       <workItem from="1556509036537" duration="26319000" />
       <workItem from="1556592918885" duration="12293000" />
       <workItem from="1557019093055" duration="27179000" />
-      <workItem from="1557109062453" duration="72710000" />
+      <workItem from="1557109062453" duration="82716000" />
     </task>
     <task id="LOCAL-00001" summary="整合git测试">
       <created>1555987740721</created>
@@ -622,11 +531,18 @@
       <option name="project" value="LOCAL" />
       <updated>1557309004998</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="2019-5-9代码提交">
+      <created>1557383200599</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1557383200599</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="253325000" />
+    <option name="totallyTimeSpent" value="263331000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -641,7 +557,7 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <layout>
       <window_info anchor="top" id="Ant Build" order="0" side_tool="true" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.88360655" visible="true" weight="0.31240544" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.88360655" visible="true" weight="0.31240544" />
       <window_info id="Structure" order="1" sideWeight="0.42003515" side_tool="true" weight="0.22768533" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -651,13 +567,13 @@
       <window_info id="Persistence" order="7" sideWeight="0.20913884" side_tool="true" weight="0.22768533" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.091836736" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.34013605" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3792517" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.52210885" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3282313" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="8" visible="true" weight="0.3605442" />
+      <window_info anchor="bottom" id="Version Control" order="8" visible="true" weight="0.49659863" />
       <window_info anchor="bottom" id="Spring" order="9" weight="0.3282313" />
       <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.3295082" />
@@ -726,7 +642,8 @@
     <MESSAGE value="测试文件提交" />
     <MESSAGE value="测试代码提交" />
     <MESSAGE value="2019-5-8代码提交" />
-    <option name="LAST_COMMIT_MESSAGE" value="2019-5-8代码提交" />
+    <MESSAGE value="2019-5-9代码提交" />
+    <option name="LAST_COMMIT_MESSAGE" value="2019-5-9代码提交" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -735,7 +652,7 @@
       <breakpoints>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/yxm/command/CommandFacade.java</url>
-          <line>54</line>
+          <line>58</line>
           <properties />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
@@ -752,105 +669,10 @@
     </SUITE>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/4.1.5.RELEASE/spring-core-4.1.5.RELEASE.jar!/org/springframework/core/convert/support/GenericConversionService.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
-          <caret line="34" column="37" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/applicationContext.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/client/ClientStart.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#1245#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/netty-all-4.1.29.Final.jar!/io/netty/buffer/ByteBuf.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="391" column="27" selection-start-line="391" selection-start-column="27" selection-end-line="391" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/command/CommandFacade.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-130">
-          <caret line="34" column="38" selection-start-line="34" selection-start-column="38" selection-end-line="34" selection-end-column="38" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/map/MapInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-251">
-          <caret line="67" column="37" selection-start-line="67" selection-start-column="37" selection-end-line="67" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2327#2328#0" expanded="true" />
-            <element signature="e#2399#2400#0" expanded="true" />
-            <element signature="e#2489#2490#0" expanded="true" />
-            <element signature="e#2546#2547#0" expanded="true" />
-            <element signature="e#2619#2620#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/tool/ObjectByteUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="31" selection-start-line="31" selection-end-line="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/netty-all-4.1.29.Final.jar!/io/netty/channel/AbstractChannelHandlerContext.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="70">
-          <caret line="308" selection-start-line="308" selection-end-line="308" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/server/message/MessageHead.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="92">
           <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/map/MapResource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1165">
-          <caret line="116" column="15" selection-start-line="116" selection-start-column="15" selection-end-line="116" selection-end-column="15" />
-          <folding>
-            <element signature="e#2566#2567#0" expanded="true" />
-            <element signature="e#2605#2606#0" expanded="true" />
-            <element signature="e#2635#2636#0" expanded="true" />
-            <element signature="e#2671#2672#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/client/GameClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="393">
-          <caret line="46" column="33" selection-start-line="46" selection-start-column="33" selection-end-line="46" selection-end-column="33" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -871,13 +693,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="12" column="188" selection-start-line="12" selection-start-column="188" selection-end-line="12" selection-end-column="188" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/common/GlobalService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
@@ -895,16 +710,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/command/Command.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="76" column="48" selection-start-line="76" selection-start-column="48" selection-end-line="76" selection-end-column="48" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/tool/TimeUtil.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="128">
@@ -912,23 +717,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/common/CommonManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
-          <caret line="48" selection-start-line="48" selection-end-line="48" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/SpringContext.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="79" column="53" selection-start-line="79" selection-start-column="53" selection-end-line="79" selection-end-column="53" />
         </state>
       </provider>
     </entry>
@@ -953,29 +741,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/DemoTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="134">
-          <caret line="32" column="65" selection-start-line="32" selection-start-column="65" selection-end-line="32" selection-end-column="65" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/user/account/AccountService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="38" column="14" selection-start-line="38" selection-start-column="14" selection-end-line="38" selection-end-column="14" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#652#653#0" expanded="true" />
-            <element signature="e#695#696#0" expanded="true" />
-            <element signature="e#1103#1104#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/tool/JsonUtils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="138">
@@ -997,16 +762,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="516">
           <caret line="87" column="8" selection-start-line="87" selection-start-column="8" selection-end-line="89" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/login/LoginService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="64" column="45" selection-start-line="64" selection-start-column="45" selection-end-line="64" selection-end-column="45" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1057,16 +812,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/map/WorldService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-874">
-          <caret line="62" column="80" selection-start-line="62" selection-start-column="80" selection-end-line="62" selection-end-column="80" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/user/User.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="129">
@@ -1096,16 +841,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="299">
           <caret line="19" column="32" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="32" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/server/message/MessageEncoder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="487">
-          <caret line="26" column="44" selection-start-line="26" selection-start-column="44" selection-end-line="26" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1150,23 +885,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/server/message/MessageContent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="33" selection-start-line="33" selection-end-line="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/server/message/MessageDecoder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1239">
-          <caret line="68" column="58" selection-start-line="68" selection-start-column="58" selection-end-line="68" selection-end-column="58" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/server/MyChannelHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -1192,7 +910,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/session/TSession.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="19">
-          <caret line="31" column="15" selection-start-line="31" selection-start-column="15" selection-end-line="31" selection-end-column="15" />
+          <caret line="32" column="15" selection-start-line="32" selection-start-column="15" selection-end-line="32" selection-end-column="15" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#636#637#0" expanded="true" />
@@ -1205,10 +923,209 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/user/account/Person.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="12" column="43" selection-start-line="12" selection-start-column="43" selection-end-line="12" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/jdbc.properties">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="12" column="53" lean-forward="true" selection-start-line="12" selection-start-column="53" selection-end-line="12" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1518" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/client/ClientStart.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-690">
+          <folding>
+            <element signature="e#0#1245#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/DemoTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="21" column="8" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/SpringContext.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="79" column="5" selection-start-line="79" selection-start-column="5" selection-end-line="79" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/Start.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="331">
+          <caret line="20" column="35" selection-start-line="20" selection-start-column="35" selection-end-line="20" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/server/GameServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
+        <state relative-caret-position="162">
+          <caret line="73" selection-start-line="73" selection-end-line="73" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/server/message/MessageDecoder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="731">
+          <caret line="67" column="36" selection-start-line="67" selection-start-column="36" selection-end-line="67" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/server/message/MessageContent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="455">
+          <caret line="24" column="15" selection-start-line="24" selection-start-column="15" selection-end-line="24" selection-end-column="15" />
+          <folding>
+            <element signature="e#439#440#0" expanded="true" />
+            <element signature="e#469#470#0" expanded="true" />
+            <element signature="e#499#500#0" expanded="true" />
+            <element signature="e#528#529#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/server/message/MessageEncoder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="25" column="38" selection-start-line="25" selection-start-column="38" selection-end-line="25" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/tool/ObjectByteUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
           <caret line="69" selection-start-line="69" selection-end-line="69" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/client/GameClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="858">
+          <caret line="53" column="108" selection-start-line="50" selection-start-column="15" selection-end-line="53" selection-end-column="108" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/packet/CM_GMcommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="8" column="49" selection-start-line="8" selection-start-column="49" selection-end-line="8" selection-end-column="49" />
+          <folding>
+            <element signature="e#167#168#0" expanded="true" />
+            <element signature="e#197#198#0" expanded="true" />
+            <element signature="e#243#244#0" expanded="true" />
+            <element signature="e#281#282#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/command/Command.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="87">
+          <caret line="35" column="40" selection-start-line="35" selection-start-column="40" selection-end-line="35" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/login/LoginService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="79">
+          <caret line="55" column="60" selection-start-line="55" selection-start-column="60" selection-end-line="55" selection-end-column="60" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/common/CommonManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="53" column="13" selection-start-line="53" selection-start-column="13" selection-end-line="53" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/user/account/AccountService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="65">
+          <caret line="42" column="20" selection-start-line="42" selection-start-column="20" selection-end-line="42" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1052#1053#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/map/MapResource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1259">
+          <caret line="116" column="5" lean-forward="true" selection-start-line="116" selection-start-column="5" selection-end-line="116" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/map/WorldService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-805">
+          <caret line="62" column="80" selection-start-line="62" selection-start-column="80" selection-end-line="62" selection-end-column="80" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/map/MapManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-345">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/command/CommandFacade.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="52" column="36" lean-forward="true" selection-start-line="52" selection-start-column="36" selection-end-line="52" selection-end-column="36" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1217,8 +1134,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/server/GameServerHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-925">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        <state relative-caret-position="134">
+          <caret line="38" column="41" selection-start-line="38" selection-start-column="41" selection-end-line="38" selection-end-column="41" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1227,18 +1144,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/client/GameClientHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+        <state relative-caret-position="43">
+          <caret line="32" column="49" lean-forward="true" selection-start-line="32" selection-start-column="49" selection-end-line="32" selection-end-column="49" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yxm/user/account/Person.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="12" column="43" selection-start-line="12" selection-start-column="43" selection-end-line="12" selection-end-column="43" />
         </state>
       </provider>
     </entry>

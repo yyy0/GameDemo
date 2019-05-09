@@ -36,9 +36,11 @@ public class AccountService {
     public Account getAccount(String accountId) {
 
         AccountEnt ent = commonManager.getEnt(AccountEnt.class, accountId);
-        ent.doDeserialize();
-        //Account account=accountManager.getAccount(accountId);
-        return ent == null ? null : ent.getAccount();
+        if(ent!=null) {
+            ent.doDeserialize();
+            return ent.getAccount();
+        }
+        return null;
     }
 
     public AccountEnt getAccountEnt(String accountId) {

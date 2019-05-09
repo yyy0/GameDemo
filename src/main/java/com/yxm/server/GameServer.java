@@ -16,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import javax.net.ssl.SSLException;
+import java.security.cert.CertificateException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -24,57 +26,65 @@ import java.util.concurrent.TimeUnit;
  */
 public class GameServer {
 
-    private static final String APPLICATION_CONTEXT = "applicationContext.xml";
-    private static ClassPathXmlApplicationContext applicationContext;
+
     static final boolean SSL = System.getProperty("ssl") != null;
     static final int PORT = 8888;
     private static Logger logger = LoggerFactory.getLogger(GameServer.class);
 
-    public static void main(String[] args) throws Exception {
 
-        applicationContext = new ClassPathXmlApplicationContext(APPLICATION_CONTEXT);
-        applicationContext.start();
-        SpringContext.getGlobalService().onStart();
-        // Configure SSL.
-        final SslContext sslCtx;
-        if (SSL) {
-            SelfSignedCertificate ssc = new SelfSignedCertificate();
-            sslCtx = SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey()).build();
-        } else {
-            sslCtx = null;
-        }
+    public void connect() {
+        {
+            // Configure SSL.
+            final SslContext sslCtx;
+            if (SSL) {
+                SelfSignedCertificate ssc = null;
+                try {
+                    ssc = new SelfSignedCertificate();
+                    sslCtx = SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey()).build();
+                } catch (CertificateException e) {
+                    e.printStackTrace();
+                } catch (SSLException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                sslCtx = null;
+            }
 
-        //因为bossGroup仅接收客户端连接，不做复杂的逻辑处理，为了尽可能减少资源的占用，取值越小越好
-        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
-        //workerGroup作为worker，处理boss接收的连接的流量和将接收的连接注册进入这个worker
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
+            //因为bossGroup仅接收客户端连接，不做复杂的逻辑处理，为了尽可能减少资源的占用，取值越小越好
+            EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+            //workerGroup作为worker，处理boss接收的连接的流量和将接收的连接注册进入这个worker
+            EventLoopGroup workerGroup = new NioEventLoopGroup();
 
-        //ChannelHandler用于处理请求响应的业务逻辑相关代码
-        final GameServerHandler serverHandler = new GameServerHandler();
+            //ChannelHandler用于处理请求响应的业务逻辑相关代码
+            final GameServerHandler serverHandler = new GameServerHandler();
+            long start = System.nanoTime();
+            try {
+                ServerBootstrap b = new ServerBootstrap();
+                b.group(bossGroup, workerGroup)
+                        //指定使用NioServerSocketChannel产生一个Channel用来接收连接
+                        .channel(NioServerSocketChannel.class)
+                        //BACKLOG用于构造服务端套接字ServerSocket对象，标识当服务器请求处理线程全满时，用于临时存放已完成三次握手的请求的队列的最大长度。如果未设置或所设置的值小于1，Java将使用默认值50。
+                        //Option是为了NioServerSocketChannel设置的，用来接收传入连接的
+                        .option(ChannelOption.SO_BACKLOG, 1024)
+                        .childOption(ChannelOption.SO_KEEPALIVE, true)
+                        .handler(new LoggingHandler(LogLevel.INFO))
+                        .childHandler(new MyChannelHandler());
+                // Start the server.
+                long end = System.nanoTime() - start;
+                logger.info("服务器启动，耗时{}s", TimeUnit.NANOSECONDS.toSeconds(end));
+                // 绑定端口
+                ChannelFuture f = null;
+                f = b.bind(PORT).sync();
+                f.channel().closeFuture().sync();
 
-        long start = System.nanoTime();
-        try {
-            ServerBootstrap b = new ServerBootstrap();
-            b.group(bossGroup, workerGroup)
-                    //指定使用NioServerSocketChannel产生一个Channel用来接收连接
-                    .channel(NioServerSocketChannel.class)
-                    //BACKLOG用于构造服务端套接字ServerSocket对象，标识当服务器请求处理线程全满时，用于临时存放已完成三次握手的请求的队列的最大长度。如果未设置或所设置的值小于1，Java将使用默认值50。
-                    //Option是为了NioServerSocketChannel设置的，用来接收传入连接的
-                    .option(ChannelOption.SO_BACKLOG, 1024)
-                    .childOption(ChannelOption.SO_KEEPALIVE, true)
-                    .handler(new LoggingHandler(LogLevel.INFO))
-                    .childHandler(new MyChannelHandler());
-            // Start the server.
-            long end = System.nanoTime() - start;
-            logger.info("服务器启动，耗时{}s", TimeUnit.NANOSECONDS.toSeconds(end));
-            // 绑定端口
-            ChannelFuture f = b.bind(PORT).sync();
-
-            f.channel().closeFuture().sync();
-        } finally {
-            // Shut down all event loops to terminate all threads.
-            bossGroup.shutdownGracefully();
-            workerGroup.shutdownGracefully();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                // Shut down all event loops to terminate all threads.
+                bossGroup.shutdownGracefully();
+                workerGroup.shutdownGracefully();
+            }
         }
     }
+
 }
