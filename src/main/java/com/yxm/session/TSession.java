@@ -20,10 +20,18 @@ public class TSession {
         this.createTime = System.currentTimeMillis();
     }
 
+    /**
+     * 放入账号
+     *
+     * @param account
+     */
     public void regAccount(Account account) {
         this.account = account;
     }
 
+    /**
+     * 与客户端关闭连接
+     */
     public void close() {
         if (channel == null) {
             return;

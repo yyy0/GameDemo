@@ -1,5 +1,7 @@
 package com.yxm.user.account;
 
+import java.io.Serializable;
+
 /**
  * @author yuxianming
  * @date 2019/5/6 23:18
@@ -8,7 +10,7 @@ package com.yxm.user.account;
  */
 
 
-public class Person {
+public class Person implements Serializable {
 
     public int id;
     public String name;
