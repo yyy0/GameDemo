@@ -103,7 +103,7 @@ public class TimeUtil {
      * @param dayAddNum 加减值
      * @return
      */
-    public static String timeAddSubtract(String day, int dayAddNum) {
+    public static String timeAddSubtract(String day, long dayAddNum) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         try {
             Date newDate = new Date(simpleDateFormat.parse(day).getTime() + dayAddNum * 24 * 60 * 60 * 1000);

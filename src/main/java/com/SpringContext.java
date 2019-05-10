@@ -3,6 +3,7 @@ package com;
 import com.yxm.command.service.Command;
 import com.yxm.command.service.CommandFacade;
 import com.yxm.common.GlobalService;
+import com.yxm.dispatcher.ActionDispatcher;
 import com.yxm.login.service.LoginService;
 import com.yxm.map.service.WorldService;
 import com.yxm.user.account.service.AccountService;
@@ -27,6 +28,9 @@ public class SpringContext implements ApplicationContextAware {
 
     @Autowired
     public Command command;
+
+    @Autowired
+    public ActionDispatcher actionDispatcher;
 
     @Autowired
     public CommandFacade commandFacade;
@@ -89,6 +93,10 @@ public class SpringContext implements ApplicationContextAware {
 
     public static GlobalService getGlobalService() {
         return instance.globalService;
+    }
+
+    public static ActionDispatcher getActionDispatcher() {
+        return instance.actionDispatcher;
     }
 
 

@@ -86,10 +86,6 @@ public class AccountEnt implements Serializable {
         this.account = account;
     }
 
-    public byte[] getAccountData() {
-        return accountData;
-    }
-
     public void setAccountData(byte[] accountData) {
         this.accountData = accountData;
     }

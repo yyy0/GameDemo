@@ -1,5 +1,7 @@
 package com.yxm.dispatcher;
 
+import org.springframework.util.ReflectionUtils;
+
 import java.lang.reflect.Method;
 
 /**
@@ -9,34 +11,62 @@ import java.lang.reflect.Method;
  */
 public class HandlerDefintion {
 
-    private Object bean;
-    private Method method;
+    /**
+     * bean、方法、packet的class
+     */
+    private final Object bean;
+    private final Method method;
+    private final Class<?> clz;
 
+    private HandlerDefintion(Object bean, Method method, Class<?> clz) {
+        this.bean = bean;
+        this.method = method;
+        this.clz = clz;
+    }
+
+    /**
+     * handler定义
+     *
+     * @param bean
+     * @param method
+     * @return
+     */
     public static HandlerDefintion valueOf(Object bean, Method method) {
-        HandlerDefintion handlerDefintion = new HandlerDefintion();
-        handlerDefintion.setBean(bean);
-        handlerDefintion.setMethod(method);
-        return handlerDefintion;
+
+        Class<?> clz = null;
+        Class<?>[] clzs = method.getParameterTypes();
+        if (clzs.length != 1) {
+            throw new IllegalArgumentException("class" + bean.getClass().getSimpleName() + "method" +
+                    method.getName() + "必须只能有1个参数");
+        }
+        clz = clzs[0];
+
+        return new HandlerDefintion(bean, method, clz);
 
     }
 
-    public Object invoke() {
-        return null;
+    /**
+     * handler反射方法
+     *
+     * @param packet
+     * @return
+     */
+    public Object invoke(Object packet) {
+        method.setAccessible(true);
+        Object result = null;
+        ReflectionUtils.invokeMethod(method, bean, packet);
+        return result;
     }
 
     public Object getBean() {
         return bean;
     }
 
-    public void setBean(Object bean) {
-        this.bean = bean;
-    }
-
     public Method getMethod() {
         return method;
     }
 
-    public void setMethod(Method method) {
-        this.method = method;
+    public Class<?> getClz() {
+        return clz;
     }
 }

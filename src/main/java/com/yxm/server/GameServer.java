@@ -1,6 +1,5 @@
 package com.yxm.server;
 
-import com.SpringContext;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
@@ -14,7 +13,6 @@ import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.SelfSignedCertificate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.net.ssl.SSLException;
 import java.security.cert.CertificateException;
@@ -55,8 +53,7 @@ public class GameServer {
             //workerGroup作为worker，处理boss接收的连接的流量和将接收的连接注册进入这个worker
             EventLoopGroup workerGroup = new NioEventLoopGroup();
 
-            //ChannelHandler用于处理请求响应的业务逻辑相关代码
-            final GameServerHandler serverHandler = new GameServerHandler();
+
             long start = System.nanoTime();
             try {
                 ServerBootstrap b = new ServerBootstrap();

@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author yuxianming
@@ -20,15 +19,6 @@ public class AccountManager {
     private EntityManagerFactory factory;
     private EntityManager entityManager;
     private EntityTransaction transaction;
-
-
-
-
-    /**
-     * 所有账号集合
-     */
-    private ConcurrentHashMap<String, Account> accounts = new ConcurrentHashMap<>();
-
 
     @PostConstruct
     private void init() {

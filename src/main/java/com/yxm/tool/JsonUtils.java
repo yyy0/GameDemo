@@ -110,6 +110,7 @@ public class JsonUtils {
     /**
      * json array string convert to list with javaBean
      */
+
     public static <T> List<T> json2list(String jsonArrayStr, Class<T> clazz) {
         List<Map<String, Object>> list = null;
         try {

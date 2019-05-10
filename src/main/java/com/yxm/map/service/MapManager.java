@@ -1,6 +1,6 @@
 package com.yxm.map.service;
 
-import com.yxm.map.entity.MapCommonEnt;
+
 import com.yxm.map.model.MapInfo;
 import com.yxm.map.resource.MapResource;
 import org.springframework.stereotype.Component;
@@ -56,42 +56,9 @@ public class MapManager {
         instance = this;
         //instance.initMap();
         factory = Persistence.createEntityManagerFactory("PersistenceUnit");
-        entityManager = entityManager = factory.createEntityManager();
+        entityManager = factory.createEntityManager();
         transaction = entityManager.getTransaction();
         transaction.begin();
-    }
-
-    /**
-     * 插入对象 持久化
-     */
-    public void createEnt(MapCommonEnt ent) {
-        //获得事物
-        try {
-            entityManager.persist(ent);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
-        }
-    }
-
-    /**
-     * 查询数据
-     */
-    public MapCommonEnt getMapEnt(int mapId) {
-        // 执行查询sql  根据主键
-        //Account account = entityManager.find(Account.class,"111");
-
-        // find和getReference的区别----与hibernate中get和load的区别一样---懒加载--id没有对应值时报异常
-        //getReference会抛异常  find不会
-        MapCommonEnt ent = entityManager.find(MapCommonEnt.class, mapId);
-        if (ent == null) {
-            return null;
-        }
-        System.out.println(ent);
-        transaction.commit();
-        return ent;
     }
 
 

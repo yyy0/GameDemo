@@ -1,9 +1,7 @@
 package com.yxm.server;
 
 import com.SpringContext;
-import com.yxm.command.packet.CM_GMcommand;
 import com.yxm.server.message.MessageContent;
-import com.yxm.tool.ObjectByteUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -24,19 +22,22 @@ public class GameServerHandler extends ChannelInboundHandlerAdapter {
     private static final Logger logger = LoggerFactory.getLogger(GameServerHandler.class);
 
 
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg)
             throws Exception {
 
         MessageContent message = (MessageContent) msg;
-        CM_GMcommand cm=(CM_GMcommand) message.getContent();
-        String req=cm.getCommand();
-        System.out.println("server 接收到客户端的请求： " + cm.getCommand());
-        SpringContext.getCommandFacade().doCommand(ctx, req);
-        String respStr = new StringBuilder("来自服务器的响应").append(req).toString();
-        CM_GMcommand resp=CM_GMcommand.vauleOf(respStr);
-        MessageContent messageContent1 = new MessageContent(ObjectByteUtil.objectToByteArray(resp).length, resp);
-        ctx.writeAndFlush(messageContent1);
+        Object packet = message.getContent();
+        SpringContext.getActionDispatcher().doHandle(packet);
+//        CM_GMcommand cm=(CM_GMcommand) message.getContent();
+//        String req=cm.getCommand();
+//        System.out.println("server 接收到客户端的请求： " + cm.getCommand());
+//        SpringContext.getCommandFacade().doCommand(ctx, req);
+//        String respStr = new StringBuilder("来自服务器的响应").append(req).toString();
+//        CM_GMcommand resp=CM_GMcommand.vauleOf(respStr);
+//        MessageContent messageContent1 = new MessageContent(ObjectByteUtil.objectToByteArray(resp).length, resp);
+//        ctx.writeAndFlush(messageContent1);
 
 //        ctx.writeAndFlush(Unpooled.copiedBuffer(respStr.getBytes()));
 //        Person p = (Person) messageContent.getContent();

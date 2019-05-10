@@ -26,7 +26,7 @@ public class CommonManager<K, T> {
     @PostConstruct
     private final void init() {
         factory = Persistence.createEntityManagerFactory("PersistenceUnit");
-        entityManager = entityManager = factory.createEntityManager();
+        entityManager = factory.createEntityManager();
 
         transaction = entityManager.getTransaction();
         transaction.begin();

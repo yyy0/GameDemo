@@ -2,8 +2,6 @@ package com;
 
 
 import com.yxm.user.account.model.Account;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -13,8 +11,6 @@ public class DemoTest {
 
     private static final String APPLICATION_CONTEXT = "applicationContext.xml";
     private static ClassPathXmlApplicationContext applicationContext;
-    Logger logger = LoggerFactory.getLogger("entity");
-
 
     public static void main(String[] args) {
 

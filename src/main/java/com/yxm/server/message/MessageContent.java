@@ -7,7 +7,7 @@ package com.yxm.server.message;
  */
 public class MessageContent {
 
-    private final int headId = MessageConstants.HEAD_ID;
+    private static final int headId = MessageConstants.HEAD_ID;
     private final int length;
 
     private Object content;
