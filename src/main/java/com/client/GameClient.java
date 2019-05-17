@@ -1,6 +1,7 @@
 package com.client;
 
 
+import com.SpringContext;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
@@ -10,6 +11,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.net.ssl.SSLException;
 
@@ -23,12 +25,16 @@ public class GameClient {
     static final String HOST = "localhost";
     static final int PORT = 8888;
     static final int SIZE = 256;
+    private static final String APPLICATION_CONTEXT = "applicationContext.xml";
+    private static ClassPathXmlApplicationContext applicationContext;
 
     public static void main(String[] args) throws InterruptedException, SSLException {
 
 
+        applicationContext = new ClassPathXmlApplicationContext(APPLICATION_CONTEXT);
+        applicationContext.start();
         final SslContext sslContext;
-
+        SpringContext.getGlobalService().onStart();
         if (SSL) {
             sslContext = SslContextBuilder.forClient().trustManager(InsecureTrustManagerFactory.INSTANCE).build();
         } else {

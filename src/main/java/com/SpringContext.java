@@ -1,12 +1,15 @@
 package com;
 
-import com.yxm.command.service.Command;
-import com.yxm.command.service.CommandFacade;
-import com.yxm.common.GlobalService;
-import com.yxm.dispatcher.ActionDispatcher;
-import com.yxm.login.service.LoginService;
-import com.yxm.map.service.WorldService;
-import com.yxm.user.account.service.AccountService;
+import com.server.command.service.Command;
+import com.server.command.service.CommandFacade;
+import com.server.common.GlobalService;
+import com.server.dispatcher.ActionDispatcher;
+import com.server.login.service.LoginService;
+import com.server.map.service.WorldService;
+import com.server.session.service.SessionService;
+import com.server.user.account.service.AccountService;
+import com.server.user.item.service.ItemService;
+import com.server.user.item.service.StoreService;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -46,6 +49,15 @@ public class SpringContext implements ApplicationContextAware {
 
     @Autowired
     public GlobalService globalService;
+
+    @Autowired
+    public ItemService itemService;
+
+    @Autowired
+    public StoreService storeService;
+
+    @Autowired
+    public SessionService sessionService;
 
 
     @Override
@@ -97,6 +109,18 @@ public class SpringContext implements ApplicationContextAware {
 
     public static ActionDispatcher getActionDispatcher() {
         return instance.actionDispatcher;
+    }
+
+    public static ItemService getItemService() {
+        return instance.itemService;
+    }
+
+    public static StoreService getStoreService() {
+        return instance.storeService;
+    }
+
+    public static SessionService getSessionService() {
+        return instance.sessionService;
     }
 
 
