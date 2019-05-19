@@ -61,6 +61,11 @@ public class MapResource {
         return map;
     }
 
+    public void checkGrid(int gridX, int gridY) {
+        if (gridX < 0 || gridY < 0 || gridX > getHeight() - 1 || gridY > getWidth() - 1) {
+            throw new IllegalArgumentException("非法坐标！！！");
+        }
+    }
 
     public int getId() {
         return id;

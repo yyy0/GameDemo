@@ -63,10 +63,12 @@ public class WorldService {
     public void enterMap(Account account, int targetMapId) {
         MapResource mapResource = manager.getResource(targetMapId);
         MapInfo mapInfo = manager.getMapInfo(targetMapId);
+        int gridX = mapResource.getBornX();
+        int gridY = mapResource.getBornY();
         account.setMapId(targetMapId);
-        account.setGridX(mapResource.getBornX());
-        account.setGirdY(mapResource.getBornY());
-        mapInfo.addAccount(account);
+        account.setGridX(gridX);
+        account.setGirdY(gridY);
+        mapInfo.addAccount(account.getAccountId(), Grid.valueOf(gridX, gridY));
         logger.info("账号[{}]进入地图：{}", account.getName(), mapResource.getName());
         SpringContext.getAccountService().saveAccountInfo(account.getAccountId());
         //测试移动指令
@@ -85,11 +87,14 @@ public class WorldService {
         MapResource mapResource = manager.getResource(account.getMapId());
         int preX = account.getGridX();
         int preY = account.getGirdY();
+        MapInfo mapInfo = manager.getMapInfo(account.getMapId());
         if (isCanWalk(mapResource, targetGrid)) {
             int newX = targetGrid.getX();
             int newY = targetGrid.getY();
             account.setGridX(newX);
             account.setGirdY(newY);
+            SpringContext.getAccountService().saveAccountInfo(account.getAccountId());
+            mapInfo.addAccount(account.getAccountId(), Grid.valueOf(newX, newY));
             SM_AccountMove packet = SM_AccountMove.valueOf(account.getAccountId(), newX, newY, preX, preY);
             PacketSendUtil.send(account, packet);
         }
@@ -97,7 +102,11 @@ public class WorldService {
 
     public boolean isCanWalk(MapResource mapResource, Grid grid) {
         int[][] mapres = mapResource.getMapres();
-        if (mapres[grid.getX()][grid.getY()] == 0) {
+        int gridX = grid.getX();
+        int gridY = grid.getY();
+        //检查坐标合法性，是否越界
+        mapResource.checkGrid(gridX, gridY);
+        if (mapres[gridX][gridY] == 0) {
             return false;
         } else {
             return true;
@@ -110,9 +119,8 @@ public class WorldService {
     public void leaveMap(Account account, int targetMapid) {
 
         int oldMapId = account.getMapId();
-        // MapResource mapResource=manager.getResource(oldMapId);
         MapInfo mapInfo = manager.getMapInfo(oldMapId);
-        mapInfo.removeAccount(account);
+        mapInfo.removeAccount(account.getAccountId());
     }
 
     public void printMapInfo(Account account) {

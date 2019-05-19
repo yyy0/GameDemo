@@ -3,13 +3,12 @@ package com.server.map.model;
 import com.SpringContext;
 import com.server.map.constant.MapConstant;
 import com.server.map.resource.MapResource;
-import com.server.user.account.model.Account;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author yuxianming
@@ -26,9 +25,9 @@ public class MapInfo {
     private int mapId;
 
     /**
-     * 账号信息
+     * 账号格子信息
      */
-    private Set<Account> accounts = new HashSet<>();
+    private Map<String, Grid> accountsGrid = new HashMap<>();
 
     /**
      * 地图信息（阻挡点，行走点，玩家坐标）
@@ -66,10 +65,11 @@ public class MapInfo {
      * 打印地图信息
      */
     public void printInfo() {
-        logger.info("【{}】地图信息：当前人数【{}】人", mapResource.getName(), accounts.size());
-        for (Account account : accounts) {
-            mapInfo[account.getGirdY()][account.getGirdY()] = MapConstant.USER;
-        }
+        logger.info("【{}】地图信息：当前人数【{}】人", mapResource.getName(), accountsGrid.keySet().size());
+        accountsGrid.forEach((accountId, grid) -> {
+            mapInfo[grid.getX()][grid.getY()] = MapConstant.USER;
+        });
+
 
         //绘制地图
         for (int i = 0; i < mapInfo.length; i++) {
@@ -79,22 +79,24 @@ public class MapInfo {
             System.out.println();
         }
         //重置坐标点为行走点
-        for (Account account : accounts) {
-            mapInfo[account.getGirdY()][account.getGirdY()] = MapConstant.ROAD;
-        }
+        accountsGrid.forEach((accountId, grid) -> {
+            mapInfo[grid.getX()][grid.getY()] = MapConstant.ROAD;
+        });
     }
 
-    public void addAccount(Account account) {
-        accounts.add(account);
+
+    public void addAccount(String accountId, Grid grid) {
+        accountsGrid.put(accountId, grid);
     }
 
-    public Set<Account> getAccounts() {
-        return accounts;
+    public void removeAccount(String accountId) {
+        accountsGrid.remove(accountId);
     }
 
-    public void removeAccount(Account account) {
-        accounts.remove(account);
+    public Grid getAccountGrid(String accountId) {
+        return accountsGrid.get(accountId);
     }
+
 
     public int getMapId() {
         return mapId;

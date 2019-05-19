@@ -63,8 +63,8 @@ public class AccountService {
         commonManager.update(accountEnt);
     }
 
-    public void saveAccountInfo(String accountId, Account account) {
-        AccountEnt accountEnt = getAccountEnt(accountId);
+    public void saveAccountInfo(Account account) {
+        AccountEnt accountEnt = getAccountEnt(account.getAccountId());
         accountEnt.setAccount(account);
         accountEnt.doSerialize();
         commonManager.update(accountEnt);
