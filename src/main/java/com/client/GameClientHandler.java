@@ -1,7 +1,9 @@
 package com.client;
 
 import com.SpringContext;
+import com.client.clientframe.frame.LoginFrame;
 import com.server.server.message.MessageContent;
+import com.server.session.SessionUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
@@ -15,24 +17,14 @@ public class GameClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
 
+        if (!SessionUtil.addChannelSession(ctx.channel())) {
+            ctx.channel().close();
+            return;
+        }
 
-//        for(int i=0;i<100;i++) {
-//            CM_Reg req = CM_Reg.valueOf("jerry", "杰瑞", "jerry123");
-//            MessageContent message = new MessageContent(req);
-////            MyMessage message=new MyMessage((short)111,req);
-//            ctx.writeAndFlush(message);
-//        }
-//
-//        CM_Login req2 = CM_Login.valueOf("jack", "jack123");
-//        byte[] bytes2 = ObjectByteUtil.objectToByteArray(req2);
-//        MessageContent message2 = new MessageContent(bytes2.length, req2);
-//        ctx.writeAndFlush(message2);
-//        TSession session= SpringContext.getSessionService().create(ctx.channel());
-//        CM_Login loginReq=CM_Login.valueOf("yyy","pwd123");
-//        MessageContent loginMessage=new MessageContent(loginReq);
-//        ctx.writeAndFlush(loginMessage);
-        new Thread(new SendMsg(ctx)).start();
-
+        LoginFrame loginFrame = SpringContext.getLoginFrame();
+        loginFrame.initFrame(ctx.channel());
+//        new Thread(new SendMsg(ctx)).start();
 
 
     }
@@ -40,22 +32,12 @@ public class GameClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
 
-            MessageContent messageContent = (MessageContent) msg;
+        MessageContent messageContent = (MessageContent) msg;
         Object packet = messageContent.getContent();
         SpringContext.getActionDispatcher().doClientHandle(packet);
 
-//            ByteBuf bb = (ByteBuf) msg;
-//            byte[] respByte = new byte[bb.readableBytes()];
-//            bb.readBytes(respByte);
-//            String respStr = new String(respByte, Charset.forName("UTF-8"));
-//            System.out.println("客户端--收到响应：" + respStr);
-
     }
 
-    private void handlerObject(ChannelHandlerContext ctx, Object msg) {
-
-
-    }
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {

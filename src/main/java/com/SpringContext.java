@@ -1,7 +1,11 @@
 package com;
 
+import com.client.clientframe.frame.CommandFrame;
+import com.client.clientframe.frame.LoginFrame;
+import com.client.clientframe.frame.RegFrame;
 import com.server.command.service.Command;
 import com.server.command.service.CommandFacade;
+import com.server.command.service.GmDispatcher;
 import com.server.common.GlobalService;
 import com.server.dispatcher.ActionDispatcher;
 import com.server.login.service.LoginService;
@@ -26,7 +30,6 @@ import javax.annotation.PostConstruct;
 public class SpringContext implements ApplicationContextAware {
 
     private static SpringContext instance;
-    @Autowired
     public ApplicationContext applicationContext;
 
     @Autowired
@@ -59,14 +62,38 @@ public class SpringContext implements ApplicationContextAware {
     @Autowired
     public SessionService sessionService;
 
+    @Autowired
+    public GmDispatcher gmDispatcher;
+
+    @Autowired
+    public LoginFrame loginFrame;
+
+    @Autowired
+    public RegFrame regFrame;
+
+    @Autowired
+    public CommandFrame commandFrame;
+
+    public static LoginFrame getLoginFrame() {
+        return instance.loginFrame;
+    }
+
+    public static RegFrame getRegFrame() {
+        return instance.regFrame;
+    }
+
+    public static CommandFrame getCommandFrame() {
+        return instance.commandFrame;
+    }
+
+    public static GmDispatcher getGmDispatcher() {
+        return instance.gmDispatcher;
+    }
+
 
     @Override
     public void setApplicationContext(ApplicationContext ac) throws BeansException {
         applicationContext = ac;
-    }
-
-    public SpringContext() {
-        System.out.println();
     }
 
     @PostConstruct

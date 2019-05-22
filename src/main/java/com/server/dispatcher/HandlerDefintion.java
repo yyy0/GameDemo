@@ -52,18 +52,16 @@ public class HandlerDefintion {
      * @param packet
      * @return
      */
-    public Object invoke(Object packet) {
+    public void invoke(Object packet) {
         method.setAccessible(true);
-        Object result = null;
         ReflectionUtils.invokeMethod(method, bean, packet);
-        return result;
+
     }
 
-    public Object invoke(TSession session, Object packet) {
+    public void invoke(TSession session, Object packet) {
         method.setAccessible(true);
-        Object result = null;
         ReflectionUtils.invokeMethod(method, bean, session, packet);
-        return result;
+
     }
 
     public Object getBean() {

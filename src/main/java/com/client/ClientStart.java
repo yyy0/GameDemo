@@ -21,6 +21,7 @@
 //        final TextField textField=new TextField(20);
 //        final TextArea textArea=new TextArea(10,40);
 //        final JButton button = new JButton("发送信息");
+//
 //        jf.add(button);
 //        jf.add(textField);
 //        jf.add(textArea);

@@ -47,16 +47,16 @@ public class ActionDispatcher {
         defintion.invoke(session, packet);
     }
 
-    public void regHandlerDefintion(Class<?> clz, HandlerDefintion defintion) {
-        HandlerDefintion handlerDefintion = handlerMap.put(clz, defintion);
+    public void regHandlerDefintion(Class<?> clz, HandlerDefintion definition) {
+        HandlerDefintion handlerDefintion = handlerMap.put(clz, definition);
         if (handlerDefintion != null) {
             throw new IllegalArgumentException("太多handler处理packet了：" + clz.getSimpleName());
         }
     }
 
-    public void regClientHandler(Class<?> clz, ClientHandlerDefinition defintion) {
-        ClientHandlerDefinition handlerDefintion = ClientHandlerMap.put(clz, defintion);
-        if (handlerDefintion != null) {
+    public void regClientHandler(Class<?> clz, ClientHandlerDefinition definition) {
+        ClientHandlerDefinition clientHandlerDefinition = ClientHandlerMap.put(clz, definition);
+        if (clientHandlerDefinition != null) {
             throw new IllegalArgumentException("太多handler处理packet了：" + clz.getSimpleName());
         }
     }

@@ -4,11 +4,13 @@ import com.SpringContext;
 import com.server.map.resource.MapResource;
 import com.server.map.service.MapManager;
 import com.server.map.service.WorldService;
+import com.server.publicsystem.i18n.constant.I18Message;
 import com.server.session.SessionUtil;
 import com.server.session.model.TSession;
 import com.server.tool.PacketSendUtil;
 import com.server.user.account.model.Account;
 import com.server.user.account.packet.SM_LoginSuccess;
+import com.server.user.account.packet.SM_RegFail;
 import com.server.user.account.packet.SM_RegSuccess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +38,7 @@ public class LoginService {
      * @param pwd
      */
     public void login(TSession session, String accountId, String pwd) {
+        System.out.println(accountId);
         Account account = SpringContext.getAccountService().getAccount(accountId);
         if (account == null) {
             logger.error("账号不存在");
@@ -69,6 +72,9 @@ public class LoginService {
         Account tempAcc = SpringContext.getAccountService().getAccount(accountId);
         if (tempAcc != null) {
             logger.error("该账号已存在！！账号id：[{}] 账号名称：[{}]", accountId, tempAcc.getName());
+
+            SM_RegFail packet = SM_RegFail.valueOf(I18Message.REG_FAIL_ACCOUNT_EXIS);
+            PacketSendUtil.send(session, packet);
             return;
         }
         Account account = Account.valueOf(accountId, name, pwd);

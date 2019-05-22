@@ -15,6 +15,7 @@ import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,8 +33,45 @@ public class CommandFacade {
     private ConversionService conversionService = new DefaultConversionService();
     //private Command command = new Command();
 
+    public void doNewCommand(TSession session, String command) {
+        {
+            Account account = null;
+            String accountId = null;
+            if (session != null) {
+                accountId = (String) session.getAttribute(SessionUtil.ACCOUNT_ID);
+                if (accountId != null) {
+                    account = SpringContext.getAccountService().getAccount(accountId);
+                }
+            }
+            try {
+                Pattern p = Pattern.compile("\\s+");
+                Matcher m = p.matcher(command);
+                command = m.replaceAll(" ");
+                String methodName = null;
+                //处理命令字符串，反射调用
+                String[] strs = command.split(" ");
+                methodName = strs[0];
+                Map<String, GmDefinition> gmDefinitions = SpringContext.getGmDispatcher().getGmDefinitions();
+                for (Map.Entry<String, GmDefinition> entry : gmDefinitions.entrySet()) {
+                    if (methodName.equalsIgnoreCase(entry.getKey())) {
+                        Method method = entry.getValue().getMethod();
+                        method.setAccessible(true);
+                        Object bean = entry.getValue().getBean();
+                        invoke(account, bean, method, strs);
+                        return;
+                    }
 
-    public void doCommand(TSession session, String command) throws InvocationTargetException, IllegalAccessException {
+                }
+                logger.error("找不到对应指令" + command);
+
+            } catch (Exception e) {
+                logger.error(command, e);
+            }
+
+        }
+    }
+
+    public void doCommand(TSession session, String command) {
 
         Account account = null;
         String accountId = null;
@@ -68,40 +106,40 @@ public class CommandFacade {
                 if (method.getName().equalsIgnoreCase(methodName)) {
                     method.setAccessible(true);
                     System.out.println("使用gm指令" + method.getName());
-                    invoke(account, method, strs);
+                    invoke(account, commandBean, method, strs);
                     return;
                 }
             }
-            logger.error("找不到对应指令");
+            logger.error("找不到对应指令" + command);
         } catch (Exception e) {
             logger.error(command, e);
         }
 
     }
 
-    public void invoke(Account account, Method method, String[] split) throws InvocationTargetException, IllegalAccessException {
+    public void invoke(Account account, Object bean, Method method, String[] split) throws InvocationTargetException, IllegalAccessException {
         Class<?>[] paramType = method.getParameterTypes();
         switch (paramType.length - 1) {
             case 0: {
-                method.invoke(commandBean, account);
+                method.invoke(bean, account);
                 break;
             }
             case 1: {
                 Class<?> class1 = paramType[1];
-                method.invoke(commandBean, account, conversionService.convert(split[1], class1));
+                method.invoke(bean, account, conversionService.convert(split[1], class1));
                 break;
             }
             case 2: {
                 Class<?> class1 = paramType[1];
                 Class<?> class2 = paramType[2];
-                method.invoke(commandBean, account, conversionService.convert(split[1], class1), conversionService.convert(split[2], class2));
+                method.invoke(bean, account, conversionService.convert(split[1], class1), conversionService.convert(split[2], class2));
                 break;
             }
             case 3: {
                 Class<?> class1 = paramType[1];
                 Class<?> class2 = paramType[2];
                 Class<?> class3 = paramType[3];
-                method.invoke(commandBean, account, conversionService.convert(split[1], class1), conversionService.convert(split[2], class2),
+                method.invoke(bean, account, conversionService.convert(split[1], class1), conversionService.convert(split[2], class2),
                         conversionService.convert(split[3], class3));
                 break;
             }
@@ -110,7 +148,7 @@ public class CommandFacade {
                 Class<?> class2 = paramType[2];
                 Class<?> class3 = paramType[3];
                 Class<?> class4 = paramType[4];
-                method.invoke(commandBean, account, conversionService.convert(split[1], class1), conversionService.convert(split[2], class2),
+                method.invoke(bean, account, conversionService.convert(split[1], class1), conversionService.convert(split[2], class2),
                         conversionService.convert(split[3], class3), conversionService.convert(split[4], class4));
                 break;
             }
@@ -120,7 +158,7 @@ public class CommandFacade {
                 Class<?> class3 = paramType[3];
                 Class<?> class4 = paramType[4];
                 Class<?> class5 = paramType[5];
-                method.invoke(commandBean, account, conversionService.convert(split[1], class1), conversionService.convert(split[2], class2),
+                method.invoke(bean, account, conversionService.convert(split[1], class1), conversionService.convert(split[2], class2),
                         conversionService.convert(split[3], class3), conversionService.convert(split[4], class4), conversionService.convert(split[5], class5));
                 break;
             }

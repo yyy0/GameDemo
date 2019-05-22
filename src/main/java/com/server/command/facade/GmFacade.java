@@ -21,7 +21,7 @@ public class GmFacade {
         String str = req.getCommand();
         String accountId = SessionUtil.getAccountIdBySession(session);
         System.out.println("输出账户名称:" + accountId);
-        SpringContext.getCommandFacade().doCommand(session, str);
+        SpringContext.getCommandFacade().doNewCommand(session, str);
 
     }
 }
