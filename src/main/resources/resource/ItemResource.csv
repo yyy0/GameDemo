@@ -1,0 +1,11 @@
+道具id,道具名称,道具类型,装备类型,堆叠数量,道具品质,是否可入仓库,作用值,生效时间
+id,name,itemType,equipmentType,overLimit,quality,storage,effectValue,effectTime
+1,新人手册,COMMONITEM,,1,1,1,,
+2,普通石头,COMMONITEM,,20,1,0,,
+3,生命药水,MEDICINE,,20,2,1,10,
+4,防御药水,MEDICINE,,20,2,1,10,
+5,力量药水,MEDICINE,,20,2,1,10,
+6,新手武器,EQUIPMENT,WEAPON,1,3,1,,
+7,新手衣服,EQUIPMENT,CLOTHES,1,3,1,,
+8,新手帽子,EQUIPMENT,HAT,1,3,1,,
+9,新手裤子,EQUIPMENT,BELT,1,3,1,,
