@@ -9,6 +9,8 @@ import com.server.map.packet.SM_AccountMove;
 import com.server.map.packet.SM_ChangeMap;
 import com.server.server.message.MessageContent;
 import com.server.user.account.packet.SM_AccountInfo;
+import com.server.user.item.model.AbstractItem;
+import com.server.user.item.packet.SM_BagInfo;
 import io.netty.channel.Channel;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
@@ -155,6 +157,17 @@ public class CommandFrame extends JFrame {
     public void clientMove(SM_AccountMove packet) {
         String message = packet.toString();
         printArea.append(message + "\r\n");
+    }
+
+    @ClientHandlerAnno
+    public void printBagInfo(SM_BagInfo packet) {
+        AbstractItem[] items = packet.getItemData();
+        for (int i = 0; i < items.length; i++) {
+            if (items[i] == null) {
+                return;
+            }
+            printArea.append(items[i].toString() + "\r\n");
+        }
     }
 
 

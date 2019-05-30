@@ -20,13 +20,14 @@ public class ModelPanel extends JScrollPane {
 
     public ModelPanel(Channel channel) {
 
+
         this.channel = channel;
         //gm模块面板高度
         int height = SpringContext.getGmDispatcher().getModelPanelHeight();
         //gm模块数量
         int modelNum = SpringContext.getGmDispatcher().getGmModelDefinitions().size();
-        allPanel = new JPanel(new GridLayout(modelNum, 0, 5, 5));
-
+//        allPanel = new JPanel(new GridLayout(modelNum, 0, 5, 5));
+        allPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         Map<String, Map<String, GmDefinition>> gmModelDefinitions = SpringContext.getGmDispatcher().getGmModelDefinitions();
         allPanel.setPreferredSize(new Dimension(300, ClientFrameConstant.COMMAND_PANEL_HEIGHT * height));
         for (String keyName : gmModelDefinitions.keySet()) {
@@ -43,7 +44,7 @@ public class ModelPanel extends JScrollPane {
      * @return
      */
     public JPanel addModelPanel(String modelName) {
-        JPanel modelPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel modelPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 5));
 
         JLabel label = new JLabel(modelName);
         Map<String, GmDefinition> gmDefinitions = SpringContext.getGmDispatcher().getModelDefinition(modelName);

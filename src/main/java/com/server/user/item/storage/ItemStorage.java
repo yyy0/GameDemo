@@ -2,6 +2,8 @@ package com.server.user.item.storage;
 
 import com.server.user.item.constant.StorageConstant;
 import com.server.user.item.model.AbstractItem;
+import com.server.user.item.model.RemoveItem;
+import com.server.user.item.model.ResultItem;
 
 /**
  * 背包
@@ -27,15 +29,12 @@ public class ItemStorage {
     private int num;
 
     public static ItemStorage valueOf() {
-        int maxSize = StorageConstant.BAG_MAXSIZE;
-        ItemStorage storage = new ItemStorage(maxSize);
+        ItemStorage storage = new ItemStorage();
+        storage.size = StorageConstant.BAG_MAXSIZE;
+        storage.items = new AbstractItem[storage.size];
         return storage;
     }
 
-    public ItemStorage(int size) {
-        this.size = size;
-        items = new AbstractItem[size];
-    }
 
     /**
      * 确保扩容（当格子数变大时的兼容处理）
@@ -43,7 +42,7 @@ public class ItemStorage {
      * @param maxSize
      */
     public void ensureCapacity(int maxSize) {
-        int size = maxSize;
+
         if (maxSize > getSize()) {
             AbstractItem[] newItems = new AbstractItem[maxSize];
             System.arraycopy(getItems(), 0, newItems, 0, getItems().length);
@@ -63,24 +62,84 @@ public class ItemStorage {
         this.num = numSize;
     }
 
-    public void addItem(AbstractItem item) {
 
+    public void clear() {
+        items = new AbstractItem[size];
+        this.num = 0;
+    }
+
+    /**
+     * 添加道具
+     *
+     * @param item
+     */
+    public void addItem(AbstractItem item) {
+        AbstractItem add = item;
         int overLimit = item.getOverLimit();
         if (overLimit > 1) {
-            for (int i = 0; i < items.length; i++) {
-                if (items[i] != null && items[i].check(item)) {
-
+            int length = items.length;
+            for (int i = 0; i < length; i++) {
+                if (items[i] != null && items[i].check(item) && items[i].getNum() < overLimit) {
+                    ResultItem resultItem = items[i].add(item);
+                    if (resultItem.isSuccess()) {
+                        add = resultItem.getItem();
+                    }
+                }
+                if (add == null) {
+                    break;
                 }
             }
         }
-
+        if (add == null) {
+            return;
+        }
         for (int i = 0; i < items.length; i++) {
             if (items[i] == null) {
-                items[i] = item;
+                items[i] = add;
                 this.num++;
                 break;
             }
         }
+    }
+
+    /**
+     * 通过唯一id获取道具
+     *
+     * @param id
+     * @return
+     */
+    public AbstractItem getItemByObjectId(long id) {
+        int length = items.length;
+        for (int i = 0; i < length; i++) {
+            if (items[i] != null) {
+                if (items[i].getObjectId() == id) {
+                    return items[i];
+                }
+            }
+        }
+        return null;
+    }
+
+    public RemoveItem reduceItem(long identifyId, int num) {
+        int length = items.length;
+        for (int i = 0; i < length; i++) {
+            if (items != null && items[i].getObjectId() == identifyId && items[i].getNum() >= num) {
+                RemoveItem removeItem = RemoveItem.valueOf(items[i], items[i].getNum());
+                int size = items[i].getNum() - num;
+                if (size == 0) {
+                    items[i] = null;
+                    for (int j = i; j < length - 1; j++) {
+                        items[j] = items[j + 1];
+                    }
+                    this.num--;
+                } else {
+                    items[i].setNum(size);
+                }
+                return removeItem;
+
+            }
+        }
+        return null;
     }
 
     public int getEmptySize() {
@@ -109,5 +168,11 @@ public class ItemStorage {
 
     public void setNum(int num) {
         this.num = num;
+    }
+
+    public void printStorage() {
+        for (AbstractItem item : items) {
+            System.out.println("名称：" + item.getName() + ",数量:" + item.getNum());
+        }
     }
 }

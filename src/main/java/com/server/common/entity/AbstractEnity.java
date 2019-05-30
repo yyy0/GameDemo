@@ -1,4 +1,4 @@
-package com.server.common;
+package com.server.common.entity;
 
 /**
  * @author yuxianming

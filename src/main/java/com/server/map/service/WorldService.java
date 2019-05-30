@@ -101,7 +101,7 @@ public class WorldService {
     }
 
     public boolean isCanWalk(MapResource mapResource, Grid grid) {
-        int[][] mapres = mapResource.getMapres();
+        int[][] mapres = mapResource.getMapRes();
         int gridX = grid.getX();
         int gridY = grid.getY();
         //检查坐标合法性，是否越界

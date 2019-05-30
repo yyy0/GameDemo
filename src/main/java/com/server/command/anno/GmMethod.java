@@ -10,9 +10,14 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface GmMethod {
+    /**
+     * gm方法名称
+     */
     public String name() default "gm方法";
 
+    /** gm参数说明 */
     public String param() default "";
 
+    /** gm使用说明 */
     public String des() default "";
 }

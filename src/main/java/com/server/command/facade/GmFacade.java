@@ -20,7 +20,6 @@ public class GmFacade {
     public void doGmCommand(TSession session, CM_GMcommand req) throws InvocationTargetException, IllegalAccessException {
         String str = req.getCommand();
         String accountId = SessionUtil.getAccountIdBySession(session);
-        System.out.println("输出账户名称:" + accountId);
         SpringContext.getCommandFacade().doNewCommand(session, str);
 
     }

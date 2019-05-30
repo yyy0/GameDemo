@@ -1,5 +1,12 @@
 package com.server.user.item.resource;
 
+import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvCustomBindByName;
+import com.server.common.resource.converter.StringToEquipmentTypeConverter;
+import com.server.common.resource.converter.StringToIntegerConverter;
+import com.server.common.resource.converter.StringToItemTypeConverter;
+import com.server.common.resource.reader.ResId;
+import com.server.common.resource.reader.Resource;
 import com.server.user.equipment.EquipmentType;
 import com.server.user.item.constant.ItemType;
 
@@ -7,43 +14,54 @@ import com.server.user.item.constant.ItemType;
  * @author yuxianming
  * @date 2019/5/10 18:10
  */
+@Resource
 public class ItemResource {
 
     /**
      * 物品id
      */
+    @ResId
+    @CsvCustomBindByName(converter = StringToIntegerConverter.class)
     private int id;
     /**
      * 物品名称
      */
+    @CsvBindByName
     private String name;
     /**
      * 物品类型
      */
+    @CsvCustomBindByName(converter = StringToItemTypeConverter.class)
     private ItemType itemType;
     /**
      * 装备类型
      */
+    @CsvCustomBindByName(converter = StringToEquipmentTypeConverter.class)
     private EquipmentType equipmentType;
     /**
      * 堆叠数量 小于或等于1的为不可堆叠
      */
+    @CsvCustomBindByName(converter = StringToIntegerConverter.class)
     private int overLimit;
     /**
      * 物品品质
      */
+    @CsvCustomBindByName(converter = StringToIntegerConverter.class)
     private int quality;
     /**
-     * 是否可以进入仓库
+     * 是否可以进入仓库 小于1不可入库
      */
+    @CsvCustomBindByName(converter = StringToIntegerConverter.class)
     private int storage;
     /**
      * 使用效果值
      */
+    @CsvCustomBindByName(converter = StringToIntegerConverter.class)
     private int effectValue;
     /**
      * 使用时间
      */
+    @CsvBindByName
     private String effectTime;
 
     public static ItemResource valueOf(int id, String name, ItemType itemType,

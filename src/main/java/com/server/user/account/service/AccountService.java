@@ -1,7 +1,7 @@
 package com.server.user.account.service;
 
 
-import com.server.common.CommonManager;
+import com.server.common.entity.CommonManager;
 import com.server.tool.PacketSendUtil;
 import com.server.user.account.entity.AccountEnt;
 import com.server.user.account.model.Account;
@@ -18,19 +18,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class AccountService {
 
-
     /**
      * 通用manager
      */
     @Autowired
     private CommonManager<String, AccountEnt> commonManager;
 
-
-    Logger logger = LoggerFactory.getLogger(AccountService.class);
+    private Logger logger = LoggerFactory.getLogger(AccountService.class);
 
     /**
      * 打印账号信息
-     *
      * @param account
      */
     public void printAccount(Account account) {
@@ -60,14 +57,14 @@ public class AccountService {
     public void saveAccountInfo(String accountId) {
         AccountEnt accountEnt = getAccountEnt(accountId);
         accountEnt.doSerialize();
-        commonManager.update(accountEnt);
+        commonManager.update();
     }
 
     public void saveAccountInfo(Account account) {
         AccountEnt accountEnt = getAccountEnt(account.getAccountId());
         accountEnt.setAccount(account);
         accountEnt.doSerialize();
-        commonManager.update(accountEnt);
+        commonManager.update();
     }
 
     public void createAccount(Account account) {

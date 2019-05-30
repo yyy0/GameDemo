@@ -24,7 +24,7 @@ public class ItemStorageEnt {
 
     @Lob
     @Column(columnDefinition = "blob comment '账号背包数据'")
-    private byte[] StorageData;
+    private byte[] storageData;
 
     public static ItemStorageEnt valueOf(String accountId) {
         ItemStorageEnt storageEnt = new ItemStorageEnt();
@@ -33,16 +33,22 @@ public class ItemStorageEnt {
         int maxSize = StorageConstant.BAG_MAXSIZE;
         storage.ensureCapacity(maxSize);
         storageEnt.setItemStorage(storage);
+        storageEnt.doSerialize();
         return storageEnt;
     }
 
     public boolean doSerialize() {
-        this.StorageData = JsonUtils.objToByte(itemStorage);
+        this.storageData = JsonUtils.objToByte(itemStorage);
+        return true;
+    }
+
+    public boolean doSerialize(ItemStorage itemStorage) {
+        this.storageData = JsonUtils.objToByte(itemStorage);
         return true;
     }
 
     public boolean doDeserialize() {
-        this.itemStorage = JsonUtils.byteToObj(StorageData, ItemStorage.class);
+        this.itemStorage = JsonUtils.byteToObj(storageData, ItemStorage.class);
         int maxSize = StorageConstant.BAG_MAXSIZE;
         this.itemStorage.ensureCapacity(maxSize);
         return true;
@@ -65,10 +71,10 @@ public class ItemStorageEnt {
     }
 
     public byte[] getStorageData() {
-        return StorageData;
+        return storageData;
     }
 
     public void setStorageData(byte[] storageData) {
-        StorageData = storageData;
+        this.storageData = storageData;
     }
 }

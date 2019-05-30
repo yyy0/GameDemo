@@ -1,37 +1,51 @@
 package com.server.map.resource;
 
+import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvCustomBindByName;
+import com.server.common.resource.converter.StringToIntMatrixConverter;
+import com.server.common.resource.converter.StringToIntegerConverter;
+import com.server.common.resource.reader.ResId;
+import com.server.common.resource.reader.Resource;
+
 /**
  * @author yuxianming
  * @date 2019/4/28 20:30
  */
+@Resource
 public class MapResource {
-
 
     /**
      * 地图id
      */
+    @ResId
+    @CsvCustomBindByName(converter = StringToIntegerConverter.class)
     private int id;
-
     /**
      * 地图名称
      */
+    @CsvBindByName
     private String name;
 
     /**
      * 地图资源 坐标信息
      */
-    private int[][] mapres;
+    @CsvCustomBindByName(converter = StringToIntMatrixConverter.class)
+    private int[][] mapRes;
 
     /**
      * 地图默认初始位置
      */
+    @CsvCustomBindByName(converter = StringToIntegerConverter.class)
     private int bornX;
+    @CsvCustomBindByName(converter = StringToIntegerConverter.class)
     private int bornY;
 
     /**
      * 地图的宽、高
      */
+    @CsvCustomBindByName(converter = StringToIntegerConverter.class)
     private int width;
+    @CsvCustomBindByName(converter = StringToIntegerConverter.class)
     private int height;
 
     public static MapResource valueOf(int id, String name, int bornX, int bornY) {
@@ -40,7 +54,7 @@ public class MapResource {
         map.setName(name);
         map.setBornX(bornX);
         map.setBornY(bornY);
-        map.setMapres(new int[][]{
+        map.setMapRes(new int[][]{
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
                 {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,},
                 {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,},
@@ -83,12 +97,12 @@ public class MapResource {
         this.name = name;
     }
 
-    public int[][] getMapres() {
-        return mapres;
+    public int[][] getMapRes() {
+        return mapRes;
     }
 
-    public void setMapres(int[][] mapres) {
-        this.mapres = mapres;
+    public void setMapRes(int[][] mapRes) {
+        this.mapRes = mapRes;
     }
 
     public int getBornX() {
@@ -108,10 +122,10 @@ public class MapResource {
     }
 
     public int getWidth() {
-        return mapres[0].length;
+        return mapRes[0].length;
     }
 
     public int getHeight() {
-        return mapres.length;
+        return mapRes.length;
     }
 }

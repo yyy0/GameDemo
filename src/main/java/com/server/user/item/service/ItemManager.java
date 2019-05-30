@@ -1,11 +1,11 @@
 package com.server.user.item.service;
 
-import com.server.common.CommonManager;
+import com.server.common.entity.CommonManager;
+import com.server.common.resource.ResourceManager;
 import com.server.user.equipment.EquipmentType;
 import com.server.user.item.constant.ItemType;
 import com.server.user.item.entity.ItemStorageEnt;
 import com.server.user.item.resource.ItemResource;
-import com.server.user.item.storage.ItemStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,9 @@ public class ItemManager {
 
     @Autowired
     private CommonManager<String, ItemStorageEnt> storageManager;
+
+    @Autowired
+    private ResourceManager resourceManager;
 
     private Map<Integer, ItemResource> itemResources = new HashMap<>();
 
@@ -46,27 +49,12 @@ public class ItemManager {
     }
 
     public ItemResource getItemResource(int id) {
-        ItemResource resource = itemResources.get(id);
+        Map<Integer, Object> itemResources = resourceManager.getResources(ItemResource.class.getSimpleName());
+        ItemResource resource = (ItemResource) itemResources.get(id);
         if (resource == null) {
             logger.error("找不到对应配置id：{}" + id);
         }
         return resource;
-    }
-
-    public ItemStorageEnt getOrCreateItemStorageEnt(String accountId) {
-        ItemStorageEnt itemStorageEnt = storageManager.getEnt(ItemStorageEnt.class, accountId);
-        if (itemStorageEnt == null) {
-            itemStorageEnt = ItemStorageEnt.valueOf(accountId);
-        }
-        return itemStorageEnt;
-    }
-
-    public void saveItemStorageEnt(ItemStorageEnt itemStorageEnt) {
-        storageManager.update(itemStorageEnt);
-    }
-
-    public ItemStorage getItemStorage(String accountId) {
-        return getOrCreateItemStorageEnt(accountId).getItemStorage();
     }
 
 

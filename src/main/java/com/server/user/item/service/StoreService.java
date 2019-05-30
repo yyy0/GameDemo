@@ -1,10 +1,18 @@
 package com.server.user.item.service;
 
+import com.SpringContext;
+import com.server.common.entity.CommonManager;
+import com.server.common.identity.service.IdentifyService;
+import com.server.common.resource.ResourceManager;
+import com.server.tool.PacketSendUtil;
 import com.server.user.account.model.Account;
 import com.server.user.item.entity.ItemStorageEnt;
+import com.server.user.item.entity.WarehouseEnt;
 import com.server.user.item.model.AbstractItem;
+import com.server.user.item.packet.SM_BagInfo;
 import com.server.user.item.resource.ItemResource;
 import com.server.user.item.storage.ItemStorage;
+import com.server.user.item.storage.Warehouse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +21,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author yuxianming
@@ -22,17 +31,41 @@ import java.util.List;
 public class StoreService {
 
     @Autowired
-    private ItemManager itemManager;
+    private ResourceManager resourceManager;
+
+    @Autowired
+    private CommonManager<String, ItemStorageEnt> itemStorageManager;
+
+    @Autowired
+    private CommonManager<String, WarehouseEnt> warehouseManager;
 
     private static Logger logger = LoggerFactory.getLogger(StoreService.class);
 
+    /**
+     * 获取itemResource
+     *
+     * @param id 道具id
+     * @return
+     */
+    public ItemResource getItemResource(int id) {
+        Map<Integer, Object> itemResources = resourceManager.getResources(ItemResource.class.getSimpleName());
+        ItemResource resource = (ItemResource) itemResources.get(id);
+        if (resource == null) {
+            logger.error("找不到对应配置id：{}" + id);
+        }
+        return resource;
+    }
+
+    private long createIdentifyId() {
+        return SpringContext.getIdentifyService().getNextIdentify(IdentifyService.IdentifyType.ITEM);
+    }
 
     /**
      * 剩余背包格子是否足够
      */
-    public boolean isEnoughPackSize(Account account, List<AbstractItem> items) {
+    private boolean isEnoughPackSize(Account account, List<AbstractItem> items) {
 
-        ItemStorage itemStorage = getItemStorageEnt(account.getAccountId()).getItemStorage();
+        ItemStorage itemStorage = getItemStorage(account.getAccountId());
         int needSize = items.size();
         if (needSize > itemStorage.getEmptySize()) {
             logger.error("背包剩余格子不足");
@@ -40,6 +73,20 @@ public class StoreService {
         }
         return true;
     }
+
+    /**
+     * 剩余背包格子是否足够 1格子
+     */
+    private boolean isEnoughPackSize(Account account) {
+
+        ItemStorage itemStorage = getItemStorage(account.getAccountId());
+        if (1 > itemStorage.getEmptySize()) {
+            logger.error("背包剩余格子不足");
+            return false;
+        }
+        return true;
+    }
+
 
     /**
      * 剩余背包格子是否足够
@@ -54,6 +101,19 @@ public class StoreService {
         }
         return true;
 
+    }
+
+    /**
+     * 剩余仓库格子是否足够
+     */
+    public boolean isEnoughWarehouseSize(Account account, int num) {
+
+        Warehouse warehouse = getWarehouse(account.getAccountId());
+        if (num > warehouse.getEmptySize()) {
+            logger.error("背包剩余格子不足");
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -78,20 +138,6 @@ public class StoreService {
     }
 
     /**
-     * 获取itemResource
-     *
-     * @param itemModelId
-     * @return
-     */
-    public ItemResource getItemResource(int itemModelId) {
-        ItemResource itemResource = itemManager.getItemResource(itemModelId);
-        if (itemResource == null) {
-            logger.error("找不到对应resource:" + itemModelId);
-        }
-        return itemResource;
-    }
-
-    /**
      * 创建道具
      *
      * @param itemResource
@@ -99,8 +145,13 @@ public class StoreService {
      * @return
      */
     private AbstractItem doCreateItem(ItemResource itemResource, int num) {
+        if (num <= 0) {
+            return null;
+        }
         AbstractItem item = itemResource.getItemType().create();
-        item.setItemModelId(item.getItemModelId());
+        long identifyId = createIdentifyId();
+        item.setObjectId(identifyId);
+        item.setItemModelId(itemResource.getId());
         item.setNum(num);
         return item;
     }
@@ -122,7 +173,7 @@ public class StoreService {
         //道具叠加数量
         int overLimit = itemResource.getOverLimit();
         //实际占背包格子数
-        int size = num / overLimit + num % overLimit == 0 ? 0 : 1;
+        int size = num / overLimit + (num % overLimit == 0 ? 0 : 1);
         List<AbstractItem> result = new ArrayList<>();
         for (int i = 0; i < size - 1; i++) {
             result.add(doCreateItem(itemResource, overLimit));
@@ -133,41 +184,223 @@ public class StoreService {
     }
 
     /**
-     * 添加道具至背包
-     *
-     * @param account
-     * @param item
-     */
-    public void addItemToBag(Account account, AbstractItem item) {
-        if (item == null) {
-            return;
-        }
-        int num = item.getNum();
-        if (!isEnoughPackSize(account, item.getItemModelId(), num)) {
-            return;
-        }
-        ItemStorage itemStorage = getItemStorage(account.getAccountId());
-
-    }
-
-    /**
      * 打印背包物品信息
      */
     public void printItems(String accountId) {
-        ItemStorageEnt itemStorageEnt = itemManager.getOrCreateItemStorageEnt(accountId);
-
-        AbstractItem[] items = itemStorageEnt.getItemStorage().getItems();
-        for (int i = 0; i < items.length; i++) {
+        ItemStorage itemStorage = getItemStorage(accountId);
+        AbstractItem[] items = itemStorage.getItems();
+        for (int i = 0; i < itemStorage.getNum(); i++) {
+            if (items[i] == null) {
+                return;
+            }
             System.out.println(items[i]);
         }
-    }
-
-    public ItemStorageEnt getItemStorageEnt(String accountId) {
-        return itemManager.getOrCreateItemStorageEnt(accountId);
+        SM_BagInfo packet = SM_BagInfo.valueOf(items);
+        Account account = SpringContext.getAccountService().getAccount(accountId);
+        PacketSendUtil.send(account, packet);
     }
 
     public ItemStorage getItemStorage(String accountId) {
-        return itemManager.getItemStorage(accountId);
+        if (accountId == null) {
+            return null;
+        }
+        ItemStorageEnt ent = getOrCreateItemStorageEnt(accountId);
+        if (ent != null) {
+            ent.doDeserialize();
+            return ent.getItemStorage();
+        }
+        return null;
+    }
+
+    private ItemStorageEnt getOrCreateItemStorageEnt(String accountId) {
+        if (accountId == null) {
+            return null;
+        }
+        ItemStorageEnt itemStorageEnt = itemStorageManager.getEnt(ItemStorageEnt.class, accountId);
+        if (itemStorageEnt == null) {
+            itemStorageEnt = ItemStorageEnt.valueOf(accountId);
+            itemStorageManager.createEnt(itemStorageEnt);
+            return itemStorageEnt;
+        } else {
+            return itemStorageEnt;
+        }
+
+    }
+
+
+    public Warehouse getWarehouse(String accountId) {
+        if (accountId == null) {
+            return null;
+        }
+        WarehouseEnt ent = getOrCreateWarehouseEnt(accountId);
+        if (ent != null) {
+            ent.doDeserialize();
+            return ent.getWarehouse();
+        }
+        return null;
+    }
+
+    private WarehouseEnt getOrCreateWarehouseEnt(String accountId) {
+        if (accountId == null) {
+            return null;
+        }
+        WarehouseEnt warehouseEnt = warehouseManager.getEnt(WarehouseEnt.class, accountId);
+        if (warehouseEnt == null) {
+            warehouseEnt = WarehouseEnt.valueOf(accountId);
+            warehouseManager.createEnt(warehouseEnt);
+            return warehouseEnt;
+        } else {
+            return warehouseEnt;
+        }
+
+    }
+
+    private void saveItemStorageEnt(String accountId) {
+        ItemStorageEnt ent = getOrCreateItemStorageEnt(accountId);
+        ent.doSerialize();
+        itemStorageManager.update();
+    }
+
+    private void saveItemStorageEnt(String accountId, ItemStorage itemStorage) {
+        ItemStorageEnt ent = getOrCreateItemStorageEnt(accountId);
+        ent.doSerialize(itemStorage);
+        itemStorageManager.update();
+    }
+
+    private void saveWarehouseEnt(String accountId, Warehouse warehouse) {
+        WarehouseEnt ent = getOrCreateWarehouseEnt(accountId);
+        ent.doSerialize(warehouse);
+        warehouseManager.update();
+    }
+
+    /**
+     * 添加一批道具至背包
+     *
+     * @param account
+     * @param abstractItems
+     */
+    public void addItemsToBag(Account account, List<AbstractItem> abstractItems) {
+        if (abstractItems == null) {
+            return;
+        }
+        ItemStorage storage = getItemStorage(account.getAccountId());
+        if (!isEnoughPackSize(account, abstractItems)) {
+            return;
+        }
+        for (AbstractItem item : abstractItems) {
+            storage.addItem(item);
+        }
+
+        saveItemStorageEnt(account.getAccountId(), storage);
+    }
+
+
+    public void clearBag(Account account) {
+        ItemStorage itemStorage = getItemStorage(account.getAccountId());
+        itemStorage.clear();
+        saveItemStorageEnt(account.getAccountId());
+    }
+
+    public void printStorage(Account account) {
+        ItemStorage itemStorage = getItemStorage(account.getAccountId());
+        System.out.println("【" + account.getName() + "】背包信息如下");
+        itemStorage.printStorage();
+    }
+
+    /**
+     * 移除背包道具
+     *
+     * @param account
+     * @param item
+     * @param num
+     */
+    public void reduceBagItem(Account account, AbstractItem item, int num) {
+        int itemNum = item.getNum();
+        if (itemNum < num) {
+            return;
+        }
+        ItemStorage itemStorage = getItemStorage(account.getAccountId());
+        itemStorage.reduceItem(item.getObjectId(), num);
+        saveItemStorageEnt(account.getAccountId(), itemStorage);
+    }
+
+    /**
+     * 移除仓库道具
+     * @param account
+     * @param item
+     * @param num
+     */
+    public void reduceWarehouseItem(Account account, AbstractItem item, int num) {
+        int itemNum = item.getNum();
+        if (itemNum < num) {
+            return;
+        }
+        Warehouse warehouse = getWarehouse(account.getAccountId());
+        warehouse.reduceItem(item.getObjectId(), num);
+
+        saveWarehouseEnt(account.getAccountId(), warehouse);
+    }
+
+    public void addItemToWarehouse(Account account, AbstractItem item) {
+        if (item == null) {
+            return;
+        }
+        Warehouse warehouse = getWarehouse(account.getAccountId());
+        if (!isEnoughWarehouseSize(account, item.getNum())) {
+            return;
+        }
+        warehouse.addItem(item);
+        saveWarehouseEnt(account.getAccountId(), warehouse);
+    }
+
+    /**
+     * 移动道具 从背包到仓库
+     *
+     * @param account
+     * @param id      道具唯一id
+     */
+    public void moveBagToWarehouse(Account account, long id) {
+        if (id <= 0) {
+            return;
+        }
+        ItemStorage storage = getItemStorage(account.getAccountId());
+        AbstractItem item = storage.getItemByObjectId(id);
+        if (item == null || item.getNum() <= 0) {
+            return;
+        }
+        ItemResource itemResource = getItemResource(item.getItemModelId());
+        if (itemResource.getStorage() < 1 || !isEnoughWarehouseSize(account, 1)) {
+            return;
+        }
+        //移除背包道具
+        reduceBagItem(account, item, item.getNum());
+        //添加道具至仓库
+        addItemToWarehouse(account, item);
+
+    }
+
+
+    /**
+     * 移动道具 从仓库到背包
+     *
+     * @param account
+     * @param id      道具唯一id
+     */
+    public void moveWarehouseToBag(Account account, long id) {
+        if (id <= 0) {
+            return;
+        }
+        Warehouse warehouse = getWarehouse(account.getAccountId());
+        AbstractItem item = warehouse.getItemByObjectId(id);
+        if (item == null || item.getNum() <= 0 || !isEnoughPackSize(account)) {
+            return;
+        }
+
+        reduceWarehouseItem(account, item, item.getNum());
+        ItemStorage itemStorage = getItemStorage(account.getAccountId());
+        itemStorage.addItem(item);
+        saveItemStorageEnt(account.getAccountId(),itemStorage);
+
     }
 
 }

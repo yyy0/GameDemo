@@ -54,10 +54,7 @@ public class GmDispatcher {
     public int getModelPanelHeight() {
         int height = 0;
         for (Map.Entry<String, Map<String, GmDefinition>> entry : gmModelDefinitions.entrySet()) {
-            height++;
-            for (Map.Entry<String, GmDefinition> entry2 : entry.getValue().entrySet()) {
-                height++;
-            }
+            height += 1 + entry.getValue().keySet().size();
 
         }
         return height;

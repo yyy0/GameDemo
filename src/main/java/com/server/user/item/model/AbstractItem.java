@@ -1,6 +1,8 @@
 package com.server.user.item.model;
 
 import com.SpringContext;
+import com.server.common.identity.gameobject.GameObject;
+import com.server.common.identity.service.IdentifyService;
 import com.server.user.item.constant.ItemType;
 import com.server.user.item.resource.ItemResource;
 
@@ -8,7 +10,7 @@ import com.server.user.item.resource.ItemResource;
  * @author yuxianming
  * @date 2019/5/13 15:24
  */
-public class AbstractItem {
+public class AbstractItem extends GameObject implements Comparable<AbstractItem> {
 
     protected int itemModelId;
 
@@ -30,15 +32,25 @@ public class AbstractItem {
         this.num = num;
     }
 
+    /**
+     * 生成唯一id
+     *
+     * @return
+     */
+    private long createIdentifyId() {
+        return SpringContext.getIdentifyService().getNextIdentify(IdentifyService.IdentifyType.ITEM);
+    }
+
     @Override
     public String toString() {
 
         ItemResource resource = SpringContext.getItemService().getItemResource(itemModelId);
-        return "AbstractItem{" +
+        return "{" +
                 "itemType=" + resource.getItemType() +
-                "itemModelId=" + itemModelId +
-                ", name=" + resource.getName() +
-                ", num=" + num +
+                ", 唯一id=" + objectId +
+                ", 道具id=" + itemModelId +
+                ", 名称=" + resource.getName() +
+                ", 数量=" + num +
                 '}';
     }
 
@@ -81,11 +93,36 @@ public class AbstractItem {
     }
 
     /**
-     * 同类物品叠加
-     * @param item
-     * @return
+     * 叠加相同id的道具
+     *
+     * @param addItem
      */
-//    public AbstractItem add(AbstractItem item){
-//
-//    }
+    public ResultItem add(AbstractItem addItem) {
+        int overLimit = addItem.getOverLimit();
+
+        ResultItem resultItem = new ResultItem();
+        //叠加数量大于1  道具数量小于叠加数量  道具id相同
+        if (overLimit > 1 && this.num < overLimit && check(addItem)) {
+            int curSize = this.num + addItem.getNum();
+            if (curSize > overLimit) {
+                curSize -= overLimit;
+                this.setNum(overLimit);
+                addItem.setNum(curSize);
+                resultItem.setItem(addItem);
+            } else {
+                this.setNum(curSize);
+            }
+            resultItem.setSuccess(true);
+            return resultItem;
+        }
+        return resultItem;
+    }
+
+
+    @Override
+    public int compareTo(AbstractItem o) {
+        return 0;
+    }
+
+
 }

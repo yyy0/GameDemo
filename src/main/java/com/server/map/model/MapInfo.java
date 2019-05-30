@@ -48,7 +48,7 @@ public class MapInfo {
      * 初始化地图资源
      */
     public void initInfo() {
-        int[][] mapRes = mapResource.getMapres();
+        int[][] mapRes = mapResource.getMapRes();
         mapInfo = new char[mapResource.getHeight()][mapResource.getWidth()];
         for (int i = 0; i < mapInfo.length; i++) {
             for (int j = 0; j < mapInfo[i].length; j++) {

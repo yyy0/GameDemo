@@ -2,7 +2,9 @@ package com.server.tool;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +19,10 @@ import java.util.Map;
  * @date 2019/4/28 22:14
  */
 public class JsonUtils {
-    private final static ObjectMapper objectMapper = new ObjectMapper();
+    private final static ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    ;
+
+    private static TypeFactory typeFactory = TypeFactory.defaultInstance();
 
     private JsonUtils() {
 
@@ -126,6 +131,7 @@ public class JsonUtils {
         }
         return result;
     }
+
 
     /**
      * map convert to javaBean

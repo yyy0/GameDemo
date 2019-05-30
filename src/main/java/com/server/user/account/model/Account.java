@@ -21,16 +21,14 @@ public class Account {
     /**
      * 当前地图id  也是上次所在地图
      */
-
     private int mapId;
 
-    /**
-     * 当前地图坐标（也是上次地图坐标）
-     */
-
+    /** 当前地图坐标（也是上次地图坐标）*/
     private int gridX;
 
     private int girdY;
+
+    private int level;
 
 
     /**

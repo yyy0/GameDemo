@@ -1,4 +1,4 @@
-package com.server.common;
+package com.server.common.entity;
 
 
 import org.springframework.stereotype.Component;
@@ -58,11 +58,11 @@ public class CommonManager<K, T> {
         if (entity == null) {
             return null;
         }
-        transaction.commit();
+
         return entity;
     }
 
-    public void update(T entity) {
+    public void update() {
         transBegin();
         entityManager.flush();
         transaction.commit();

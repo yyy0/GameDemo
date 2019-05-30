@@ -6,7 +6,9 @@ import com.client.clientframe.frame.RegFrame;
 import com.server.command.service.Command;
 import com.server.command.service.CommandFacade;
 import com.server.command.service.GmDispatcher;
-import com.server.common.GlobalService;
+import com.server.common.event.core.EventBusManager;
+import com.server.common.identity.service.IdentifyService;
+import com.server.common.service.GlobalService;
 import com.server.dispatcher.ActionDispatcher;
 import com.server.login.service.LoginService;
 import com.server.map.service.WorldService;
@@ -36,6 +38,9 @@ public class SpringContext implements ApplicationContextAware {
     public Command command;
 
     @Autowired
+    public EventBusManager eventBusManager;
+
+    @Autowired
     public ActionDispatcher actionDispatcher;
 
     @Autowired
@@ -61,6 +66,9 @@ public class SpringContext implements ApplicationContextAware {
 
     @Autowired
     public SessionService sessionService;
+
+    @Autowired
+    public IdentifyService identifyService;
 
     @Autowired
     public GmDispatcher gmDispatcher;
@@ -90,6 +98,10 @@ public class SpringContext implements ApplicationContextAware {
         return instance.gmDispatcher;
     }
 
+
+    public static EventBusManager getEventManager() {
+        return instance.eventBusManager;
+    }
 
     @Override
     public void setApplicationContext(ApplicationContext ac) throws BeansException {
@@ -148,6 +160,10 @@ public class SpringContext implements ApplicationContextAware {
 
     public static SessionService getSessionService() {
         return instance.sessionService;
+    }
+
+    public static IdentifyService getIdentifyService() {
+        return instance.identifyService;
     }
 
 
