@@ -13,8 +13,7 @@ public class Warehouse extends ItemStorage {
 
     public static Warehouse valueOf() {
         int size = StorageConstant.WAREHOUSE_MAXSIZE;
-        Warehouse warehouse = new Warehouse(size);
-        return warehouse;
+        return new Warehouse(size);
     }
 
     public Warehouse() {

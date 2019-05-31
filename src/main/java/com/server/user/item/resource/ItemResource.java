@@ -7,7 +7,7 @@ import com.server.common.resource.converter.StringToIntegerConverter;
 import com.server.common.resource.converter.StringToItemTypeConverter;
 import com.server.common.resource.reader.ResId;
 import com.server.common.resource.reader.Resource;
-import com.server.user.equipment.EquipmentType;
+import com.server.user.equipment.constant.EquipmentType;
 import com.server.user.item.constant.ItemType;
 
 /**

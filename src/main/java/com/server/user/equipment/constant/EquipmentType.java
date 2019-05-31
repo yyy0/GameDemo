@@ -1,4 +1,4 @@
-package com.server.user.equipment;
+package com.server.user.equipment.constant;
 
 /**
  * @author yuxianming
@@ -20,7 +20,7 @@ public enum EquipmentType {
     //护腕
     GLOVE(7),
     //翅膀
-    WRING(10);
+    WRING(8);
 
     private int index;
 

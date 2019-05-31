@@ -15,9 +15,6 @@ public class ItemService {
     @Autowired
     private ItemManager itemManager;
 
-    public void initItemResource() {
-        itemManager.initItems();
-    }
 
     public ItemResource getItemResource(int itemModelId) {
         return itemManager.getItemResource(itemModelId);

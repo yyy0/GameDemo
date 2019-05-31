@@ -3,7 +3,7 @@ package com.server.common.resource.converter;
 import com.opencsv.bean.AbstractBeanField;
 import com.opencsv.exceptions.CsvConstraintViolationException;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.server.user.equipment.EquipmentType;
+import com.server.user.equipment.constant.EquipmentType;
 
 /**
  * @author yuxianming

@@ -22,4 +22,10 @@ public interface I18nId {
     int ITEM_NOT_ENOUGH = 7;
     //背包空间不够
     int BAG_NOT_ENOUGH = 8;
+    //该装备不存在
+    int EQUIPMENT_NOT_EXIST = 9;
+    //装备与部位不匹配
+    int EQUIPMENT_NOT_MATCH = 10;
+    //该部位没有装备
+    int POSITION_NO_EQUIPMENT = 11;
 }

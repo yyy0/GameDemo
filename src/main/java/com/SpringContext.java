@@ -14,6 +14,7 @@ import com.server.login.service.LoginService;
 import com.server.map.service.WorldService;
 import com.server.session.service.SessionService;
 import com.server.user.account.service.AccountService;
+import com.server.user.equipment.service.EquipmentService;
 import com.server.user.item.service.ItemService;
 import com.server.user.item.service.StoreService;
 import org.springframework.beans.BeansException;
@@ -81,6 +82,9 @@ public class SpringContext implements ApplicationContextAware {
 
     @Autowired
     public CommandFrame commandFrame;
+
+    @Autowired
+    public EquipmentService equipmentService;
 
     public static LoginFrame getLoginFrame() {
         return instance.loginFrame;
@@ -164,6 +168,10 @@ public class SpringContext implements ApplicationContextAware {
 
     public static IdentifyService getIdentifyService() {
         return instance.identifyService;
+    }
+
+    public static EquipmentService getEquipmentService() {
+        return instance.equipmentService;
     }
 
 

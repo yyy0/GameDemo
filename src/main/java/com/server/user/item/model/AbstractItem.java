@@ -3,6 +3,8 @@ package com.server.user.item.model;
 import com.SpringContext;
 import com.server.common.identity.gameobject.GameObject;
 import com.server.common.identity.service.IdentifyService;
+import com.server.user.equipment.constant.EquipmentType;
+import com.server.user.equipment.model.Equipment;
 import com.server.user.item.constant.ItemType;
 import com.server.user.item.resource.ItemResource;
 
@@ -43,13 +45,11 @@ public class AbstractItem extends GameObject implements Comparable<AbstractItem>
 
     @Override
     public String toString() {
-
-        ItemResource resource = SpringContext.getItemService().getItemResource(itemModelId);
         return "{" +
-                "itemType=" + resource.getItemType() +
+                "itemType=" + getItemType() +
                 ", 唯一id=" + objectId +
                 ", 道具id=" + itemModelId +
-                ", 名称=" + resource.getName() +
+                ", 名称=" + getName() +
                 ", 数量=" + num +
                 '}';
     }
@@ -78,11 +78,19 @@ public class AbstractItem extends GameObject implements Comparable<AbstractItem>
 
     /**
      * 物品类型
-     *
      * @return
      */
     public ItemType getItemType() {
         return getResource().getItemType();
+    }
+
+    /**
+     * 装备类型
+     *
+     * @return
+     */
+    public EquipmentType getEquipmentType() {
+        return getResource().getEquipmentType();
     }
 
     /**
@@ -118,6 +126,9 @@ public class AbstractItem extends GameObject implements Comparable<AbstractItem>
         return resultItem;
     }
 
+    public boolean isEquipment() {
+        return this instanceof Equipment;
+    }
 
     @Override
     public int compareTo(AbstractItem o) {

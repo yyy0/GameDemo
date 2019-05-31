@@ -2,7 +2,7 @@ package com.server.user.item.service;
 
 import com.server.common.entity.CommonManager;
 import com.server.common.resource.ResourceManager;
-import com.server.user.equipment.EquipmentType;
+import com.server.user.equipment.constant.EquipmentType;
 import com.server.user.item.constant.ItemType;
 import com.server.user.item.entity.ItemStorageEnt;
 import com.server.user.item.resource.ItemResource;

@@ -5,13 +5,19 @@ import com.client.clientframe.panel.ModelPanel;
 import com.client.dispatcher.ClientHandlerAnno;
 import com.server.command.packet.CM_GMcommand;
 import com.server.command.service.GmDefinition;
+import com.server.common.resource.ResourceManager;
 import com.server.map.packet.SM_AccountMove;
 import com.server.map.packet.SM_ChangeMap;
+import com.server.publicsystem.i18n.packet.SM_Notify_Message;
+import com.server.publicsystem.i18n.resource.I18NResource;
 import com.server.server.message.MessageContent;
 import com.server.user.account.packet.SM_AccountInfo;
 import com.server.user.item.model.AbstractItem;
 import com.server.user.item.packet.SM_BagInfo;
 import io.netty.channel.Channel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +39,10 @@ public class CommandFrame extends JFrame {
     private static final String APPLICATION_CONTEXT = "applicationContext.xml";
     private static ClassPathXmlApplicationContext applicationContext;
     private Channel channel;
+    @Autowired
+    private ResourceManager resourceManager;
+
+    public static Logger logger = LoggerFactory.getLogger(CommandFrame.class);
 
     Container container = this.getContentPane();
 
@@ -159,6 +169,11 @@ public class CommandFrame extends JFrame {
         printArea.append(message + "\r\n");
     }
 
+    /**
+     * 打印背包消息
+     *
+     * @param packet
+     */
     @ClientHandlerAnno
     public void printBagInfo(SM_BagInfo packet) {
         AbstractItem[] items = packet.getItemData();
@@ -168,6 +183,24 @@ public class CommandFrame extends JFrame {
             }
             printArea.append(items[i].toString() + "\r\n");
         }
+    }
+
+    /**
+     * 打印提示消息
+     *
+     * @param packet
+     */
+    @ClientHandlerAnno
+    public void printNotifyMessage(SM_Notify_Message packet) {
+        int id = packet.getI18Id();
+
+        Map<Integer, Object> i18Resources = resourceManager.getResources(I18NResource.class.getSimpleName());
+        I18NResource resource = (I18NResource) i18Resources.get(id);
+        if (resource == null) {
+            logger.error("找不到对应配置id：{}" + id);
+        }
+        String message = resource.getValue();
+        printArea.append(message + "\r\n");
     }
 
 

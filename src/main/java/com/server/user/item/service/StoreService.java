@@ -51,7 +51,7 @@ public class StoreService {
         Map<Integer, Object> itemResources = resourceManager.getResources(ItemResource.class.getSimpleName());
         ItemResource resource = (ItemResource) itemResources.get(id);
         if (resource == null) {
-            logger.error("找不到对应配置id：{}" + id);
+            logger.error("ItemResource找不到对应配置id：{0}" + id);
         }
         return resource;
     }
@@ -77,7 +77,7 @@ public class StoreService {
     /**
      * 剩余背包格子是否足够 1格子
      */
-    private boolean isEnoughPackSize(Account account) {
+    public boolean isEnoughPackSize(Account account) {
 
         ItemStorage itemStorage = getItemStorage(account.getAccountId());
         if (1 > itemStorage.getEmptySize()) {
@@ -212,6 +212,17 @@ public class StoreService {
         return null;
     }
 
+    /**
+     * 从背包根据唯一id获取道具
+     *
+     * @param accountId
+     * @param id
+     * @return
+     */
+    public AbstractItem getItemByObjectId(String accountId, long id) {
+        return getItemStorage(accountId).getItemByObjectId(id);
+    }
+
     private ItemStorageEnt getOrCreateItemStorageEnt(String accountId) {
         if (accountId == null) {
             return null;
@@ -294,6 +305,22 @@ public class StoreService {
         saveItemStorageEnt(account.getAccountId(), storage);
     }
 
+    /**
+     * 添加一个道具至背包
+     *
+     * @param account
+     * @param abstractItem
+     */
+    public void addItemToBag(Account account, AbstractItem abstractItem) {
+        if (abstractItem == null || !isEnoughPackSize(account)) {
+            return;
+        }
+
+        ItemStorage storage = getItemStorage(account.getAccountId());
+        storage.addItem(abstractItem);
+        saveItemStorageEnt(account.getAccountId(), storage);
+    }
+
 
     public void clearBag(Account account) {
         ItemStorage itemStorage = getItemStorage(account.getAccountId());
@@ -326,6 +353,7 @@ public class StoreService {
 
     /**
      * 移除仓库道具
+     *
      * @param account
      * @param item
      * @param num
@@ -399,7 +427,7 @@ public class StoreService {
         reduceWarehouseItem(account, item, item.getNum());
         ItemStorage itemStorage = getItemStorage(account.getAccountId());
         itemStorage.addItem(item);
-        saveItemStorageEnt(account.getAccountId(),itemStorage);
+        saveItemStorageEnt(account.getAccountId(), itemStorage);
 
     }
 

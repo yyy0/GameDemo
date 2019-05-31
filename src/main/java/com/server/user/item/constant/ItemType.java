@@ -1,6 +1,6 @@
 package com.server.user.item.constant;
 
-import com.server.user.attribute.model.Equipment;
+import com.server.user.equipment.model.Equipment;
 import com.server.user.item.model.AbstractItem;
 import com.server.user.item.model.CommonItem;
 import com.server.user.item.model.Medicine;
