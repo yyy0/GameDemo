@@ -19,12 +19,12 @@ public class EquipGm {
         SpringContext.getEquipmentService().printEquipments(account);
     }
 
-    @GmMethod(name = "穿戴装备", param = "参数：唯一id 穿戴部位")
-    public void equip(Account account, int index, long identifyId) {
-        SpringContext.getEquipmentService().equip(account, index, identifyId);
+    @GmMethod(name = "穿戴装备", param = "参数:唯一id")
+    public void equip(Account account, long identifyId) {
+        SpringContext.getEquipmentService().equip(account, identifyId);
     }
 
-    @GmMethod(name = "卸下装备", param = "参数：穿戴部位")
+    @GmMethod(name = "卸下装备", param = "参数:穿戴部位")
     public void unEquip(Account account, int index) {
         SpringContext.getEquipmentService().unEquip(account, index);
     }

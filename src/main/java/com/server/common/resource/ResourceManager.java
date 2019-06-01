@@ -119,7 +119,7 @@ public class ResourceManager {
                 }
             }
             if (fileClass == null) {
-                logger.error("找不到对应的class与csv对应: " + fileClass.getSimpleName());
+                logger.error("找不到对应的class与csv对应: " + fileSimpleName);
                 return;
             }
             String csvName = RESOURCE + File.separator + file.getName();

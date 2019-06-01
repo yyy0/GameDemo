@@ -12,6 +12,9 @@ import com.server.publicsystem.i18n.packet.SM_Notify_Message;
 import com.server.publicsystem.i18n.resource.I18NResource;
 import com.server.server.message.MessageContent;
 import com.server.user.account.packet.SM_AccountInfo;
+import com.server.user.equipment.constant.EquipmentPosition;
+import com.server.user.equipment.model.Equipment;
+import com.server.user.equipment.packet.SM_EquipsInfo;
 import com.server.user.item.model.AbstractItem;
 import com.server.user.item.packet.SM_BagInfo;
 import io.netty.channel.Channel;
@@ -201,6 +204,18 @@ public class CommandFrame extends JFrame {
         }
         String message = resource.getValue();
         printArea.append(message + "\r\n");
+    }
+
+
+    @ClientHandlerAnno
+    public void printEquips(SM_EquipsInfo packet) {
+        Map<Integer, Equipment> equipmentMap = packet.getEquipmentMap();
+
+        for (Map.Entry<Integer, Equipment> entry : equipmentMap.entrySet()) {
+            EquipmentPosition position = EquipmentPosition.typeOf(entry.getKey());
+            printArea.append(position + ":" + entry.getValue() + "\r\n");
+        }
+
     }
 
 

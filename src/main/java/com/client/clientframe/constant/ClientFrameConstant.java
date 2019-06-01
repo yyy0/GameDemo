@@ -13,6 +13,8 @@ public interface ClientFrameConstant {
 
     public static final int COMMAND_PANEL_HEIGHT = 40;
 
+    public static final int COMMAND_PANEL_BIGHEIGHT = 45;
+
     public static final int COMMAND_PANEL_WIDTH = 300;
 
     public static final String SEND_BUTTON = "发送";

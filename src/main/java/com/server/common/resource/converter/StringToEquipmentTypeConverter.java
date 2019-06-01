@@ -15,6 +15,7 @@ public class StringToEquipmentTypeConverter extends AbstractBeanField<EquipmentT
         if ("".equals(value)) {
             return null;
         }
+
         return EquipmentType.valueOf(value);
     }
 }

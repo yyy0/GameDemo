@@ -56,10 +56,9 @@ public class EquipmentService {
      * 穿戴装备
      *
      * @param account
-     * @param position 装备部位
      * @param equipId  装备唯一id
      */
-    public void equip(Account account, int position, long equipId) {
+    public void equip(Account account, long equipId) {
         AbstractItem item = SpringContext.getStoreService().getItemByObjectId(account.getAccountId(), equipId);
         if (item == null || !item.isEquipment()) {
             I18Utils.notifyMessage(account, I18nId.EQUIPMENT_NOT_EXIST);
@@ -68,7 +67,7 @@ public class EquipmentService {
 
         Equipment equipment = (Equipment) item;
         EquipStorage equipStorage = getEquipStorage(account.getAccountId());
-        EquipmentPosition equipmentPosition = EquipmentPosition.typeOf(position);
+        EquipmentPosition equipmentPosition = EquipmentPosition.typeOf(equipment.getEquipmentType());
         if (!isMatchEquipmentPosition(equipment, equipmentPosition)) {
             I18Utils.notifyMessage(account, I18nId.EQUIPMENT_NOT_MATCH);
             return;
@@ -104,6 +103,7 @@ public class EquipmentService {
             return;
         }
         equipStorage.unEquip(equipmentPosition);
+        SpringContext.getStoreService().addItemToBag(account, equipment);
         saveEquipStorage(account.getAccountId(), equipStorage);
 
 

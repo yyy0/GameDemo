@@ -17,7 +17,7 @@ import java.util.List;
 @GmAnno(title = "道具GM")
 public class ItemGm {
 
-    @GmMethod(name = "添加道具", param = "参数：道具id 数量")
+    @GmMethod(name = "添加道具", param = "参数:道具id 数量")
     public void addItem(Account account, int itemId, int num) {
         List<AbstractItem> items = SpringContext.getStoreService().createItems(itemId, num);
         SpringContext.getStoreService().addItemsToBag(account, items);
@@ -41,12 +41,12 @@ public class ItemGm {
     public void printStorage(Account account) {
     }
 
-    @GmMethod(name = "背包至仓库", param = "参数：唯一id")
+    @GmMethod(name = "背包至仓库", param = "参数:唯一id")
     public void moveItemBagToWarehouse(Account account, long id) {
         SpringContext.getStoreService().moveBagToWarehouse(account, id);
     }
 
-    @GmMethod(name = "仓库至背包", param = "参数：唯一id")
+    @GmMethod(name = "仓库至背包", param = "参数:唯一id")
     public void moveWarehouseToBag(Account account, long id) {
         SpringContext.getStoreService().moveWarehouseToBag(account, id);
     }

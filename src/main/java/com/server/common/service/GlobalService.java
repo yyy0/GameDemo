@@ -25,7 +25,7 @@ public class GlobalService {
         resourceManager.loadResource();
         logger.info("预加载地图资源");
         SpringContext.getWorldService().initMap();
-        logger.info("预加载道具资源");
-        SpringContext.getItemService().initItemResource();
+
+
     }
 }

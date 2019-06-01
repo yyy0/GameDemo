@@ -24,12 +24,10 @@ public class ModelPanel extends JScrollPane {
         this.channel = channel;
         //gm模块面板高度
         int height = SpringContext.getGmDispatcher().getModelPanelHeight();
-        //gm模块数量
-        int modelNum = SpringContext.getGmDispatcher().getGmModelDefinitions().size();
-//        allPanel = new JPanel(new GridLayout(modelNum, 0, 5, 5));
+
         allPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         Map<String, Map<String, GmDefinition>> gmModelDefinitions = SpringContext.getGmDispatcher().getGmModelDefinitions();
-        allPanel.setPreferredSize(new Dimension(300, ClientFrameConstant.COMMAND_PANEL_HEIGHT * height));
+        allPanel.setPreferredSize(new Dimension(300, ClientFrameConstant.COMMAND_PANEL_BIGHEIGHT * height));
         for (String keyName : gmModelDefinitions.keySet()) {
             allPanel.add(addModelPanel(keyName));
         }

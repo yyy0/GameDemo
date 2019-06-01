@@ -1,8 +1,6 @@
 package com.server.common.resource.converter;
 
 import com.opencsv.bean.AbstractBeanField;
-import com.opencsv.exceptions.CsvConstraintViolationException;
-import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.server.user.item.constant.ItemType;
 
 /**
@@ -11,7 +9,7 @@ import com.server.user.item.constant.ItemType;
  */
 public class StringToItemTypeConverter extends AbstractBeanField<ItemType> {
     @Override
-    protected ItemType convert(String value) throws CsvDataTypeMismatchException, CsvConstraintViolationException {
+    protected ItemType convert(String value) {
         if ("".equals(value)) {
             return null;
         }

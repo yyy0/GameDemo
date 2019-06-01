@@ -26,4 +26,9 @@ public class MapGm {
         Grid grid = Grid.valueOf(gridX, gridY);
         SpringContext.getWorldService().move(account, grid);
     }
+
+    @GmMethod(name = "打印地图id", param = "参数:地图id")
+    public void printMapInfo(int mapId) {
+        SpringContext.getWorldService().printMapInfo(mapId);
+    }
 }

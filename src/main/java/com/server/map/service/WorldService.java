@@ -1,6 +1,7 @@
 package com.server.map.service;
 
 import com.SpringContext;
+import com.server.common.resource.ResourceManager;
 import com.server.map.model.Grid;
 import com.server.map.model.MapInfo;
 import com.server.map.packet.SM_AccountMove;
@@ -12,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
 
 /**
  * @author yuxianming
@@ -26,6 +29,9 @@ public class WorldService {
     @Autowired
     private MapManager manager;
 
+    @Autowired
+    private ResourceManager resourceManager;
+
     /**
      * 初始化地图资源
      */
@@ -39,7 +45,7 @@ public class WorldService {
      * @param targetMapId
      */
     public void changeMap(Account account, int targetMapId) {
-        MapResource mapResource = manager.getResource(targetMapId);
+        MapResource mapResource = getMapResource(targetMapId);
         logger.info("账号[{}]进入地图：mapid[{}],mapname[{}]  当前坐标：{}_{}",
                 account.getName(), targetMapId, mapResource.getName(),
                 mapResource.getBornX(), mapResource.getBornY());
@@ -61,7 +67,7 @@ public class WorldService {
      * @param targetMapId
      */
     public void enterMap(Account account, int targetMapId) {
-        MapResource mapResource = manager.getResource(targetMapId);
+        MapResource mapResource = getMapResource(targetMapId);
         MapInfo mapInfo = manager.getMapInfo(targetMapId);
         int gridX = mapResource.getBornX();
         int gridY = mapResource.getBornY();
@@ -84,7 +90,7 @@ public class WorldService {
      * @param targetGrid
      */
     public void move(Account account, Grid targetGrid) {
-        MapResource mapResource = manager.getResource(account.getMapId());
+        MapResource mapResource = getMapResource(account.getMapId());
         int preX = account.getGridX();
         int preY = account.getGirdY();
         MapInfo mapInfo = manager.getMapInfo(account.getMapId());
@@ -130,7 +136,19 @@ public class WorldService {
         mapInfo.printInfo();
     }
 
+    public void printMapInfo(int mapId) {
+        //记得传mapinfo
+        MapInfo mapInfo = manager.getMapInfo(mapId);
+        mapInfo.printInfo();
+    }
+
     public MapResource getMapResource(int mapId) {
-        return manager.getResource(mapId);
+        Map<Integer, Object> mapResource = resourceManager.getResources(MapResource.class.getSimpleName());
+        MapResource resource = (MapResource) mapResource.get(mapId);
+        if (resource == null) {
+            logger.error("MapResource找不到对应配置id：{0}" + mapId);
+            return null;
+        }
+        return resource;
     }
 }

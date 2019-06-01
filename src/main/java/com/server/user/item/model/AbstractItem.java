@@ -1,6 +1,8 @@
 package com.server.user.item.model;
 
 import com.SpringContext;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.server.common.identity.gameobject.GameObject;
 import com.server.common.identity.service.IdentifyService;
 import com.server.user.equipment.constant.EquipmentType;
@@ -12,6 +14,14 @@ import com.server.user.item.resource.ItemResource;
  * @author yuxianming
  * @date 2019/5/13 15:24
  */
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@Class")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Equipment.class, name = "equipment"),
+        @JsonSubTypes.Type(value = CommonItem.class, name = "commonItem"),
+        @JsonSubTypes.Type(value = Medicine.class, name = "medicine"),
+        @JsonSubTypes.Type(value = Pandora.class, name = "pandora"),
+})
 public class AbstractItem extends GameObject implements Comparable<AbstractItem> {
 
     protected int itemModelId;
@@ -78,6 +88,7 @@ public class AbstractItem extends GameObject implements Comparable<AbstractItem>
 
     /**
      * 物品类型
+     *
      * @return
      */
     public ItemType getItemType() {
@@ -127,7 +138,7 @@ public class AbstractItem extends GameObject implements Comparable<AbstractItem>
     }
 
     public boolean isEquipment() {
-        return this instanceof Equipment;
+        return getItemType() == ItemType.EQUIPMENT;
     }
 
     @Override

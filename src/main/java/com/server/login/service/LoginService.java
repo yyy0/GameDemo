@@ -54,11 +54,12 @@ public class LoginService {
             SpringContext.getSessionService().register(session, accountId);
         }
         //登陆切图，没找到地图id 默认进新手村
-        MapResource mapResource = mapManager.getResource(account.getMapId());
+
+        MapResource mapResource = SpringContext.getWorldService().getMapResource(account.getMapId());
         int mapId;
         if (mapResource == null) {
             worldService.enterMap(account, 1001);
-            mapId = 1001;
+            mapId = 1;
         } else {
             mapId = account.getMapId();
             worldService.enterMap(account, mapId);

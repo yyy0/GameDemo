@@ -39,6 +39,15 @@ public enum EquipmentPosition {
         throw new NullPointerException("找不到匹配的装备部位！");
     }
 
+    public static EquipmentPosition typeOf(EquipmentType type) {
+        for (EquipmentPosition equipmentPosition : EquipmentPosition.values()) {
+            if (equipmentPosition.getEquipmentType() == type) {
+                return equipmentPosition;
+            }
+        }
+        throw new NullPointerException("找不到匹配的装备部位！");
+    }
+
 
     public int getId() {
         return id;
