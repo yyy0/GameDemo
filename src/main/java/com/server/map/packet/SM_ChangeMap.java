@@ -24,7 +24,7 @@ public class SM_ChangeMap implements Serializable {
         SM_ChangeMap packet = new SM_ChangeMap();
         packet.accountId = accountId;
         packet.mapId = mapId;
-        packet.preMapId = mapId;
+        packet.preMapId = preMapId;
         return packet;
     }
 

@@ -46,7 +46,7 @@ public class ModelPanel extends JScrollPane {
 
         JLabel label = new JLabel(modelName);
         Map<String, GmDefinition> gmDefinitions = SpringContext.getGmDispatcher().getModelDefinition(modelName);
-        modelPanel.setPreferredSize(new Dimension(300, (gmDefinitions.size() + 1) * ClientFrameConstant.COMMAND_PANEL_HEIGHT));
+        modelPanel.setPreferredSize(new Dimension(300, (gmDefinitions.size() + 1) * ClientFrameConstant.COMMAND_PANEL_MEDIUMHEIGHT));
         modelPanel.add(label);
 
         //初始化命令方法panel

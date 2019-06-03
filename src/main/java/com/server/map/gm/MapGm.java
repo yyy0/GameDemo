@@ -28,7 +28,7 @@ public class MapGm {
     }
 
     @GmMethod(name = "打印地图id", param = "参数:地图id")
-    public void printMapInfo(int mapId) {
-        SpringContext.getWorldService().printMapInfo(mapId);
+    public void printMapInfo(Account account, int mapId) {
+        SpringContext.getWorldService().printMapInfo(account, mapId);
     }
 }

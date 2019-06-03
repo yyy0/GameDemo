@@ -1,6 +1,5 @@
 package com.server.map.model;
 
-import com.SpringContext;
 import com.server.map.constant.MapConstant;
 import com.server.map.resource.MapResource;
 import org.slf4j.Logger;
@@ -26,6 +25,7 @@ public class MapInfo {
 
     /**
      * 账号格子信息
+     * String 账号id  grid 账号坐标
      */
     private Map<String, Grid> accountsGrid = new HashMap<>();
 
@@ -36,10 +36,10 @@ public class MapInfo {
 
     private MapResource mapResource;
 
-    public static MapInfo valueOf(int mapId) {
+    public static MapInfo valueOf(int mapId, MapResource resource) {
         MapInfo mapInfo = new MapInfo();
         mapInfo.setMapId(mapId);
-        mapInfo.mapResource = SpringContext.getWorldService().getMapResource(mapId);
+        mapInfo.mapResource = resource;
         mapInfo.initInfo();
         return mapInfo;
     }
@@ -64,12 +64,11 @@ public class MapInfo {
     /**
      * 打印地图信息
      */
-    public void printInfo() {
+    public char[][] printInfo() {
         logger.info("【{}】地图信息：当前人数【{}】人", mapResource.getName(), accountsGrid.keySet().size());
         accountsGrid.forEach((accountId, grid) -> {
             mapInfo[grid.getX()][grid.getY()] = MapConstant.USER;
         });
-
 
         //绘制地图
         for (int i = 0; i < mapInfo.length; i++) {
@@ -78,19 +77,25 @@ public class MapInfo {
             }
             System.out.println();
         }
+        ///FIXME 需要深拷贝 不要直接传引用对象
+        return mapInfo;
         //重置坐标点为行走点
-        accountsGrid.forEach((accountId, grid) -> {
-            mapInfo[grid.getX()][grid.getY()] = MapConstant.ROAD;
-        });
+//        accountsGrid.forEach((accountId, grid) -> {
+//            mapInfo[grid.getX()][grid.getY()] = MapConstant.ROAD;
+//        });
     }
 
-
     public void addAccount(String accountId, Grid grid) {
+        if (accountsGrid.containsKey(accountId)) {
+            Grid gridTemp = accountsGrid.remove(accountId);
+            mapInfo[gridTemp.getX()][gridTemp.getY()] = MapConstant.ROAD;
+        }
         accountsGrid.put(accountId, grid);
     }
 
     public void removeAccount(String accountId) {
-        accountsGrid.remove(accountId);
+        Grid grid = accountsGrid.remove(accountId);
+        mapInfo[grid.getX()][grid.getY()] = MapConstant.ROAD;
     }
 
     public Grid getAccountGrid(String accountId) {
@@ -104,5 +109,9 @@ public class MapInfo {
 
     public void setMapId(int mapId) {
         this.mapId = mapId;
+    }
+
+    public int getAccountNum() {
+        return accountsGrid.keySet().size();
     }
 }

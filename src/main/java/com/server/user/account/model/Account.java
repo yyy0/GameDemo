@@ -44,7 +44,7 @@ public class Account {
         info.accountId = account;
         info.name = name;
         info.pwd = pwd;
-        info.mapId = 1001;
+        info.mapId = 1;
         info.gridX = 1;
         info.girdY = 1;
         info.createTime = new Date();

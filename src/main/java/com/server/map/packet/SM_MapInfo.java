@@ -20,5 +20,11 @@ public class SM_MapInfo implements Serializable {
         return packet;
     }
 
+    public char[][] getMapGrids() {
+        return mapGrids;
+    }
 
+    public void setMapGrids(char[][] mapGrids) {
+        this.mapGrids = mapGrids;
+    }
 }

@@ -68,7 +68,6 @@ public class IdentifyService {
         return ent;
     }
 
-
     private long createInitValue() {
         long id = 1;
         return id;

@@ -8,6 +8,7 @@ import com.server.command.service.GmDefinition;
 import com.server.common.resource.ResourceManager;
 import com.server.map.packet.SM_AccountMove;
 import com.server.map.packet.SM_ChangeMap;
+import com.server.map.packet.SM_MapInfo;
 import com.server.publicsystem.i18n.packet.SM_Notify_Message;
 import com.server.publicsystem.i18n.resource.I18NResource;
 import com.server.server.message.MessageContent;
@@ -170,6 +171,17 @@ public class CommandFrame extends JFrame {
     public void clientMove(SM_AccountMove packet) {
         String message = packet.toString();
         printArea.append(message + "\r\n");
+    }
+
+    @ClientHandlerAnno
+    public void printMapInfo(SM_MapInfo packet) {
+        char[][] mapInfo = packet.getMapGrids();
+        for (int i = 0; i < mapInfo.length; i++) {
+            for (int j = 0; j < mapInfo[i].length; j++) {
+                printArea.append(String.valueOf(mapInfo[i][j]));
+            }
+            printArea.append("\r\n");
+        }
     }
 
     /**

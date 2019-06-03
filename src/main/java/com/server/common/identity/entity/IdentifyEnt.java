@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Table(name = "identify")
 public class IdentifyEnt {
 
-    private static final int STEP = 5000;
+    private static final int STEP = 100;
 
     /**
      * 功能名称
@@ -40,6 +40,7 @@ public class IdentifyEnt {
         if (now == 0) {
             now = value;
         }
+
         if (now == value) {
             value += STEP;
         }

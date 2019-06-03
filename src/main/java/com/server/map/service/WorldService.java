@@ -6,6 +6,7 @@ import com.server.map.model.Grid;
 import com.server.map.model.MapInfo;
 import com.server.map.packet.SM_AccountMove;
 import com.server.map.packet.SM_ChangeMap;
+import com.server.map.packet.SM_MapInfo;
 import com.server.map.resource.MapResource;
 import com.server.tool.PacketSendUtil;
 import com.server.user.account.model.Account;
@@ -51,7 +52,7 @@ public class WorldService {
                 mapResource.getBornX(), mapResource.getBornY());
 
         int oldMapId = account.getMapId();
-        leaveMap(account, oldMapId);
+        leaveMap(account);
         enterMap(account, targetMapId);
 
         SM_ChangeMap packet = SM_ChangeMap.valueOf(account.getAccountId(), targetMapId, oldMapId);
@@ -79,7 +80,9 @@ public class WorldService {
         SpringContext.getAccountService().saveAccountInfo(account.getAccountId());
         //测试移动指令
 
-        mapInfo.printInfo();
+        char[][] mapInfos = mapInfo.printInfo();
+        SM_MapInfo packet = SM_MapInfo.valueOf(mapInfos);
+        PacketSendUtil.send(account, packet);
     }
 
 
@@ -122,7 +125,7 @@ public class WorldService {
     /**
      * 离开地图
      */
-    public void leaveMap(Account account, int targetMapid) {
+    public void leaveMap(Account account) {
 
         int oldMapId = account.getMapId();
         MapInfo mapInfo = manager.getMapInfo(oldMapId);
@@ -136,10 +139,13 @@ public class WorldService {
         mapInfo.printInfo();
     }
 
-    public void printMapInfo(int mapId) {
+    public void printMapInfo(Account account, int mapId) {
         //记得传mapinfo
         MapInfo mapInfo = manager.getMapInfo(mapId);
-        mapInfo.printInfo();
+
+        char[][] mapInfos = mapInfo.printInfo();
+        SM_MapInfo packet = SM_MapInfo.valueOf(mapInfos);
+        PacketSendUtil.send(account, packet);
     }
 
     public MapResource getMapResource(int mapId) {

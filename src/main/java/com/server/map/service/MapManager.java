@@ -1,15 +1,14 @@
 package com.server.map.service;
 
 
+import com.server.common.resource.ResourceManager;
 import com.server.map.model.MapInfo;
 import com.server.map.resource.MapResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,46 +19,46 @@ import java.util.Map;
 @Component
 public class MapManager {
 
-    private Map<Integer, MapResource> mapResources = new HashMap<>();
+
+    private Logger logger = LoggerFactory.getLogger(MapManager.class);
+    @Autowired
+    private ResourceManager resourceManager;
     private Map<Integer, MapInfo> mapInfos = new HashMap<>();
-    private EntityManagerFactory factory;
-    private EntityManager entityManager;
-    private EntityTransaction transaction;
+    private Map<Integer, Object> mapResources = new HashMap<>();
+
 
     /**
-     * 初始化地图配置，地图info
+     * 初始化地图信息
      */
     public void initMap() {
-        MapResource mapResource1 = MapResource.valueOf(1001, "新手村", 1, 1);
-        MapResource mapResource2 = MapResource.valueOf(1002, "学徒村", 1, 1);
-        MapResource mapResource3 = MapResource.valueOf(1003, "勇士村", 1, 1);
-        mapResources.put(1001, mapResource1);
-        mapResources.put(1002, mapResource2);
-        mapResources.put(1003, mapResource3);
-        mapInfos.put(1001, MapInfo.valueOf(1001));
-        mapInfos.put(1002, MapInfo.valueOf(1002));
-        mapInfos.put(1003, MapInfo.valueOf(1003));
+        mapResources = resourceManager.getResources(MapResource.class.getSimpleName());
+        for (Map.Entry<Integer, Object> entry : mapResources.entrySet()) {
+            int mapId = entry.getKey();
+            MapResource resource = (MapResource) entry.getValue();
+            mapInfos.put(mapId, MapInfo.valueOf(mapId, resource));
+        }
+
     }
 
-    public MapResource getResource(int id) {
-        MapResource map = mapResources.get(id);
-        return map;
-    }
-
-    @PostConstruct
-    private final void init() {
-        //instance.initMap();
-        factory = Persistence.createEntityManagerFactory("PersistenceUnit");
-        entityManager = factory.createEntityManager();
-        transaction = entityManager.getTransaction();
-        transaction.begin();
+    /**
+     * 获取对应mapInfo
+     */
+    public MapInfo getMapInfo(int mapId) {
+        return mapInfos.get(mapId);
     }
 
 
     /**
-     * 获取对应mapinfo
+     * 获取mapResource
+     * @param id
+     * @return
      */
-    public MapInfo getMapInfo(int mapid) {
-        return mapInfos.get(mapid);
+    public MapResource getMapResource(int id) {
+        MapResource resource = (MapResource) mapResources.get(id);
+        if (resource == null) {
+            logger.error("ItemResource找不到对应配置id：{0}" + id);
+        }
+        return resource;
     }
 }
+

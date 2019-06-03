@@ -13,6 +13,8 @@ public interface ClientFrameConstant {
 
     public static final int COMMAND_PANEL_HEIGHT = 40;
 
+    public static final int COMMAND_PANEL_MEDIUMHEIGHT = 42;
+
     public static final int COMMAND_PANEL_BIGHEIGHT = 45;
 
     public static final int COMMAND_PANEL_WIDTH = 300;
