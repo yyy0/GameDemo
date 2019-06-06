@@ -2,7 +2,6 @@ package com.server.user.item.storage;
 
 import com.server.user.item.constant.StorageConstant;
 import com.server.user.item.model.AbstractItem;
-import com.server.user.item.model.RemoveItem;
 import com.server.user.item.model.ResultItem;
 
 /**
@@ -62,6 +61,22 @@ public class ItemStorage {
         this.num = numSize;
     }
 
+    /**
+     * 背包是否有指定道具
+     *
+     * @param modelId
+     * @return
+     */
+    public boolean isExistItem(int modelId) {
+        int length = items.length;
+
+        for (int i = 0; i < length; i++) {
+            if (items[i].getItemModelId() == modelId) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void clear() {
         items = new AbstractItem[size];
@@ -120,26 +135,82 @@ public class ItemStorage {
         return null;
     }
 
-    public RemoveItem reduceItem(long identifyId, int num) {
+    /**
+     * 整理背包 除去中间为null的道具  方法需优化
+     */
+    public void sortItem() {
         int length = items.length;
         for (int i = 0; i < length; i++) {
-            if (items != null && items[i].getObjectId() == identifyId && items[i].getNum() >= num) {
-                RemoveItem removeItem = RemoveItem.valueOf(items[i], items[i].getNum());
-                int size = items[i].getNum() - num;
-                if (size == 0) {
-                    items[i] = null;
-                    for (int j = i; j < length - 1; j++) {
-                        items[j] = items[j + 1];
-                    }
-                    this.num--;
-                } else {
-                    items[i].setNum(size);
+            if (items[i] == null) {
+                for (int j = i; j < length - 1; j++) {
+                    items[j] = items[j + 1];
                 }
-                return removeItem;
-
             }
         }
-        return null;
+    }
+
+
+    /**
+     * 根据唯一id 扣除道具
+     */
+    public void reduceItem(long identifyId, int num) {
+        int length = items.length;
+        boolean isSort = false;
+        for (int i = 0; i < length; i++) {
+            if (items[i] != null) {
+                if (items[i].getObjectId() == identifyId && items[i].getNum() >= num) {
+
+                    int size = items[i].getNum() - num;
+                    if (size == 0) {
+                        items[i] = null;
+                        isSort = true;
+                        this.num--;
+                    } else {
+                        items[i].setNum(size);
+                    }
+                }
+            } else {
+                break;
+            }
+        }
+        if (isSort) {
+            sortItem();
+        }
+    }
+
+    /**
+     * 扣除道具
+     * modelId 道具id
+     * reduceNum 扣除数量
+     */
+    public void removeItemByModelId(int modelId, int reduceNum) {
+        boolean isSort = false;
+        if (getItemNum(modelId) >= reduceNum) {
+            int length = items.length;
+            for (int i = 0; i < length; i++) {
+                if (items[i] != null && items[i].getItemModelId() == modelId) {
+
+                    if (items[i].getNum() >= reduceNum) {
+                        int size = items[i].getNum() - reduceNum;
+                        if (size == 0) {
+                            items[i] = null;
+                            isSort = true;
+                        } else {
+                            items[i].setNum(size);
+                        }
+                        break;
+                    } else {
+                        reduceNum -= items[i].getNum();
+                        items[i] = null;
+                        this.num--;
+                    }
+                }
+            }
+
+        }
+        if (isSort) {
+            sortItem();
+        }
     }
 
     /**
@@ -152,6 +223,9 @@ public class ItemStorage {
         int length = items.length;
         int num = 0;
         for (int i = 0; i < length; i++) {
+            if (items[i] == null) {
+                break;
+            }
             if (items[i].getItemModelId() == modelId) {
                 num += items[i].getNum();
             }

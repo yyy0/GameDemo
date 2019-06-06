@@ -19,6 +19,9 @@ public class AttributeUtil {
      */
     public static void computeAttribute(Map<AttributeType, Attribute> attributeMap,
                                         Map<AttributeType, Attribute> result) {
+        if (attributeMap == null) {
+            return;
+        }
         for (Attribute attr : attributeMap.values()) {
             long addValue = attr.getValue();
             if (addValue == 0) {

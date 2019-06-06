@@ -21,15 +21,19 @@ public class ItemGm {
     public void addItem(Account account, int itemId, int num) {
         List<AbstractItem> items = SpringContext.getStoreService().createItems(itemId, num);
         SpringContext.getStoreService().addItemsToBag(account, items);
+        printBag(account);
     }
 
     @GmMethod(name = "清空背包")
     public void clearBag(Account account) {
         SpringContext.getStoreService().clearBag(account);
+        printBag(account);
     }
 
     @GmMethod(name = "清空仓库")
     public void clearStorage(Account account) {
+        SpringContext.getStoreService().clearWarehouse(account);
+        printWarehouse(account);
     }
 
     @GmMethod(name = "打印背包信息")
@@ -45,10 +49,12 @@ public class ItemGm {
     @GmMethod(name = "背包至仓库", param = "参数:唯一id")
     public void moveItemBagToWarehouse(Account account, long id) {
         SpringContext.getStoreService().moveBagToWarehouse(account, id);
+        printWarehouse(account);
     }
 
     @GmMethod(name = "仓库至背包", param = "参数:唯一id")
     public void moveWarehouseToBag(Account account, long id) {
         SpringContext.getStoreService().moveWarehouseToBag(account, id);
+        printBag(account);
     }
 }

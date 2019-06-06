@@ -28,6 +28,10 @@ public class EquipStorage {
         return equipments.get(position);
     }
 
+    public Equipment getEquipmentByPosition(int position) {
+        return equipments.get(EquipmentPosition.typeOf(position));
+    }
+
     public Equipment equip(Equipment equipment, EquipmentPosition position) {
         return equipments.put(position, equipment);
     }

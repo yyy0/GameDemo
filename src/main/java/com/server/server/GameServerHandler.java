@@ -44,27 +44,7 @@ public class GameServerHandler extends ChannelInboundHandlerAdapter {
         MessageContent message = (MessageContent) msg;
         Object packet = message.getContent();
         SpringContext.getActionDispatcher().doHandle(session, packet);
-//        CM_GMcommand cm=(CM_GMcommand) message.getContent();
-//        String req=cm.getCommand();
-//        System.out.println("server 接收到客户端的请求： " + cm.getCommand());
-//        SpringContext.getCommandFacade().doCommand(ctx, req);
-//        String respStr = new StringBuilder("来自服务器的响应").append(req).toString();
-//        CM_GMcommand resp=CM_GMcommand.vauleOf(respStr);
-//        MessageContent messageContent1 = new MessageContent(ObjectByteUtil.objectToByteArray(resp).length, resp);
-//        ctx.writeAndFlush(messageContent1);
 
-//        ctx.writeAndFlush(Unpooled.copiedBuffer(respStr.getBytes()));
-//        Person p = (Person) messageContent.getContent();
-//        System.out.println(p);
-//        Person p2 = new Person("返回客户端消息", 100);
-//
-//        ByteBuf bb = (ByteBuf) msg;
-//
-//        // 创建一个和buf同等长度的字节数组
-//        byte[] reqByte = new byte[bb.readableBytes()];
-//        // 将buf中的数据读取到数组中
-//        bb.readBytes(reqByte);
-//        String reqStr = new String(reqByte, Charset.forName("UTF-8"));
     }
 
 

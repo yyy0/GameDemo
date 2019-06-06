@@ -38,4 +38,12 @@ public interface I18nId {
     int BAG_NULL_ITEMS = 15;
     //仓库暂无道具
     int WAREHOUSE_NULL_ITEMS = 16;
+    //该装备部位不可升阶
+    int EQUIP_POSITION_UPGRADE_LIMIT = 17;
+    //该装备部位已满阶
+    int EQUIP_GRADE_MAX = 18;
+    //背包没有该道具
+    int BAG_NO_ITEM = 19;
+    //仓库没有该道具
+    int WAREHOUSE_NO_ITEM = 20;
 }

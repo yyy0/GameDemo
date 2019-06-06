@@ -3,6 +3,7 @@ package com.server.user.attribute.constant;
 import com.server.user.attribute.AttributeUtil;
 import com.server.user.attribute.model.Attribute;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Map;
  * @date 2019/5/13 18:25
  * 属性类型
  */
-public enum AttributeType {
+public enum AttributeType implements Serializable {
 
     /**
      * 生命上限
@@ -56,6 +57,10 @@ public enum AttributeType {
      */
     HP_RATE(7, "生命值比例") {
         @Override
+        public boolean isRateAttribute() {
+            return true;
+        }
+        @Override
         public AttributeType[] getEffectAttributes() {
             return new AttributeType[]{MAX_HP};
         }
@@ -65,6 +70,10 @@ public enum AttributeType {
      */
     ATK_RATE(8, "攻击力比例") {
         @Override
+        public boolean isRateAttribute() {
+            return true;
+        }
+        @Override
         public AttributeType[] getEffectAttributes() {
             return new AttributeType[]{ATTACK};
         }
@@ -73,6 +82,11 @@ public enum AttributeType {
      * 防御力比例
      */
     DEFENCE_RATE(9, "防御力比例") {
+        @Override
+        public boolean isRateAttribute() {
+            return true;
+        }
+
         @Override
         public AttributeType[] getEffectAttributes() {
             return new AttributeType[]{DEFENCE};
@@ -112,6 +126,15 @@ public enum AttributeType {
             }
         }
         throw new RuntimeException("找不到匹配的属性类型:" + id);
+    }
+
+    /**
+     * 是否为万分比加成属性 显示转换用
+     *
+     * @return
+     */
+    public boolean isRateAttribute() {
+        return false;
     }
 
     public int getId() {

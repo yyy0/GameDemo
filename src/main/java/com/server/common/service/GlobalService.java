@@ -25,6 +25,7 @@ public class GlobalService {
         resourceManager.loadResource();
         logger.info("预加载地图资源");
         SpringContext.getWorldService().initMap();
+        SpringContext.getEquipUpgradeService().initEquipUpResource();
 
 
     }

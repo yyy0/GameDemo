@@ -8,6 +8,8 @@ import com.server.publicsystem.i18n.constant.I18nId;
 import com.server.tool.PacketSendUtil;
 import com.server.user.account.model.Account;
 import com.server.user.attribute.constant.AttributeModel;
+import com.server.user.attribute.constant.AttributeType;
+import com.server.user.attribute.model.Attribute;
 import com.server.user.equipment.constant.EquipmentPosition;
 import com.server.user.equipment.entity.EquipStorageEnt;
 import com.server.user.equipment.model.EquipStorage;
@@ -56,7 +58,7 @@ public class EquipmentService {
         return equipStorageEnt.getEquipStorage();
     }
 
-    private void saveEquipStorage(String accountId, EquipStorage equipStorage) {
+    public void saveEquipStorage(String accountId, EquipStorage equipStorage) {
         EquipStorageEnt ent = getEquipStorageEnt(accountId);
         ent.doSerialize(equipStorage);
         equipManager.update();
@@ -156,7 +158,13 @@ public class EquipmentService {
     public void printEquipments(Account account) {
         EquipStorage equipStorage = getEquipStorage(account.getAccountId());
         Map<EquipmentPosition, Equipment> equipmentMap = equipStorage.getEquipments();
+        Equipment equipment = equipmentMap.get(EquipmentPosition.WEAPON);
+        Map<AttributeType, Attribute> attributeMap = equipment.getAttributeMap();
         SM_EquipsInfo packet = SM_EquipsInfo.valueOf(equipmentMap);
         PacketSendUtil.send(account, packet);
+    }
+
+    public Equipment getEquipmentByPosition(Account account, int position) {
+        return getEquipStorage(account.getAccountId()).getEquipmentByPosition(position);
     }
 }

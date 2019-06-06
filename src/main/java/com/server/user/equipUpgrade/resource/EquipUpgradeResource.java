@@ -4,6 +4,7 @@ import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvCustomBindByName;
 import com.server.common.resource.converter.StringToAttrMapConverter;
 import com.server.common.resource.converter.StringToIntegerConverter;
+import com.server.common.resource.converter.StringToIntegerMap;
 import com.server.common.resource.reader.ResId;
 import com.server.common.resource.reader.Resource;
 import com.server.user.attribute.constant.AttributeType;
@@ -36,6 +37,9 @@ public class EquipUpgradeResource {
 
     @CsvCustomBindByName(converter = StringToAttrMapConverter.class)
     private Map<AttributeType, Attribute> attribute;
+
+    @CsvCustomBindByName(converter = StringToIntegerMap.class)
+    private Map<Integer, Integer> item;
 
     public int getId() {
         return id;
@@ -83,5 +87,13 @@ public class EquipUpgradeResource {
 
     public void setAttribute(Map<AttributeType, Attribute> attribute) {
         this.attribute = attribute;
+    }
+
+    public Map<Integer, Integer> getItem() {
+        return item;
+    }
+
+    public void setItem(Map<Integer, Integer> item) {
+        this.item = item;
     }
 }

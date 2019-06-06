@@ -13,6 +13,9 @@ import com.server.publicsystem.i18n.packet.SM_Notify_Message;
 import com.server.publicsystem.i18n.resource.I18NResource;
 import com.server.server.message.MessageContent;
 import com.server.user.account.packet.SM_AccountInfo;
+import com.server.user.attribute.constant.AttributeType;
+import com.server.user.attribute.constant.GlobalConstant;
+import com.server.user.attribute.model.Attribute;
 import com.server.user.equipment.constant.EquipmentPosition;
 import com.server.user.equipment.model.Equipment;
 import com.server.user.equipment.packet.SM_EquipsInfo;
@@ -30,6 +33,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.Map;
 
 /**
@@ -161,12 +165,14 @@ public class CommandFrame extends JFrame {
      */
     @ClientHandlerAnno
     public void clientPrintAccount(SM_AccountInfo packet) {
+        printArea.setText("");
         System.out.println("打印账号信息");
         String message = packet.toString();
         printArea.append(message + "\r\n");
         printArea.append("账号属性信息如下：" + "\r\n");
-        Map<String, Long> attributes = packet.getAttributes();
-        for (Map.Entry<String, Long> entry : attributes.entrySet()) {
+        Map<String, String> attributes = packet.getAttributes();
+        for (Map.Entry<String, String> entry : attributes.entrySet()) {
+
             printArea.append("name：" + entry.getKey() + " value:" + entry.getValue() + "\r\n");
         }
 
@@ -191,6 +197,7 @@ public class CommandFrame extends JFrame {
      */
     @ClientHandlerAnno
     public void printMapInfo(SM_MapInfo packet) {
+        printArea.setText("");
         char[][] mapInfo = packet.getMapGrids();
         for (int i = 0; i < mapInfo.length; i++) {
             for (int j = 0; j < mapInfo[i].length; j++) {
@@ -207,13 +214,10 @@ public class CommandFrame extends JFrame {
      */
     @ClientHandlerAnno
     public void printBagInfo(SM_BagInfo packet) {
+        printArea.setText("");
         AbstractItem[] items = packet.getItemData();
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] == null) {
-                return;
-            }
-            printArea.append(items[i].toString() + "\r\n");
-        }
+
+        printItems(items);
     }
 
     /**
@@ -223,12 +227,17 @@ public class CommandFrame extends JFrame {
      */
     @ClientHandlerAnno
     public void printWarehouseInfo(SM_WareInfo packet) {
+        printArea.setText("");
         AbstractItem[] items = packet.getItemData();
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] == null) {
-                return;
+        printItems(items);
+    }
+
+    private void printItems(AbstractItem[] items) {
+        for (AbstractItem item : items) {
+            if (item == null) {
+                continue;
             }
-            printArea.append(items[i].toString() + "\r\n");
+            printArea.append(item.toString() + "\r\n");
         }
     }
 
@@ -240,24 +249,44 @@ public class CommandFrame extends JFrame {
     @ClientHandlerAnno
     public void printNotifyMessage(SM_Notify_Message packet) {
         int id = packet.getI18Id();
-
         Map<Integer, Object> i18Resources = resourceManager.getResources(I18NResource.class.getSimpleName());
         I18NResource resource = (I18NResource) i18Resources.get(id);
         if (resource == null) {
             logger.error("找不到对应配置id：{}" + id);
+            printArea.append("找不到对应提示信息id：" + id);
+            return;
         }
         String message = resource.getValue();
         printArea.append(message + "\r\n");
     }
 
 
+    /**
+     * 打印装备信息
+     *
+     * @param packet
+     */
     @ClientHandlerAnno
     public void printEquips(SM_EquipsInfo packet) {
         Map<Integer, Equipment> equipmentMap = packet.getEquipmentMap();
-
+//        printArea.setText("");
         for (Map.Entry<Integer, Equipment> entry : equipmentMap.entrySet()) {
             EquipmentPosition position = EquipmentPosition.typeOf(entry.getKey());
             printArea.append(position + ":" + entry.getValue() + "\r\n");
+            if (entry.getValue() != null) {
+                Map<AttributeType, Attribute> attributes = entry.getValue().getAttributeMap();
+                DecimalFormat df = new DecimalFormat("0.00%");
+                for (Attribute attribute : attributes.values()) {
+                    String value;
+
+                    if (attribute.isRateAttribute()) {
+                        value = df.format(GlobalConstant.getRatio(attribute.getValue()));
+                    } else {
+                        value = String.valueOf(attribute.getValue());
+                    }
+                    printArea.append("name：" + attribute.getName() + " value:" + value + "\r\n");
+                }
+            }
         }
 
     }

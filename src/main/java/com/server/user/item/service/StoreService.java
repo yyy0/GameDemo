@@ -4,6 +4,7 @@ import com.SpringContext;
 import com.server.common.entity.CommonManager;
 import com.server.common.identity.service.IdentifyService;
 import com.server.common.resource.ResourceManager;
+import com.server.publicsystem.i18n.I18Utils;
 import com.server.publicsystem.i18n.constant.I18nId;
 import com.server.tool.PacketSendUtil;
 import com.server.user.account.model.Account;
@@ -62,6 +63,20 @@ public class StoreService {
         return SpringContext.getIdentifyService().getNextIdentify(IdentifyService.IdentifyType.ITEM);
     }
 
+
+    /**
+     * 剩余背包格子是否足够
+     */
+    public void isEnoughPackSizeThrow(Account account, int itemModelId, int num) {
+
+        int needSize = this.needSize(itemModelId, num);
+        ItemStorage itemStorage = getItemStorage(account.getAccountId());
+        if (needSize > itemStorage.getEmptySize()) {
+            PacketSendUtil.send(account, I18nId.BAG_NOT_ENOUGH);
+            throw new RuntimeException("背包剩余格子不足");
+        }
+
+    }
     /**
      * 剩余背包格子是否足够
      */
@@ -192,8 +207,8 @@ public class StoreService {
         ItemStorage itemStorage = getItemStorage(accountId);
         AbstractItem[] items = itemStorage.getItems();
         Account account = SpringContext.getAccountService().getAccount(accountId);
-        if (items == null) {
-            PacketSendUtil.send(account, I18nId.BAG_NULL_ITEMS);
+        if (items == null || itemStorage.getNum() == 0) {
+            I18Utils.notifyMessage(account, I18nId.BAG_NULL_ITEMS);
             return;
         }
         SM_BagInfo packet = SM_BagInfo.valueOf(items);
@@ -207,8 +222,8 @@ public class StoreService {
         Warehouse warehouse = getWarehouse(accountId);
         AbstractItem[] items = warehouse.getItems();
         Account account = SpringContext.getAccountService().getAccount(accountId);
-        if (items == null) {
-            PacketSendUtil.send(account, I18nId.WAREHOUSE_NULL_ITEMS);
+        if (items == null || warehouse.getNum() == 0) {
+            I18Utils.notifyMessage(account, I18nId.WAREHOUSE_NULL_ITEMS);
             return;
         }
         SM_WareInfo packet = SM_WareInfo.valueOf(items);
@@ -355,6 +370,24 @@ public class StoreService {
         itemStorage.printStorage();
     }
 
+
+    /**
+     * 移除背包道具
+     *
+     * @param account
+     * @param modelId
+     * @param num
+     */
+    public void reduceBagItem(Account account, int modelId, int num) {
+
+        ItemStorage itemStorage = getItemStorage(account.getAccountId());
+        if (!itemStorage.isExistItem(modelId)) {
+            PacketSendUtil.send(account, I18nId.BAG_NULL_ITEMS);
+            return;
+        }
+        itemStorage.removeItemByModelId(modelId, num);
+        saveItemStorageEnt(account.getAccountId(), itemStorage);
+    }
     /**
      * 移除背包道具
      *
@@ -368,9 +401,14 @@ public class StoreService {
             return;
         }
         ItemStorage itemStorage = getItemStorage(account.getAccountId());
+        if (!itemStorage.isExistItem(item.getItemModelId())) {
+            PacketSendUtil.send(account, I18nId.BAG_NULL_ITEMS);
+            return;
+        }
         itemStorage.reduceItem(item.getObjectId(), num);
         saveItemStorageEnt(account.getAccountId(), itemStorage);
     }
+
 
     /**
      * 移除仓库道具
@@ -415,6 +453,7 @@ public class StoreService {
         ItemStorage storage = getItemStorage(account.getAccountId());
         AbstractItem item = storage.getItemByObjectId(id);
         if (item == null || item.getNum() <= 0) {
+            I18Utils.notifyMessage(account, I18nId.BAG_NO_ITEM);
             return;
         }
         ItemResource itemResource = getItemResource(item.getItemModelId());
@@ -442,6 +481,7 @@ public class StoreService {
         Warehouse warehouse = getWarehouse(account.getAccountId());
         AbstractItem item = warehouse.getItemByObjectId(id);
         if (item == null || item.getNum() <= 0 || !isEnoughPackSize(account)) {
+            I18Utils.notifyMessage(account, I18nId.WAREHOUSE_NO_ITEM);
             return;
         }
 

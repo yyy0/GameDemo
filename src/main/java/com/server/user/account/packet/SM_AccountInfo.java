@@ -2,10 +2,12 @@ package com.server.user.account.packet;
 
 import com.SpringContext;
 import com.server.user.attribute.constant.AttributeType;
+import com.server.user.attribute.constant.GlobalConstant;
 import com.server.user.attribute.model.AccountAttribute;
 import com.server.user.attribute.model.Attribute;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +27,9 @@ public class SM_AccountInfo implements Serializable {
 
     private int girdY;
 
-    private Map<String, Long> attributes;
+    private Map<String, String> attributes;
+
+    private static DecimalFormat df = new DecimalFormat("0.00%");
 
     public static SM_AccountInfo valueOf(String accountId, String name, int mapId, int girdX, int gridY) {
         SM_AccountInfo packet = new SM_AccountInfo();
@@ -37,8 +41,15 @@ public class SM_AccountInfo implements Serializable {
         packet.attributes = new HashMap<>();
         AccountAttribute accountAttr = SpringContext.getAttributeManager().getAccountAttribute(accountId);
         Map<AttributeType, Attribute> accountAtt = accountAttr.getAccountAttribute();
+
         for (Attribute attribute : accountAtt.values()) {
-            packet.attributes.put(attribute.getType().getDesc(), attribute.getValue());
+            String value;
+            if (attribute.isRateAttribute()) {
+                value = df.format(GlobalConstant.getRatio(attribute.getValue()));
+            } else {
+                value = String.valueOf(attribute.getValue());
+            }
+            packet.attributes.put(attribute.getType().getDesc(), value);
         }
         return packet;
     }
@@ -83,11 +94,11 @@ public class SM_AccountInfo implements Serializable {
         this.girdY = girdY;
     }
 
-    public Map<String, Long> getAttributes() {
+    public Map<String, String> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(Map<String, Long> attributes) {
+    public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
     }
 
