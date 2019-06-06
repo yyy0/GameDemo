@@ -19,6 +19,10 @@ public class Attribute {
         return attribute;
     }
 
+    public void addValue(long value) {
+        this.value += value;
+    }
+
     public AttributeType getType() {
         return type;
     }

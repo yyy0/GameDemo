@@ -8,14 +8,16 @@ import com.server.command.service.CommandFacade;
 import com.server.command.service.GmDispatcher;
 import com.server.common.event.core.EventBusManager;
 import com.server.common.identity.service.IdentifyService;
+import com.server.common.resource.ResourceManager;
 import com.server.common.service.GlobalService;
 import com.server.dispatcher.ActionDispatcher;
 import com.server.login.service.LoginService;
 import com.server.map.service.WorldService;
 import com.server.session.service.SessionService;
 import com.server.user.account.service.AccountService;
+import com.server.user.attribute.service.AttributeManager;
+import com.server.user.equipUpgrade.service.EquipUpgradeService;
 import com.server.user.equipment.service.EquipmentService;
-import com.server.user.item.service.ItemService;
 import com.server.user.item.service.StoreService;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,9 +62,6 @@ public class SpringContext implements ApplicationContextAware {
     public GlobalService globalService;
 
     @Autowired
-    public ItemService itemService;
-
-    @Autowired
     public StoreService storeService;
 
     @Autowired
@@ -85,6 +84,27 @@ public class SpringContext implements ApplicationContextAware {
 
     @Autowired
     public EquipmentService equipmentService;
+
+    @Autowired
+    public AttributeManager attributeManager;
+
+    @Autowired
+    public ResourceManager resourceManager;
+
+    @Autowired
+    public EquipUpgradeService equipUpgradeService;
+
+    public static EquipUpgradeService getEquipUpgradeService() {
+        return instance.equipUpgradeService;
+    }
+
+    public static ResourceManager getResourceManager() {
+        return instance.resourceManager;
+    }
+
+    public static AttributeManager getAttributeManager() {
+        return instance.attributeManager;
+    }
 
     public static LoginFrame getLoginFrame() {
         return instance.loginFrame;
@@ -154,9 +174,6 @@ public class SpringContext implements ApplicationContextAware {
         return instance.actionDispatcher;
     }
 
-    public static ItemService getItemService() {
-        return instance.itemService;
-    }
 
     public static StoreService getStoreService() {
         return instance.storeService;

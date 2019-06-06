@@ -33,17 +33,6 @@ public class RegFrame extends JFrame {
     private JLabel backLabel = new JLabel("注册提示：");
     private JTextArea printArea = new JTextArea();
 
-//    private RegFrame() {
-//    }
-//
-//    private static class RegFrameBuilder {
-//        public static RegFrame regFrame = new RegFrame();
-//    }
-//
-//    public static RegFrame getInstance(Channel ch) {
-//        channel = ch;
-//        return RegFrameBuilder.regFrame;
-//    }
 
     public void initFrame(Channel ch) {
         this.setTitle("注册界面");
@@ -94,7 +83,6 @@ public class RegFrame extends JFrame {
                 }
                 CM_Reg packet = CM_Reg.valueOf(accountId, accountName, pwd);
                 MessageContent message = new MessageContent(packet);
-                System.out.println(message);
                 channel.writeAndFlush(message);
             }
         });

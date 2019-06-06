@@ -1,6 +1,13 @@
 package com.server.user.account.packet;
 
+import com.SpringContext;
+import com.server.user.attribute.constant.AttributeType;
+import com.server.user.attribute.model.AccountAttribute;
+import com.server.user.attribute.model.Attribute;
+
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author yuxianming
@@ -18,6 +25,8 @@ public class SM_AccountInfo implements Serializable {
 
     private int girdY;
 
+    private Map<String, Long> attributes;
+
     public static SM_AccountInfo valueOf(String accountId, String name, int mapId, int girdX, int gridY) {
         SM_AccountInfo packet = new SM_AccountInfo();
         packet.accountId = accountId;
@@ -25,6 +34,12 @@ public class SM_AccountInfo implements Serializable {
         packet.mapId = mapId;
         packet.gridX = girdX;
         packet.girdY = gridY;
+        packet.attributes = new HashMap<>();
+        AccountAttribute accountAttr = SpringContext.getAttributeManager().getAccountAttribute(accountId);
+        Map<AttributeType, Attribute> accountAtt = accountAttr.getAccountAttribute();
+        for (Attribute attribute : accountAtt.values()) {
+            packet.attributes.put(attribute.getType().getDesc(), attribute.getValue());
+        }
         return packet;
     }
 
@@ -66,6 +81,14 @@ public class SM_AccountInfo implements Serializable {
 
     public void setGirdY(int girdY) {
         this.girdY = girdY;
+    }
+
+    public Map<String, Long> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Map<String, Long> attributes) {
+        this.attributes = attributes;
     }
 
     @Override

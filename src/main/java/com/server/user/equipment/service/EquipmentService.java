@@ -2,16 +2,21 @@ package com.server.user.equipment.service;
 
 import com.SpringContext;
 import com.server.common.entity.CommonManager;
+import com.server.common.resource.ResourceManager;
 import com.server.publicsystem.i18n.I18Utils;
 import com.server.publicsystem.i18n.constant.I18nId;
 import com.server.tool.PacketSendUtil;
 import com.server.user.account.model.Account;
+import com.server.user.attribute.constant.AttributeModel;
 import com.server.user.equipment.constant.EquipmentPosition;
 import com.server.user.equipment.entity.EquipStorageEnt;
 import com.server.user.equipment.model.EquipStorage;
 import com.server.user.equipment.model.Equipment;
 import com.server.user.equipment.packet.SM_EquipsInfo;
+import com.server.user.equipment.resource.EquipResource;
 import com.server.user.item.model.AbstractItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,8 +29,13 @@ import java.util.Map;
 @Component
 public class EquipmentService {
 
+    public static Logger logger = LoggerFactory.getLogger(EquipmentService.class);
+
     @Autowired
     private CommonManager<String, EquipStorageEnt> equipManager;
+
+    @Autowired
+    private ResourceManager resourceManager;
 
     private EquipStorageEnt getEquipStorageEnt(String accountId) {
         EquipStorageEnt equipStorageEnt = equipManager.getEnt(EquipStorageEnt.class, accountId);
@@ -52,6 +62,16 @@ public class EquipmentService {
         equipManager.update();
     }
 
+    public EquipResource getEquipResource(int id) {
+
+        Map<Integer, Object> equipResource = resourceManager.getResources(EquipResource.class.getSimpleName());
+        EquipResource resource = (EquipResource) equipResource.get(id);
+        if (resource == null) {
+            logger.error("EquipResource找不到对应配置id：{0}" + id);
+        }
+        return resource;
+    }
+
     /**
      * 穿戴装备
      *
@@ -72,12 +92,25 @@ public class EquipmentService {
             I18Utils.notifyMessage(account, I18nId.EQUIPMENT_NOT_MATCH);
             return;
         }
+        if (!isCanEquip(account, equipment)) {
+            return;
+        }
         SpringContext.getStoreService().reduceBagItem(account, item, 1);
         Equipment unEquipment = equipStorage.equip(equipment, equipmentPosition);
         if (unEquipment != null) {
             SpringContext.getStoreService().addItemToBag(account, unEquipment);
         }
         saveEquipStorage(account.getAccountId(), equipStorage);
+        SpringContext.getAttributeManager().refreshAttr(account, AttributeModel.EQUIPMENT);
+    }
+
+
+    public boolean isCanEquip(Account account, Equipment equipment) {
+        if (account.getLevel() < equipment.getEquipLevel()) {
+            I18Utils.notifyMessage(account, I18nId.EQUIP_LEVEL_LIMIT);
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -105,7 +138,7 @@ public class EquipmentService {
         equipStorage.unEquip(equipmentPosition);
         SpringContext.getStoreService().addItemToBag(account, equipment);
         saveEquipStorage(account.getAccountId(), equipStorage);
-
+        SpringContext.getAttributeManager().refreshAttr(account, AttributeModel.EQUIPMENT);
 
     }
 

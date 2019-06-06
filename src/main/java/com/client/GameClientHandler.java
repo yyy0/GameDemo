@@ -24,8 +24,6 @@ public class GameClientHandler extends ChannelInboundHandlerAdapter {
 
         LoginFrame loginFrame = SpringContext.getLoginFrame();
         loginFrame.initFrame(ctx.channel());
-//        new Thread(new SendMsg(ctx)).start();
-
 
     }
 

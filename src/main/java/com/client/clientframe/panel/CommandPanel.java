@@ -53,13 +53,13 @@ public class CommandPanel extends JPanel {
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(ClientFrameConstant.COMMAND_PANEL_WIDTH, ClientFrameConstant.COMMAND_PANEL_HEIGHT));
         this.setBackground(Color.GRAY);
-        JLabel label = new JLabel(labelName);
+        JLabel label = new JLabel(this.labelName);
         this.add(label, BorderLayout.WEST);
         JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         jPanel.setBackground(Color.GRAY);
 
         // 命令输入框
-        if (paramDes != null && !paramDes.equals("")) {
+        if (paramDes != null && !"".equals(paramDes)) {
             textField = new JTextField();
             textField.setColumns(8);
             JLabel paramDesLabel;

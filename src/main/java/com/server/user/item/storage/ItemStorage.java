@@ -142,6 +142,23 @@ public class ItemStorage {
         return null;
     }
 
+    /**
+     * 根据道具id 获取背包的数量
+     *
+     * @param modelId
+     * @return
+     */
+    public int getItemNum(int modelId) {
+        int length = items.length;
+        int num = 0;
+        for (int i = 0; i < length; i++) {
+            if (items[i].getItemModelId() == modelId) {
+                num += items[i].getNum();
+            }
+        }
+        return num;
+    }
+
     public int getEmptySize() {
         return this.size - this.num;
     }

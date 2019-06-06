@@ -181,8 +181,4 @@ public class ResourceManager {
         return resourceDatas.get(resourceName);
     }
 
-    public static void main(String[] args) {
-
-    }
-
 }

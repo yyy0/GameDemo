@@ -8,7 +8,7 @@ public interface MapConstant {
     /**
      * 坐标标记 ☺：玩家， □：可行走点  ■：阻挡点
      */
-    public static final char USER = '☺';
-    public static final char ROAD = '□';
-    public static final char WALL = '■';
+    char USER = '☺';
+    char ROAD = '□';
+    char WALL = '■';
 }

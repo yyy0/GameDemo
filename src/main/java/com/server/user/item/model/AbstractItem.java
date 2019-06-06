@@ -46,11 +46,14 @@ public class AbstractItem extends GameObject implements Comparable<AbstractItem>
 
     /**
      * 生成唯一id
-     *
      * @return
      */
     private long createIdentifyId() {
         return SpringContext.getIdentifyService().getNextIdentify(IdentifyService.IdentifyType.ITEM);
+    }
+
+    public void init(ItemResource itemResource) {
+        this.itemModelId = itemResource.getId();
     }
 
     @Override

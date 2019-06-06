@@ -66,9 +66,7 @@ public class MapInfo {
      */
     public char[][] printInfo() {
         logger.info("【{}】地图信息：当前人数【{}】人", mapResource.getName(), accountsGrid.keySet().size());
-        accountsGrid.forEach((accountId, grid) -> {
-            mapInfo[grid.getX()][grid.getY()] = MapConstant.USER;
-        });
+        accountsGrid.forEach((accountId, grid) -> mapInfo[grid.getX()][grid.getY()] = MapConstant.USER);
 
         //绘制地图
         for (int i = 0; i < mapInfo.length; i++) {
@@ -77,12 +75,9 @@ public class MapInfo {
             }
             System.out.println();
         }
-        ///FIXME 需要深拷贝 不要直接传引用对象
+
         return mapInfo;
-        //重置坐标点为行走点
-//        accountsGrid.forEach((accountId, grid) -> {
-//            mapInfo[grid.getX()][grid.getY()] = MapConstant.ROAD;
-//        });
+
     }
 
     public void addAccount(String accountId, Grid grid) {

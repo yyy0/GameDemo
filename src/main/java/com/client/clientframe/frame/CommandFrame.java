@@ -18,6 +18,7 @@ import com.server.user.equipment.model.Equipment;
 import com.server.user.equipment.packet.SM_EquipsInfo;
 import com.server.user.item.model.AbstractItem;
 import com.server.user.item.packet.SM_BagInfo;
+import com.server.user.item.packet.SM_WareInfo;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -131,13 +132,6 @@ public class CommandFrame extends JFrame {
         new CommandFrame();
     }
 
-    @ClientHandlerAnno
-    public void clientPrintAccount(SM_AccountInfo packet) {
-        System.out.println("打印账号信息");
-        String message = packet.toString();
-        printArea.append(message + "\r\n");
-    }
-
     public void addListener() {
         sendButton.addActionListener(new ActionListener() {
             @Override
@@ -160,6 +154,24 @@ public class CommandFrame extends JFrame {
         });
     }
 
+    /**
+     * 打印账号信息
+     *
+     * @param packet
+     */
+    @ClientHandlerAnno
+    public void clientPrintAccount(SM_AccountInfo packet) {
+        System.out.println("打印账号信息");
+        String message = packet.toString();
+        printArea.append(message + "\r\n");
+        printArea.append("账号属性信息如下：" + "\r\n");
+        Map<String, Long> attributes = packet.getAttributes();
+        for (Map.Entry<String, Long> entry : attributes.entrySet()) {
+            printArea.append("name：" + entry.getKey() + " value:" + entry.getValue() + "\r\n");
+        }
+
+    }
+
     @ClientHandlerAnno
     public void clientChangeMap(SM_ChangeMap packet) {
 
@@ -173,6 +185,10 @@ public class CommandFrame extends JFrame {
         printArea.append(message + "\r\n");
     }
 
+    /**
+     * 打印地图信息
+     * @param packet
+     */
     @ClientHandlerAnno
     public void printMapInfo(SM_MapInfo packet) {
         char[][] mapInfo = packet.getMapGrids();
@@ -191,6 +207,22 @@ public class CommandFrame extends JFrame {
      */
     @ClientHandlerAnno
     public void printBagInfo(SM_BagInfo packet) {
+        AbstractItem[] items = packet.getItemData();
+        for (int i = 0; i < items.length; i++) {
+            if (items[i] == null) {
+                return;
+            }
+            printArea.append(items[i].toString() + "\r\n");
+        }
+    }
+
+    /**
+     * 打印仓库信息
+     *
+     * @param packet
+     */
+    @ClientHandlerAnno
+    public void printWarehouseInfo(SM_WareInfo packet) {
         AbstractItem[] items = packet.getItemData();
         for (int i = 0; i < items.length; i++) {
             if (items[i] == null) {

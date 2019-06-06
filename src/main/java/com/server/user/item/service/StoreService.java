@@ -4,12 +4,14 @@ import com.SpringContext;
 import com.server.common.entity.CommonManager;
 import com.server.common.identity.service.IdentifyService;
 import com.server.common.resource.ResourceManager;
+import com.server.publicsystem.i18n.constant.I18nId;
 import com.server.tool.PacketSendUtil;
 import com.server.user.account.model.Account;
 import com.server.user.item.entity.ItemStorageEnt;
 import com.server.user.item.entity.WarehouseEnt;
 import com.server.user.item.model.AbstractItem;
 import com.server.user.item.packet.SM_BagInfo;
+import com.server.user.item.packet.SM_WareInfo;
 import com.server.user.item.resource.ItemResource;
 import com.server.user.item.storage.ItemStorage;
 import com.server.user.item.storage.Warehouse;
@@ -151,7 +153,7 @@ public class StoreService {
         AbstractItem item = itemResource.getItemType().create();
         long identifyId = createIdentifyId();
         item.setObjectId(identifyId);
-        item.setItemModelId(itemResource.getId());
+        item.init(itemResource);
         item.setNum(num);
         return item;
     }
@@ -189,14 +191,27 @@ public class StoreService {
     public void printItems(String accountId) {
         ItemStorage itemStorage = getItemStorage(accountId);
         AbstractItem[] items = itemStorage.getItems();
-        for (int i = 0; i < itemStorage.getNum(); i++) {
-            if (items[i] == null) {
-                return;
-            }
-            System.out.println(items[i]);
+        Account account = SpringContext.getAccountService().getAccount(accountId);
+        if (items == null) {
+            PacketSendUtil.send(account, I18nId.BAG_NULL_ITEMS);
+            return;
         }
         SM_BagInfo packet = SM_BagInfo.valueOf(items);
+        PacketSendUtil.send(account, packet);
+    }
+
+    /**
+     * 打印仓库物品信息
+     */
+    public void printWareItems(String accountId) {
+        Warehouse warehouse = getWarehouse(accountId);
+        AbstractItem[] items = warehouse.getItems();
         Account account = SpringContext.getAccountService().getAccount(accountId);
+        if (items == null) {
+            PacketSendUtil.send(account, I18nId.WAREHOUSE_NULL_ITEMS);
+            return;
+        }
+        SM_WareInfo packet = SM_WareInfo.valueOf(items);
         PacketSendUtil.send(account, packet);
     }
 
@@ -328,6 +343,12 @@ public class StoreService {
         saveItemStorageEnt(account.getAccountId());
     }
 
+    public void clearWarehouse(Account account) {
+        Warehouse warehouse = getWarehouse(account.getAccountId());
+        warehouse.clear();
+        saveWarehouseEnt(account.getAccountId(), warehouse);
+    }
+
     public void printStorage(Account account) {
         ItemStorage itemStorage = getItemStorage(account.getAccountId());
         System.out.println("【" + account.getName() + "】背包信息如下");
@@ -430,5 +451,23 @@ public class StoreService {
         saveItemStorageEnt(account.getAccountId(), itemStorage);
 
     }
+
+    /**
+     * check是否有足够的道具
+     *
+     * @param modelId
+     * @param num
+     * @return
+     */
+    public boolean isEnoughItem(Account account, int modelId, int num) {
+        if (num < 0) {
+            return false;
+        }
+        if (getItemStorage(account.getAccountId()).getItemNum(modelId) < num) {
+            return false;
+        }
+        return true;
+    }
+
 
 }

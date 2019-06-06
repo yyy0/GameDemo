@@ -1,15 +1,19 @@
 package com.server.user.account.service;
 
 
+import com.SpringContext;
 import com.server.common.entity.CommonManager;
 import com.server.tool.PacketSendUtil;
 import com.server.user.account.entity.AccountEnt;
 import com.server.user.account.model.Account;
 import com.server.user.account.packet.SM_AccountInfo;
+import com.server.user.account.resource.AccountResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
 
 /**
  * @author yuxianming
@@ -78,6 +82,16 @@ public class AccountService {
         logger.info("创建新账号：账号id：[{}] 账号名称：[{}]", account.getAccountId(), account.getName());
         // accountManager.createEnt(account);
         //accountManager.createAccount(account);
+    }
+
+    public AccountResource getAccountResource(int id) {
+
+        Map<Integer, Object> accountResource = SpringContext.getResourceManager().getResources(AccountResource.class.getSimpleName());
+        AccountResource resource = (AccountResource) accountResource.get(id);
+        if (resource == null) {
+            logger.error("AccountResource找不到对应配置id：{0}" + id);
+        }
+        return resource;
     }
 
 

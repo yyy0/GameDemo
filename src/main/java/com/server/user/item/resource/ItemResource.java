@@ -64,29 +64,6 @@ public class ItemResource {
     @CsvBindByName
     private String effectTime;
 
-    public static ItemResource valueOf(int id, String name, ItemType itemType,
-                                       EquipmentType equipmentType,
-                                       int overLimit, int quality, int storage,
-                                       int effectValue, String effectTime) {
-        ItemResource resource = ItemResource.valueOf(id, name, itemType, overLimit, quality, storage, effectValue, effectTime);
-        resource.equipmentType = equipmentType;
-        return resource;
-    }
-
-    public static ItemResource valueOf(int id, String name, ItemType itemType,
-                                       int overLimit, int quality, int storage, int effectValue,
-                                       String effectTime) {
-        ItemResource resource = new ItemResource();
-        resource.id = id;
-        resource.name = name;
-        resource.itemType = itemType;
-        resource.overLimit = overLimit;
-        resource.quality = quality;
-        resource.storage = storage;
-        resource.effectValue = effectValue;
-        resource.effectTime = effectTime;
-        return resource;
-    }
 
     public int getId() {
         return id;

@@ -24,7 +24,6 @@ import java.util.Map;
 @Component
 public class WorldService {
 
-
     private Logger logger = LoggerFactory.getLogger("地图日志");
 
     @Autowired
@@ -78,7 +77,6 @@ public class WorldService {
         mapInfo.addAccount(account.getAccountId(), Grid.valueOf(gridX, gridY));
         logger.info("账号[{}]进入地图：{}", account.getName(), mapResource.getName());
         SpringContext.getAccountService().saveAccountInfo(account.getAccountId());
-        //测试移动指令
 
         char[][] mapInfos = mapInfo.printInfo();
         SM_MapInfo packet = SM_MapInfo.valueOf(mapInfos);
@@ -115,11 +113,7 @@ public class WorldService {
         int gridY = grid.getY();
         //检查坐标合法性，是否越界
         mapResource.checkGrid(gridX, gridY);
-        if (mapres[gridX][gridY] == 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return mapres[gridX][gridY] != 0;
     }
 
     /**

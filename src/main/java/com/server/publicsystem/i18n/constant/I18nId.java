@@ -28,4 +28,14 @@ public interface I18nId {
     int EQUIPMENT_NOT_MATCH = 10;
     //该部位没有装备
     int POSITION_NO_EQUIPMENT = 11;
+    //该账号不存在
+    int ACCOUNT_NOT_EXIST = 12;
+    //密码错误
+    int WRONG_PASSWORD = 13;
+    //穿戴等级不足
+    int EQUIP_LEVEL_LIMIT = 14;
+    //背包暂无道具
+    int BAG_NULL_ITEMS = 15;
+    //仓库暂无道具
+    int WAREHOUSE_NULL_ITEMS = 16;
 }

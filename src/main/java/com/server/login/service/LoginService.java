@@ -64,6 +64,12 @@ public class LoginService {
             mapId = account.getMapId();
             worldService.enterMap(account, mapId);
         }
+        //登陆时加载人物所有属性模块
+//        AccountResource resource=SpringContext.getAccountService().getAccountResource(account.getLevel());
+//        SpringContext.getAttributeManager().putAttributes(accountId, AttributeModel.ACCOUNT_BASE,resource.getAttributes());
+
+        SpringContext.getAttributeManager().loadAccountAttr(account);
+
         SM_LoginSuccess packet = SM_LoginSuccess.valueOf(accountId, mapId);
         PacketSendUtil.send(session, packet);
 

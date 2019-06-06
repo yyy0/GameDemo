@@ -38,7 +38,8 @@ public class ItemGm {
     }
 
     @GmMethod(name = "打印仓库信息")
-    public void printStorage(Account account) {
+    public void printWarehouse(Account account) {
+        SpringContext.getStoreService().printWareItems(account.getAccountId());
     }
 
     @GmMethod(name = "背包至仓库", param = "参数:唯一id")
