@@ -26,6 +26,8 @@ public class GlobalService {
         logger.info("预加载地图资源");
         SpringContext.getWorldService().initMap();
         SpringContext.getEquipUpgradeService().initEquipUpResource();
+        logger.info("开启账号线程池");
+        SpringContext.getAccountExecutorService().init();
 
 
     }

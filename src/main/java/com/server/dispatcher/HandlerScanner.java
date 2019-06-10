@@ -60,7 +60,9 @@ public class HandlerScanner implements BeanPostProcessor {
                     String methodParam = method.getAnnotation(GmMethod.class).param();
                     //gm方法描述
                     String methodDes = method.getAnnotation(GmMethod.class).des();
-                    GmDefinition gmHandlerDefinition = GmDefinition.valueOf(method, bean, methodName, methodParam, methodDes);
+                    //协议class
+                    Class packetClz = method.getAnnotation(GmMethod.class).clz();
+                    GmDefinition gmHandlerDefinition = GmDefinition.valueOf(method, bean, methodName, methodParam, methodDes, packetClz);
                     // 客户端注册
                     gmDefinitions.put(method.getName(), gmHandlerDefinition);
                     // 服务端注册

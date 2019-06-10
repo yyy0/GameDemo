@@ -27,17 +27,21 @@ public class GmDefinition {
     private Method method;
     private Object bean;
 
+    private Class packetClz;
+
+
     private CommandPanel commandPanel;
 
-    public static GmDefinition valueOf(Method method, Object bean, String methodName, String paramDes, String methodDes) {
-        GmDefinition gmHandlerDefintion = new GmDefinition();
-        gmHandlerDefintion.bean = bean;
-        gmHandlerDefintion.method = method;
-        gmHandlerDefintion.methodName = methodName;
-        gmHandlerDefintion.methodDes = methodDes;
-        gmHandlerDefintion.paramDes = paramDes;
-        gmHandlerDefintion.commandPanel = new CommandPanel(method.getName(), methodName, paramDes, methodDes);
-        return gmHandlerDefintion;
+    public static GmDefinition valueOf(Method method, Object bean, String methodName, String paramDes, String methodDes, Class packetClz) {
+        GmDefinition gmHandlerDefinition = new GmDefinition();
+        gmHandlerDefinition.bean = bean;
+        gmHandlerDefinition.method = method;
+        gmHandlerDefinition.methodName = methodName;
+        gmHandlerDefinition.methodDes = methodDes;
+        gmHandlerDefinition.paramDes = paramDes;
+        gmHandlerDefinition.packetClz = packetClz;
+        gmHandlerDefinition.commandPanel = new CommandPanel(method.getName(), methodName, paramDes, methodDes, packetClz);
+        return gmHandlerDefinition;
     }
 
     public void invoke(Account account, Object... params) {

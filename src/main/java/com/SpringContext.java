@@ -7,6 +7,7 @@ import com.server.command.service.Command;
 import com.server.command.service.CommandFacade;
 import com.server.command.service.GmDispatcher;
 import com.server.common.event.core.EventBusManager;
+import com.server.common.executor.AccountExecutorService;
 import com.server.common.identity.service.IdentifyService;
 import com.server.common.resource.ResourceManager;
 import com.server.common.service.GlobalService;
@@ -93,6 +94,13 @@ public class SpringContext implements ApplicationContextAware {
 
     @Autowired
     public EquipUpgradeService equipUpgradeService;
+
+    @Autowired
+    public AccountExecutorService accountExecutorService;
+
+    public static AccountExecutorService getAccountExecutorService() {
+        return instance.accountExecutorService;
+    }
 
     public static EquipUpgradeService getEquipUpgradeService() {
         return instance.equipUpgradeService;

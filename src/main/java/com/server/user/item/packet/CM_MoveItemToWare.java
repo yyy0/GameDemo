@@ -5,6 +5,7 @@ import java.io.Serializable;
 /**
  * @author yuxianming
  * @date 2019/6/6 11:09
+ * 移动道具从背包到仓库
  */
 public class CM_MoveItemToWare implements Serializable {
 

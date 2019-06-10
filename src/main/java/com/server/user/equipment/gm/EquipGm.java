@@ -4,6 +4,9 @@ import com.SpringContext;
 import com.server.command.anno.GmAnno;
 import com.server.command.anno.GmMethod;
 import com.server.user.account.model.Account;
+import com.server.user.equipment.packet.CM_Equip;
+import com.server.user.equipment.packet.CM_EquipmentInfo;
+import com.server.user.equipment.packet.CM_UnEquip;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,17 +17,17 @@ import org.springframework.stereotype.Component;
 @GmAnno(title = "装备gm")
 public class EquipGm {
 
-    @GmMethod(name = "打印装备信息")
+    @GmMethod(name = "打印装备信息", clz = CM_EquipmentInfo.class)
     public void printEquipments(Account account) {
         SpringContext.getEquipmentService().printEquipments(account);
     }
 
-    @GmMethod(name = "穿戴装备", param = "参数:唯一id")
+    @GmMethod(name = "穿戴装备", param = "参数:唯一id", clz = CM_Equip.class)
     public void equip(Account account, long identifyId) {
         SpringContext.getEquipmentService().equip(account, identifyId);
     }
 
-    @GmMethod(name = "卸下装备", param = "参数:穿戴部位")
+    @GmMethod(name = "卸下装备", param = "参数:穿戴部位", clz = CM_UnEquip.class)
     public void unEquip(Account account, int index) {
         SpringContext.getEquipmentService().unEquip(account, index);
     }

@@ -20,4 +20,6 @@ public interface ClientFrameConstant {
     int COMMAND_PANEL_WIDTH = 300;
 
     String SEND_BUTTON = "发送";
+
+    String VALUEOF = "valueOf";
 }

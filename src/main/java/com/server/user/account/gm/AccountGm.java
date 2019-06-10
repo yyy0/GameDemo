@@ -4,6 +4,7 @@ import com.SpringContext;
 import com.server.command.anno.GmAnno;
 import com.server.command.anno.GmMethod;
 import com.server.user.account.model.Account;
+import com.server.user.account.packet.CM_PrintAccount;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Component;
 @GmAnno(title = "账号GM")
 public class AccountGm {
 
-    @GmMethod(name = "打印账号信息")
+    @GmMethod(name = "打印账号信息", clz = CM_PrintAccount.class)
     public void printAccountInfo(Account account) {
         SpringContext.getAccountService().printAccount(account);
     }

@@ -6,9 +6,10 @@ package com.server.map.constant;
  */
 public interface MapConstant {
     /**
-     * 坐标标记 ☺：玩家， □：可行走点  ■：阻挡点
+     * 坐标标记 ☺：玩家， □：可行走点  ■：阻挡点 ☃：怪物
      */
     char USER = '☺';
     char ROAD = '□';
     char WALL = '■';
+    char MONSTER = '☃';
 }

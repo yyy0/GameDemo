@@ -71,8 +71,10 @@ public class ItemStorage {
         int length = items.length;
 
         for (int i = 0; i < length; i++) {
-            if (items[i].getItemModelId() == modelId) {
-                return true;
+            if (items[i] != null) {
+                if (items[i].getItemModelId() == modelId) {
+                    return true;
+                }
             }
         }
         return false;

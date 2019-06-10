@@ -2,6 +2,7 @@ package com.server.user.account.facade;
 
 import com.SpringContext;
 import com.server.dispatcher.HandlerAnno;
+import com.server.session.SessionUtil;
 import com.server.session.model.TSession;
 import com.server.user.account.model.Account;
 import com.server.user.account.packet.CM_PrintAccount;
@@ -20,9 +21,8 @@ public class AccountFacade {
      * @param req
      */
     @HandlerAnno
-    public void reg(TSession session, CM_PrintAccount req) {
-        String accountId = req.getAccountId();
-        Account account = SpringContext.getAccountService().getAccount(accountId);
+    public void printAccountInfo(TSession session, CM_PrintAccount req) {
+        Account account = SessionUtil.getAccountBySession(session);
         SpringContext.getAccountService().printAccount(account);
     }
 }

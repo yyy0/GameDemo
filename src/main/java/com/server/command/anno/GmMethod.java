@@ -20,4 +20,9 @@ public @interface GmMethod {
 
     /** gm使用说明 */
     public String des() default "";
+
+    /**
+     * gm关联的协议class
+     */
+    public Class clz();
 }

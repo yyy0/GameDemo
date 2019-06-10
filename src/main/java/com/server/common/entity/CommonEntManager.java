@@ -17,7 +17,7 @@ import javax.persistence.Persistence;
  * @date 2019/4/29 17:44
  */
 @Component
-public class CommonManager<K, T> {
+public class CommonEntManager<K, T> {
 
     private EntityManagerFactory factory;
     private EntityManager entityManager;

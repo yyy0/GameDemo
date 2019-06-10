@@ -2,7 +2,7 @@ package com.server.user.account.service;
 
 
 import com.SpringContext;
-import com.server.common.entity.CommonManager;
+import com.server.common.entity.CommonEntManager;
 import com.server.tool.PacketSendUtil;
 import com.server.user.account.entity.AccountEnt;
 import com.server.user.account.model.Account;
@@ -26,7 +26,7 @@ public class AccountService {
      * 通用manager
      */
     @Autowired
-    private CommonManager<String, AccountEnt> commonManager;
+    private CommonEntManager<String, AccountEnt> commonEntManager;
 
     private Logger logger = LoggerFactory.getLogger(AccountService.class);
 
@@ -46,7 +46,7 @@ public class AccountService {
         if (accountId == null) {
             return null;
         }
-        AccountEnt ent = commonManager.getEnt(AccountEnt.class, accountId);
+        AccountEnt ent = commonEntManager.getEnt(AccountEnt.class, accountId);
         if (ent != null) {
             ent.doDeserialize();
             return ent.getAccount();
@@ -55,20 +55,20 @@ public class AccountService {
     }
 
     public AccountEnt getAccountEnt(String accountId) {
-        return commonManager.getEnt(AccountEnt.class, accountId);
+        return commonEntManager.getEnt(AccountEnt.class, accountId);
     }
 
     public void saveAccountInfo(String accountId) {
         AccountEnt accountEnt = getAccountEnt(accountId);
         accountEnt.doSerialize();
-        commonManager.update();
+        commonEntManager.update();
     }
 
     public void saveAccountInfo(Account account) {
         AccountEnt accountEnt = getAccountEnt(account.getAccountId());
         accountEnt.setAccount(account);
         accountEnt.doSerialize();
-        commonManager.update();
+        commonEntManager.update();
     }
 
     public void createAccount(Account account) {
@@ -78,7 +78,7 @@ public class AccountService {
         accountEnt.setCreateTime(account.getCreateTime());
         accountEnt.setAccount(account);
         accountEnt.doSerialize();
-        commonManager.createEnt(accountEnt);
+        commonEntManager.createEnt(accountEnt);
         logger.info("创建新账号：账号id：[{}] 账号名称：[{}]", account.getAccountId(), account.getName());
         // accountManager.createEnt(account);
         //accountManager.createAccount(account);

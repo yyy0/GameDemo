@@ -29,7 +29,7 @@ public class GameServerHandler extends ChannelInboundHandlerAdapter {
             ctx.channel().close();
             return;
         }
-        TSession session = SessionUtil.getSessionByChannel(ctx.channel());
+
     }
 
     @Override
@@ -43,12 +43,9 @@ public class GameServerHandler extends ChannelInboundHandlerAdapter {
         }
         MessageContent message = (MessageContent) msg;
         Object packet = message.getContent();
-        SpringContext.getActionDispatcher().doHandle(session, packet);
+        SpringContext.getActionDispatcher().handle(session, packet);
 
     }
-
-
-
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)

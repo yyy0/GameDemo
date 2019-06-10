@@ -15,6 +15,8 @@ public class TSession {
     private static final Logger logger = LoggerFactory.getLogger(TSession.class);
     private final Channel channel;
     private final long createTime;
+    private static int index = 0;
+    private final int id;
 
     /**
      * 账号id
@@ -29,6 +31,7 @@ public class TSession {
     public TSession(Channel channel) {
         this.channel = channel;
         this.createTime = System.currentTimeMillis();
+        this.id = ++index;
     }
 
     /**
@@ -84,5 +87,9 @@ public class TSession {
 
     public Object setAttributeIfAbsent(String key, Object value) {
         return attributes.putIfAbsent(key, value);
+    }
+
+    public int getId() {
+        return id;
     }
 }

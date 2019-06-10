@@ -142,7 +142,7 @@ public class ResourceManager {
      * 反射获取指定注解（@ResId）的值
      */
 
-    public int getIdValue(Object resource) {
+    private int getIdValue(Object resource) {
         Class clz = resource.getClass();
         Field[] fields = clz.getDeclaredFields();
         int getValue = 0;
@@ -151,8 +151,7 @@ public class ResourceManager {
                 if (field.isAnnotationPresent(ResId.class)) {
                     String fieldName = field.getName();
                     String getFieldName = parGetName(fieldName);
-                    Method method = null;
-                    method = clz.getDeclaredMethod(getFieldName);
+                    Method method = clz.getDeclaredMethod(getFieldName);
                     getValue = (Integer) ReflectionUtils.invokeMethod(method, resource);
                 }
             }
@@ -167,7 +166,7 @@ public class ResourceManager {
     /**
      * 获取某属性的get方法
      */
-    public String parGetName(String fieldName) {
+    private String parGetName(String fieldName) {
         if (null == fieldName || "".equals(fieldName)) {
             return null;
         }

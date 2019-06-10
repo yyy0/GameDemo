@@ -1,5 +1,6 @@
 package com.server.dispatcher;
 
+import com.SpringContext;
 import com.client.dispatcher.ClientHandlerDefinition;
 import com.server.session.model.TSession;
 import org.slf4j.Logger;
@@ -23,6 +24,10 @@ public class ActionDispatcher {
     private Map<Class<?>, HandlerDefintion> handlerMap = new HashMap<Class<?>, HandlerDefintion>();
     private Map<Class<?>, ClientHandlerDefinition> ClientHandlerMap = new HashMap<Class<?>, ClientHandlerDefinition>();
 
+    public final void handle(TSession session, Object packet) {
+        addSessionTask(session, new HandlerEvent(session, packet, this));
+    }
+
     public void doClientHandle(Object packet) {
         ClientHandlerDefinition defintion = ClientHandlerMap.get(packet.getClass());
         if (defintion == null) {
@@ -40,11 +45,11 @@ public class ActionDispatcher {
     }
 
     public void doHandle(TSession session, Object packet) {
-        HandlerDefintion defintion = handlerMap.get(packet.getClass());
-        if (defintion == null) {
+        HandlerDefintion definition = handlerMap.get(packet.getClass());
+        if (definition == null) {
             throw new NullPointerException("没找到对应的handlerDefinition:" + packet.getClass().getSimpleName());
         }
-        defintion.invoke(session, packet);
+        definition.invoke(session, packet);
     }
 
     public void regHandlerDefintion(Class<?> clz, HandlerDefintion definition) {
@@ -59,5 +64,36 @@ public class ActionDispatcher {
         if (clientHandlerDefinition != null) {
             throw new IllegalArgumentException("太多handler处理packet了：" + clz.getSimpleName());
         }
+    }
+
+    public final class HandlerEvent implements Runnable {
+
+        private final TSession session;
+        private final Object packet;
+        private final ActionDispatcher dispatcher;
+
+        HandlerEvent(TSession session, Object packet, ActionDispatcher dispatcher) {
+            this.session = session;
+            this.packet = packet;
+            this.dispatcher = dispatcher;
+        }
+
+        @Override
+        public void run() {
+            dispatcher.doHandle(session, packet);
+        }
+    }
+
+    public void addSessionTask(TSession session, Runnable task) {
+        String accountId = session.getAccountId();
+        if (accountId == null) {
+            SpringContext.getAccountExecutorService().addTask(session.getId(), task);
+        } else {
+            addTask(accountId, task);
+        }
+    }
+
+    public void addTask(String accountId, Runnable task) {
+        SpringContext.getAccountExecutorService().addTask(accountId, task);
     }
 }

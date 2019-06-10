@@ -1,7 +1,7 @@
 package com.server.user.item.service;
 
 import com.SpringContext;
-import com.server.common.entity.CommonManager;
+import com.server.common.entity.CommonEntManager;
 import com.server.common.identity.service.IdentifyService;
 import com.server.common.resource.ResourceManager;
 import com.server.publicsystem.i18n.I18Utils;
@@ -37,10 +37,10 @@ public class StoreService {
     private ResourceManager resourceManager;
 
     @Autowired
-    private CommonManager<String, ItemStorageEnt> itemStorageManager;
+    private CommonEntManager<String, ItemStorageEnt> itemStorageManager;
 
     @Autowired
-    private CommonManager<String, WarehouseEnt> warehouseManager;
+    private CommonEntManager<String, WarehouseEnt> warehouseManager;
 
     private static Logger logger = LoggerFactory.getLogger(StoreService.class);
 
