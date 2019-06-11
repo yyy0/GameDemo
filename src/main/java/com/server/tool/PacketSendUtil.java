@@ -10,12 +10,13 @@ import com.server.user.account.model.Account;
  */
 public class PacketSendUtil {
 
-    public static final void send(Account account, Object packet) {
+    public static void send(Account account, Object packet) {
         TSession session = SpringContext.getSessionService().getSession(account.getAccountId());
         if (session != null) {
             send(session, packet);
         }
     }
+
 
     public static void send(TSession session, Object packet) {
         if (session != null) {

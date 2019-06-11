@@ -8,6 +8,8 @@ import java.util.Map;
 /**
  * @author yuxianming
  * @date 2019/6/6 16:57
+ * map配置转换器  格式：key_value;key_value;key_value
+ *
  */
 public class StringToIntegerMap extends AbstractBeanField<Map<Integer, Integer>> {
     @Override

@@ -87,7 +87,7 @@ public class ActionDispatcher {
     public void addSessionTask(TSession session, Runnable task) {
         String accountId = session.getAccountId();
         if (accountId == null) {
-            SpringContext.getAccountExecutorService().addTask(session.getId(), task);
+            SpringContext.getAccountExecutorService().addSessionTask(session, task);
         } else {
             addTask(accountId, task);
         }

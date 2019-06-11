@@ -102,6 +102,7 @@ public class EquipmentService {
         }
         saveEquipStorage(account.getAccountId(), equipStorage);
         SpringContext.getAttributeManager().refreshAttr(account, AttributeModel.EQUIPMENT);
+        printEquipments(account);
     }
 
 
@@ -139,6 +140,7 @@ public class EquipmentService {
         SpringContext.getStoreService().addItemToBag(account, equipment);
         saveEquipStorage(account.getAccountId(), equipStorage);
         SpringContext.getAttributeManager().refreshAttr(account, AttributeModel.EQUIPMENT);
+        printEquipments(account);
 
     }
 

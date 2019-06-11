@@ -1,5 +1,6 @@
 package com.server.common.executor;
 
+import com.server.session.model.TSession;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.LinkedBlockingQueue;
@@ -50,20 +51,14 @@ public class AccountExecutor {
     }
 
     public void addTask(String accountId, Runnable task) {
-        ACCOUNT_EXECUTOR[modIndex(accountId)].execute(new Runnable() {
-            @Override
-            public void run() {
-                task.run();
-            }
-        });
+        ACCOUNT_EXECUTOR[modIndex(accountId)].execute(task);
     }
 
     public void addTask(int modIndex, Runnable task) {
-        ACCOUNT_EXECUTOR[modIndex].execute(new Runnable() {
-            @Override
-            public void run() {
-                task.run();
-            }
-        });
+        ACCOUNT_EXECUTOR[modIndex].execute(task);
+    }
+
+    public void addSessionTask(TSession session, Runnable task) {
+        ACCOUNT_EXECUTOR[session.getId() % DEFAULT_THREAD_SIZE].execute(task);
     }
 }

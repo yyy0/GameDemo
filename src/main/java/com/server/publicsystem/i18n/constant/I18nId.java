@@ -46,4 +46,12 @@ public interface I18nId {
     int BAG_NO_ITEM = 19;
     //仓库没有该道具
     int WAREHOUSE_NO_ITEM = 20;
+    //该坐标无法行走
+    int GRID_CAN_NOT_WALK = 21;
+    //当前地图没有怪物
+    int MAP_NULL_MONSTER = 22;
+    //该怪物不存在
+    int NO_MONSTER = 23;
+    //该怪物掉落为空
+    int MONSTER_NULL_DROP = 24;
 }

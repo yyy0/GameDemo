@@ -3,9 +3,7 @@ package com.server.map.facade;
 import com.SpringContext;
 import com.server.dispatcher.HandlerAnno;
 import com.server.map.model.Grid;
-import com.server.map.packet.CM_ChangeMap;
-import com.server.map.packet.CM_MapInfo;
-import com.server.map.packet.CM_Move;
+import com.server.map.packet.*;
 import com.server.session.SessionUtil;
 import com.server.session.model.TSession;
 import com.server.user.account.model.Account;
@@ -45,7 +43,6 @@ public class MapFacade {
         SpringContext.getWorldService().move(account, grid);
     }
 
-
     /**
      * 打印地图信息
      *
@@ -56,5 +53,29 @@ public class MapFacade {
     public void printMapInfo(TSession session, CM_MapInfo req) {
         Account account = SessionUtil.getAccountBySession(session);
         SpringContext.getWorldService().printMapInfo(account, req.getMapId());
+    }
+
+    /**
+     * 打印指定地图怪物信息
+     *
+     * @param session
+     * @param req
+     */
+    @HandlerAnno
+    public void printMonstersInfo(TSession session, CM_MonsterInfo req) {
+        Account account = SessionUtil.getAccountBySession(session);
+        SpringContext.getWorldService().printMonstersInfo(account, req.getMapId());
+    }
+
+    /**
+     * 击杀指定怪物 唯一id
+     *
+     * @param session
+     * @param req
+     */
+    @HandlerAnno
+    public void killMonster(TSession session, CM_KillMonster req) {
+        Account account = SessionUtil.getAccountBySession(session);
+        SpringContext.getWorldService().killMonster(account, req.getMonsterGid());
     }
 }

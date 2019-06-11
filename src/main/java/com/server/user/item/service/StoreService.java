@@ -80,11 +80,12 @@ public class StoreService {
     /**
      * 剩余背包格子是否足够
      */
-    private boolean isEnoughPackSize(Account account, List<AbstractItem> items) {
+    public boolean isEnoughPackSize(Account account, List<AbstractItem> items) {
 
         ItemStorage itemStorage = getItemStorage(account.getAccountId());
         int needSize = items.size();
         if (needSize > itemStorage.getEmptySize()) {
+            I18Utils.notifyMessageThrow(account, I18nId.BAG_NOT_ENOUGH);
             logger.error("背包剩余格子不足");
             return false;
         }
@@ -174,7 +175,7 @@ public class StoreService {
     }
 
     /**
-     * 添加一堆道具
+     * 创建道具
      *
      * @param itemModelId
      * @param num
@@ -198,6 +199,24 @@ public class StoreService {
         }
         result.add(doCreateItem(itemResource, num));
         return result;
+    }
+
+    /**
+     * 创建一批道具
+     *
+     * @param
+     * @param itemsMap
+     * @return
+     */
+    public List<AbstractItem> createItems(Map<Integer, Integer> itemsMap) {
+        List<AbstractItem> items = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> item : itemsMap.entrySet()) {
+            int itemId = item.getKey();
+            int num = item.getValue();
+            items.addAll(createItems(itemId, num));
+        }
+
+        return items;
     }
 
     /**
@@ -378,11 +397,33 @@ public class StoreService {
      * @param modelId
      * @param num
      */
+    public void reduceBagItemThrow(Account account, int modelId, int num) {
+
+        ItemStorage itemStorage = getItemStorage(account.getAccountId());
+
+        if (itemStorage.getItemNum(modelId) < num) {
+            I18Utils.notifyMessageThrow(account, I18nId.ITEM_NOT_ENOUGH);
+        }
+        itemStorage.removeItemByModelId(modelId, num);
+        saveItemStorageEnt(account.getAccountId(), itemStorage);
+    }
+
+    /**
+     * 移除背包道具
+     *
+     * @param account
+     * @param modelId
+     * @param num
+     */
     public void reduceBagItem(Account account, int modelId, int num) {
 
         ItemStorage itemStorage = getItemStorage(account.getAccountId());
         if (!itemStorage.isExistItem(modelId)) {
-            PacketSendUtil.send(account, I18nId.BAG_NULL_ITEMS);
+            I18Utils.notifyMessage(account, I18nId.BAG_NULL_ITEMS);
+            return;
+        }
+        if (itemStorage.getItemNum(modelId) < num) {
+            I18Utils.notifyMessage(account, I18nId.ITEM_NOT_ENOUGH);
             return;
         }
         itemStorage.removeItemByModelId(modelId, num);

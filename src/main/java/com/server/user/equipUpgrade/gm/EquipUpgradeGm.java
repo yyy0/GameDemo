@@ -18,7 +18,6 @@ public class EquipUpgradeGm {
     @GmMethod(name = "装备升阶", param = "参数:装备部位", clz = CM_EquipUpGrade.class)
     public void equipUpgrade(Account account, int position) {
         SpringContext.getEquipUpgradeService().equipUpgrade(account, position);
-        SpringContext.getEquipmentService().printEquipments(account);
 
     }
 }

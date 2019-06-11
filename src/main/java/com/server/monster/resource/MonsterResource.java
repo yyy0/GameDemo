@@ -3,8 +3,11 @@ package com.server.monster.resource;
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvCustomBindByName;
 import com.server.common.resource.converter.StringToIntegerConverter;
+import com.server.common.resource.converter.StringToIntegerMap;
 import com.server.common.resource.reader.ResId;
 import com.server.common.resource.reader.Resource;
+
+import java.util.Map;
 
 /**
  * @author yuxianming
@@ -36,7 +39,7 @@ public class MonsterResource {
      * 怪物血量
      */
     @CsvCustomBindByName(converter = StringToIntegerConverter.class)
-    private int hp;
+    private int maxHp;
 
     /**
      * 怪物防御力
@@ -50,13 +53,19 @@ public class MonsterResource {
     @CsvCustomBindByName(converter = StringToIntegerConverter.class)
     private int atk;
 
+    /**
+     * 掉落道具  key：道具id  value：道具数量
+     */
+    @CsvCustomBindByName(converter = StringToIntegerMap.class)
+    private Map<Integer, Integer> items;
+
     @Override
     public String toString() {
         return "怪物信息{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", level=" + level +
-                ", hp=" + hp +
+                ", maxHp=" + maxHp +
                 ", def=" + def +
                 ", atk=" + atk +
                 '}';
@@ -86,12 +95,12 @@ public class MonsterResource {
         this.level = level;
     }
 
-    public int getHp() {
-        return hp;
+    public int getMaxHp() {
+        return maxHp;
     }
 
-    public void setHp(int hp) {
-        this.hp = hp;
+    public void setMaxHp(int maxHp) {
+        this.maxHp = maxHp;
     }
 
     public int getDef() {
@@ -108,5 +117,13 @@ public class MonsterResource {
 
     public void setAtk(int atk) {
         this.atk = atk;
+    }
+
+    public Map<Integer, Integer> getItems() {
+        return items;
+    }
+
+    public void setItems(Map<Integer, Integer> items) {
+        this.items = items;
     }
 }

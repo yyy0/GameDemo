@@ -79,13 +79,13 @@ public class EquipUpgradeService {
         for (Map.Entry<Integer, Integer> item : itemsMap.entrySet()) {
             int itemId = item.getKey();
             int num = item.getValue();
-            SpringContext.getStoreService().isEnoughPackSizeThrow(account, itemId, num);
-            SpringContext.getStoreService().reduceBagItem(account, itemId, num);
+            SpringContext.getStoreService().reduceBagItemThrow(account, itemId, num);
         }
 
         equipment.upGrade(upgradeResource.getNextLevel());
         SpringContext.getEquipmentService().saveEquipStorage(account.getAccountId(), storage);
         SpringContext.getAttributeManager().refreshAttr(account, AttributeModel.EQUIPMENT);
+        SpringContext.getEquipmentService().printEquipments(account);
 
     }
 

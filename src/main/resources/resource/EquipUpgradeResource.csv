@@ -1,5 +1,5 @@
 ����,װ������,��λ     ,��ǰ����,��һ����  ,�ӳ�����          ,���ĵ���
-id  ,name   ,position,level  ,nextLevel,attribute        ,item
+id  ,name   ,position,level  ,nextLevel,attribute        ,items
 1   ,����   ,1       ,0      ,1        ,                 ,1_2
 2   ,����   ,1       ,1      ,2        ,1_50;2_50;3_50   ,1_2
 3   ,����   ,1       ,2      ,3        ,1_100;2_100;3_100,1_2

@@ -11,5 +11,5 @@ public interface MapConstant {
     char USER = '☺';
     char ROAD = '□';
     char WALL = '■';
-    char MONSTER = '☃';
+    char MONSTER = '♞';
 }

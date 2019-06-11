@@ -1,12 +1,16 @@
 package com.server.map.model;
 
+import com.SpringContext;
 import com.server.map.constant.MapConstant;
 import com.server.map.resource.MapResource;
+import com.server.monster.model.Monster;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,9 +34,14 @@ public class MapInfo {
     private Map<String, Grid> accountsGrid = new HashMap<>();
 
     /**
-     * 地图信息（阻挡点，行走点，玩家坐标）
+     * 怪物信息
      */
-    private char[][] mapInfo;
+    private List<Monster> monsters = new ArrayList<>();
+
+    /**
+     * 地图图标信息（阻挡点，行走点，玩家坐标，怪物）
+     */
+    private char[][] mapChars;
 
     private MapResource mapResource;
 
@@ -49,13 +58,13 @@ public class MapInfo {
      */
     public void initInfo() {
         int[][] mapRes = mapResource.getMapRes();
-        mapInfo = new char[mapResource.getHeight()][mapResource.getWidth()];
-        for (int i = 0; i < mapInfo.length; i++) {
-            for (int j = 0; j < mapInfo[i].length; j++) {
+        mapChars = new char[mapResource.getHeight()][mapResource.getWidth()];
+        for (int i = 0; i < mapChars.length; i++) {
+            for (int j = 0; j < mapChars[i].length; j++) {
                 if (mapRes[i][j] == 0) {
-                    mapInfo[i][j] = MapConstant.WALL;
+                    mapChars[i][j] = MapConstant.WALL;
                 } else if (mapRes[i][j] == 1) {
-                    mapInfo[i][j] = MapConstant.ROAD;
+                    mapChars[i][j] = MapConstant.ROAD;
                 }
             }
         }
@@ -66,37 +75,64 @@ public class MapInfo {
      */
     public char[][] printInfo() {
         logger.info("【{}】地图信息：当前人数【{}】人", mapResource.getName(), accountsGrid.keySet().size());
-        accountsGrid.forEach((accountId, grid) -> mapInfo[grid.getX()][grid.getY()] = MapConstant.USER);
+        accountsGrid.forEach((accountId, grid) -> mapChars[grid.getX()][grid.getY()] = MapConstant.USER);
 
+        logger.info("【{}】地图信息：当前怪物数量【{}】个", mapResource.getName(), monsters.size());
+        monsters.forEach((monster) -> mapChars[monster.getGridX()][monster.getGridY()] = MapConstant.MONSTER);
         //绘制地图
-        for (int i = 0; i < mapInfo.length; i++) {
-            for (int j = 0; j < mapInfo[i].length; j++) {
-                System.out.print(mapInfo[i][j]);
+        for (int i = 0; i < mapChars.length; i++) {
+            for (int j = 0; j < mapChars[i].length; j++) {
+                System.out.print(mapChars[i][j]);
             }
             System.out.println();
         }
 
-        return mapInfo;
+        return mapChars;
 
+    }
+
+    /**
+     * @param monster
+     */
+    public void addMonster(Monster monster) {
+        monsters.add(monster);
+    }
+
+    public void removeMonster(long monsterGid) {
+        for (Monster monster : monsters) {
+            if (monster.getObjectId() == monsterGid) {
+                monsters.remove(monster);
+                mapChars[monster.getGridX()][monster.getGridY()] = MapConstant.ROAD;
+                return;
+            }
+        }
     }
 
     public void addAccount(String accountId, Grid grid) {
         if (accountsGrid.containsKey(accountId)) {
             Grid gridTemp = accountsGrid.remove(accountId);
-            mapInfo[gridTemp.getX()][gridTemp.getY()] = MapConstant.ROAD;
+            mapChars[gridTemp.getX()][gridTemp.getY()] = MapConstant.ROAD;
         }
         accountsGrid.put(accountId, grid);
     }
 
+    public Monster getMonsterByGid(long gid) {
+        for (Monster monster : monsters) {
+            if (monster.getObjectId() == gid) {
+                return monster;
+            }
+        }
+        return null;
+    }
+
     public void removeAccount(String accountId) {
         Grid grid = accountsGrid.remove(accountId);
-        mapInfo[grid.getX()][grid.getY()] = MapConstant.ROAD;
+        mapChars[grid.getX()][grid.getY()] = MapConstant.ROAD;
     }
 
     public Grid getAccountGrid(String accountId) {
         return accountsGrid.get(accountId);
     }
-
 
     public int getMapId() {
         return mapId;
@@ -108,5 +144,25 @@ public class MapInfo {
 
     public int getAccountNum() {
         return accountsGrid.keySet().size();
+    }
+
+    public boolean isCanWalk(int gridX, int gridY) {
+        return mapChars[gridX][gridY] == MapConstant.ROAD;
+    }
+
+    public List<Monster> getMonsters() {
+        return monsters;
+    }
+
+    public void setMonsters(List<Monster> monsters) {
+        this.monsters = monsters;
+    }
+
+    public MapResource getMapResource() {
+        return SpringContext.getWorldService().getMapResource(mapId);
+    }
+
+    public String getMapName() {
+        return getMapResource().getName();
     }
 }

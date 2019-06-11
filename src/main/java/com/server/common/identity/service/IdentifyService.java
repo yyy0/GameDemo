@@ -23,6 +23,11 @@ public class IdentifyService {
          * 道具
          */
         ITEM(true),
+
+        /**
+         * 怪物
+         */
+        MONSTER(true),
         ;
 
         private final boolean save;

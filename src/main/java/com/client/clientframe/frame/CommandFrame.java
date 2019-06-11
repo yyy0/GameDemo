@@ -9,6 +9,8 @@ import com.server.common.resource.ResourceManager;
 import com.server.map.packet.SM_AccountMove;
 import com.server.map.packet.SM_ChangeMap;
 import com.server.map.packet.SM_MapInfo;
+import com.server.map.packet.SM_MonsterInfo;
+import com.server.monster.model.Monster;
 import com.server.publicsystem.i18n.packet.SM_Notify_Message;
 import com.server.publicsystem.i18n.resource.I18NResource;
 import com.server.server.message.MessageContent;
@@ -34,6 +36,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -289,6 +292,21 @@ public class CommandFrame extends JFrame {
             }
         }
 
+    }
+
+    @ClientHandlerAnno
+    public void printMonsters(SM_MonsterInfo packet) {
+        printArea.setText("");
+        List<Monster> monsters = packet.getMonsters();
+        if (monsters == null) {
+            printArea.append("当前地图【" + packet.getMapName() + "】没有怪物" + "\r\n");
+            return;
+        }
+        int num = monsters.size();
+        printArea.append("当前地图【" + packet.getMapName() + "】怪物数量：" + num + "只" + "\r\n");
+        for (Monster monster : monsters) {
+            printArea.append(monster.toString() + "\r\n");
+        }
     }
 
 

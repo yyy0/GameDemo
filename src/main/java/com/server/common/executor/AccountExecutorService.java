@@ -1,5 +1,6 @@
 package com.server.common.executor;
 
+import com.server.session.model.TSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,5 +26,10 @@ public class AccountExecutorService {
     public void addTask(int modIndex, Runnable task) {
         accountExecutor.addTask(modIndex, task);
     }
+
+    public void addSessionTask(TSession session, Runnable task) {
+        accountExecutor.addSessionTask(session, task);
+    }
+
 
 }

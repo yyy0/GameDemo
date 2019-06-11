@@ -15,4 +15,10 @@ public class I18Utils {
         SM_Notify_Message packet = SM_Notify_Message.valueOf(i18Id);
         PacketSendUtil.send(account, packet);
     }
+
+    public static void notifyMessageThrow(Account account, int i18Id) {
+        SM_Notify_Message packet = SM_Notify_Message.valueOf(i18Id);
+        PacketSendUtil.send(account, packet);
+        throw new RuntimeException("错误信息提示id：" + i18Id);
+    }
 }
