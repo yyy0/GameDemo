@@ -412,6 +412,22 @@ public class StoreService {
      * 移除背包道具
      *
      * @param account
+     * @param itemsMap
+     */
+    public void reduceBagItemThrow(Account account, Map<Integer, Integer> itemsMap) {
+
+        for (Map.Entry<Integer, Integer> item : itemsMap.entrySet()) {
+            int itemId = item.getKey();
+            int num = item.getValue();
+            reduceBagItemThrow(account, itemId, num);
+        }
+
+    }
+
+    /**
+     * 移除背包道具
+     *
+     * @param account
      * @param modelId
      * @param num
      */
@@ -534,20 +550,21 @@ public class StoreService {
     }
 
     /**
-     * check是否有足够的道具
-     *
-     * @param modelId
-     * @param num
-     * @return
+     * 是否道具足够
+     * @param account
+     * @param itemsMap
      */
-    public boolean isEnoughItem(Account account, int modelId, int num) {
-        if (num < 0) {
-            return false;
+    public void isEnoughItemThrow(Account account, Map<Integer, Integer> itemsMap) {
+        ItemStorage itemStorage = getItemStorage(account.getAccountId());
+
+        for (Map.Entry<Integer, Integer> item : itemsMap.entrySet()) {
+            int itemId = item.getKey();
+            int num = item.getValue();
+            if (itemStorage.getItemNum(itemId) < num) {
+                I18Utils.notifyMessageThrow(account, I18nId.ITEM_NOT_ENOUGH);
+            }
         }
-        if (getItemStorage(account.getAccountId()).getItemNum(modelId) < num) {
-            return false;
-        }
-        return true;
+
     }
 
 

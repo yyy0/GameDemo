@@ -83,7 +83,6 @@ public class Equipment extends AbstractItem {
         return copy;
     }
 
-
     public EquipUpgradeResource getEquipUpResource() {
         return SpringContext.getEquipUpgradeService().getEquipUpResource(getEquipPositionInt(), grade);
     }

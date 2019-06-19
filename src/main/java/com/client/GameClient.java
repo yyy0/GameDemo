@@ -28,7 +28,8 @@ public class GameClient {
 
         applicationContext = new ClassPathXmlApplicationContext(APPLICATION_CONTEXT);
         applicationContext.start();
-        SpringContext.getGlobalService().onStart();
+
+        SpringContext.getResourceManager().loadResource();
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             Bootstrap b = new Bootstrap();

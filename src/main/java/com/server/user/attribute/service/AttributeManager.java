@@ -5,6 +5,7 @@ import com.server.user.attribute.constant.AttributeModel;
 import com.server.user.attribute.constant.AttributeType;
 import com.server.user.attribute.model.AccountAttribute;
 import com.server.user.attribute.model.Attribute;
+import com.server.user.fight.syncStrategy.AttributeSyncStrategy;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -57,6 +58,8 @@ public class AttributeManager {
         AccountAttribute accountAttribute = getAccountAttribute(account.getAccountId());
         accountAttribute.putAttributeModel(model, model.getAttributeModel(account));
         accountAttribute.recompute();
+
+        account.fightSync(AttributeSyncStrategy.valueOf());
     }
 
 

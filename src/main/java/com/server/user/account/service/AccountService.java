@@ -3,11 +3,14 @@ package com.server.user.account.service;
 
 import com.SpringContext;
 import com.server.common.entity.CommonEntManager;
+import com.server.map.model.MapInfo;
 import com.server.tool.PacketSendUtil;
 import com.server.user.account.entity.AccountEnt;
 import com.server.user.account.model.Account;
 import com.server.user.account.packet.SM_AccountInfo;
+import com.server.user.account.packet.SM_FightAccountInfo;
 import com.server.user.account.resource.AccountResource;
+import com.server.user.fight.FightAccount;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,18 @@ public class AccountService {
     private CommonEntManager<String, AccountEnt> commonEntManager;
 
     private Logger logger = LoggerFactory.getLogger(AccountService.class);
+
+    /**
+     * 打印战斗账号信息
+     *
+     * @param account
+     */
+    public void printFightAccount(Account account) {
+        MapInfo mapInfo = SpringContext.getMapManager().getMapInfo(account.getMapId());
+        FightAccount fightAccount = mapInfo.getFightAccount(account.getAccountId());
+        SM_FightAccountInfo packet = SM_FightAccountInfo.valueOf(fightAccount);
+        PacketSendUtil.send(account, packet);
+    }
 
     /**
      * 打印账号信息

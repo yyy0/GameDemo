@@ -6,6 +6,7 @@ import com.server.session.SessionUtil;
 import com.server.session.model.TSession;
 import com.server.user.account.model.Account;
 import com.server.user.account.packet.CM_PrintAccount;
+import com.server.user.account.packet.CM_PrintFightAccount;
 import org.springframework.stereotype.Component;
 
 /**
@@ -24,5 +25,16 @@ public class AccountFacade {
     public void printAccountInfo(TSession session, CM_PrintAccount req) {
         Account account = SessionUtil.getAccountBySession(session);
         SpringContext.getAccountService().printAccount(account);
+    }
+
+    /**
+     * 打印账号信息
+     *
+     * @param req
+     */
+    @HandlerAnno
+    public void printFightAccountInfo(TSession session, CM_PrintFightAccount req) {
+        Account account = SessionUtil.getAccountBySession(session);
+        SpringContext.getAccountService().printFightAccount(account);
     }
 }

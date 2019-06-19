@@ -105,12 +105,15 @@ public class CommandPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 try {
                     Object packet;
+                    //如果没有参数输入框 实例化无参构造器
                     if (null == textField) {
                         packet = packetClz.newInstance();
                         MessageContent message = new MessageContent(packet);
                         channel.writeAndFlush(message);
                         return;
                     }
+
+                    //如果有参数输入框 根据参数依次放入valueOf方法 实例化出协议对象
                     String reqArea = textField.getText();
                     Pattern p = Pattern.compile("\\s+");
                     Matcher m = p.matcher(reqArea);

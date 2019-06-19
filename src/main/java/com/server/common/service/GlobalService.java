@@ -26,9 +26,14 @@ public class GlobalService {
         logger.info("预加载地图资源");
         SpringContext.getWorldService().initMap();
         SpringContext.getEquipUpgradeService().initEquipUpResource();
+        logger.info("开启场景线程池");
+        SpringContext.getSceneExecutorService().init();
         logger.info("开启账号线程池");
         SpringContext.getAccountExecutorService().init();
-
+        logger.info("开启通用定时器");
+        SpringContext.getScheduleService().init();
+        logger.info("开启场景定时器");
+        SpringContext.getWorldService().doRateCommand();
 
     }
 }

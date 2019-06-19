@@ -1,8 +1,10 @@
 package com.server.user.attribute;
 
 import com.server.user.attribute.constant.AttributeType;
+import com.server.user.attribute.constant.GlobalConstant;
 import com.server.user.attribute.model.Attribute;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -71,5 +73,31 @@ public class AttributeUtil {
             }
         }
         return rate > 0 ? rate : 0;
+    }
+
+    public static Map<AttributeType, Attribute> copy(Map<AttributeType, Attribute> attributeMap) {
+        Map<AttributeType, Attribute> result = new HashMap<>(attributeMap.size());
+        for (Map.Entry<AttributeType, Attribute> entry : attributeMap.entrySet()) {
+            result.put(entry.getKey(), Attribute.valueOf(entry.getValue()));
+        }
+        return result;
+    }
+
+    /**
+     * 转成客户端显示用
+     */
+    public static Map<String, String> copyToClient(Map<AttributeType, Attribute> attributeMap) {
+        Map<String, String> result = new HashMap<>(attributeMap.size());
+
+        for (Attribute attribute : attributeMap.values()) {
+            String value;
+            if (attribute.isRateAttribute()) {
+                value = GlobalConstant.getPercentage(attribute.getValue());
+            } else {
+                value = String.valueOf(attribute.getValue());
+            }
+            result.put(attribute.getType().getDesc(), value);
+        }
+        return result;
     }
 }

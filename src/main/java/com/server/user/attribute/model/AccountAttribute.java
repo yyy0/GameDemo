@@ -18,7 +18,7 @@ public class AccountAttribute {
     /**
      * 玩家最终总属性
      */
-    private Map<AttributeType, Attribute> accountAttribute = new HashMap<>();
+    private Map<AttributeType, Attribute> finalAttribute = new HashMap<>();
 
     /**
      * 模块属性
@@ -37,7 +37,7 @@ public class AccountAttribute {
         for (AttributeModel model : AttributeModel.values()) {
             attributeModels.put(model, model.getAttributeModel(account));
         }
-        compute(attributeModels, accountAttribute);
+        compute(attributeModels, finalAttribute);
     }
 
 
@@ -64,6 +64,7 @@ public class AccountAttribute {
             accountAttribute.put(type, Attribute.valueOf(type, value));
 
         }
+
     }
 
     public void putAttributeModel(AttributeModel model, Map<AttributeType, Attribute> attributes) {
@@ -76,13 +77,13 @@ public class AccountAttribute {
      * 根据当前模块属性 重新计算
      */
     public void recompute() {
-        compute(attributeModels, accountAttribute);
+        compute(attributeModels, finalAttribute);
     }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (Attribute attribute : accountAttribute.values()) {
+        for (Attribute attribute : finalAttribute.values()) {
             if (attribute != null) {
                 stringBuilder.append("属性：").
                         append(attribute.getType().getDesc()).
@@ -93,12 +94,12 @@ public class AccountAttribute {
         return String.valueOf(stringBuilder);
     }
 
-    public Map<AttributeType, Attribute> getAccountAttribute() {
-        return accountAttribute;
+    public Map<AttributeType, Attribute> getFinalAttribute() {
+        return finalAttribute;
     }
 
-    public void setAccountAttribute(Map<AttributeType, Attribute> accountAttribute) {
-        this.accountAttribute = accountAttribute;
+    public void setFinalAttribute(Map<AttributeType, Attribute> finalAttribute) {
+        this.finalAttribute = finalAttribute;
     }
 
     public Map<AttributeModel, Map<AttributeType, Attribute>> getAttributeModels() {

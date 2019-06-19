@@ -22,10 +22,11 @@ import java.util.Map;
 @Component
 public class MapManager {
 
-
     private Logger logger = LoggerFactory.getLogger(MapManager.class);
+
     @Autowired
     private ResourceManager resourceManager;
+
     private Map<Integer, MapInfo> mapInfos = new HashMap<>();
     private Map<Integer, Object> mapResources = new HashMap<>();
     private Map<Integer, Object> monsterResources = new HashMap<>();
@@ -52,16 +53,20 @@ public class MapManager {
         return mapInfos.get(mapId);
     }
 
+    public Map<Integer, MapInfo> getMapInfos() {
+        return mapInfos;
+    }
 
     /**
      * 获取mapResource
+     *
      * @param id
      * @return
      */
     public MapResource getMapResource(int id) {
         MapResource resource = (MapResource) mapResources.get(id);
         if (resource == null) {
-            logger.error("ItemResource找不到对应配置id：{0}" + id);
+            logger.error("MapResource找不到对应配置id：" + id);
         }
         return resource;
     }
@@ -69,7 +74,7 @@ public class MapManager {
     /**
      * 加载刷新怪物至地图
      */
-    public void loadMonser() {
+    public void loadMonster() {
         Map<Integer, Object> monsterAreaResource = resourceManager.getResources(MonsterAreaResource.class.getSimpleName());
         for (Object object : monsterAreaResource.values()) {
             MonsterAreaResource areaResource = (MonsterAreaResource) object;
@@ -93,5 +98,6 @@ public class MapManager {
         }
 
     }
+
 }
 

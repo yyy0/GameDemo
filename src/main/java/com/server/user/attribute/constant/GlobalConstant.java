@@ -1,10 +1,14 @@
 package com.server.user.attribute.constant;
 
+import java.text.DecimalFormat;
+
 /**
  * @author yuxianming
  * @date 2019/6/5 10:41
  */
 public interface GlobalConstant {
+
+    static DecimalFormat df = new DecimalFormat("0.00%");
 
     /**
      * 万分比
@@ -19,5 +23,15 @@ public interface GlobalConstant {
      */
     static double getRatio(double value) {
         return value * 1.0d / GlobalConstant.RATIO_VALUE;
+    }
+
+    /**
+     * 转成百分比显示
+     *
+     * @param value
+     * @return
+     */
+    static String getPercentage(double value) {
+        return df.format(getRatio(value));
     }
 }

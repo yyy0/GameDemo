@@ -3,23 +3,29 @@ package com;
 import com.client.clientframe.frame.CommandFrame;
 import com.client.clientframe.frame.LoginFrame;
 import com.client.clientframe.frame.RegFrame;
-import com.server.command.service.Command;
-import com.server.command.service.CommandFacade;
-import com.server.command.service.GmDispatcher;
 import com.server.common.event.core.EventBusManager;
-import com.server.common.executor.AccountExecutorService;
+import com.server.common.executor.account.AccountExecutorService;
+import com.server.common.executor.scene.SceneExecutorService;
+import com.server.common.executor.schedule.ScheduleService;
 import com.server.common.identity.service.IdentifyService;
 import com.server.common.resource.ResourceManager;
 import com.server.common.service.GlobalService;
 import com.server.dispatcher.ActionDispatcher;
+import com.server.gm.service.Command;
+import com.server.gm.service.CommandFacade;
+import com.server.gm.service.GmDispatcher;
 import com.server.login.service.LoginService;
+import com.server.map.service.MapManager;
 import com.server.map.service.WorldService;
 import com.server.session.service.SessionService;
 import com.server.user.account.service.AccountService;
 import com.server.user.attribute.service.AttributeManager;
+import com.server.user.buff.service.BuffService;
 import com.server.user.equipUpgrade.service.EquipUpgradeService;
 import com.server.user.equipment.service.EquipmentService;
+import com.server.user.fight.service.FightService;
 import com.server.user.item.service.StoreService;
+import com.server.user.skill.service.SkillService;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -97,6 +103,48 @@ public class SpringContext implements ApplicationContextAware {
 
     @Autowired
     public AccountExecutorService accountExecutorService;
+
+    @Autowired
+    public SkillService skillService;
+
+    @Autowired
+    public ScheduleService scheduleService;
+
+    @Autowired
+    public FightService fightService;
+
+    @Autowired
+    public MapManager mapManager;
+
+    @Autowired
+    public SceneExecutorService sceneExecutorService;
+
+    @Autowired
+    public BuffService buffService;
+
+    public static BuffService getBuffService() {
+        return instance.buffService;
+    }
+
+    public static SceneExecutorService getSceneExecutorService() {
+        return instance.sceneExecutorService;
+    }
+
+    public static FightService getFightService() {
+        return instance.fightService;
+    }
+
+    public static MapManager getMapManager() {
+        return instance.mapManager;
+    }
+
+    public static ScheduleService getScheduleService() {
+        return instance.scheduleService;
+    }
+
+    public static SkillService getSkillService() {
+        return instance.skillService;
+    }
 
     public static AccountExecutorService getAccountExecutorService() {
         return instance.accountExecutorService;

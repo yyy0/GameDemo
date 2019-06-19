@@ -30,7 +30,7 @@ public enum ItemType {
     /**
      * 潘多拉宝箱
      */
-    PANDDORA(4, Pandora.class);
+    PANDORA(4, Pandora.class);
 
     public static final Logger logger = LoggerFactory.getLogger(ItemType.class);
 

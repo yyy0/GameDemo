@@ -53,6 +53,8 @@ public class LoginService {
             session.setAttribute(SessionUtil.ACCOUNT_ID, accountId);
             SpringContext.getSessionService().register(session, accountId);
         }
+
+        SpringContext.getAttributeManager().loadAccountAttr(account);
         //登陆切图，没找到地图id 默认进新手村
 
         MapResource mapResource = SpringContext.getWorldService().getMapResource(account.getMapId());
@@ -68,7 +70,6 @@ public class LoginService {
 //        AccountResource resource=SpringContext.getAccountService().getAccountResource(account.getLevel());
 //        SpringContext.getAttributeManager().putAttributes(accountId, AttributeModel.ACCOUNT_BASE,resource.getAttributes());
 
-        SpringContext.getAttributeManager().loadAccountAttr(account);
 
         SM_LoginSuccess packet = SM_LoginSuccess.valueOf(accountId, mapId);
         PacketSendUtil.send(session, packet);

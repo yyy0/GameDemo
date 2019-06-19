@@ -125,4 +125,20 @@ public class TimeUtil {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format, Locale.getDefault());
         return simpleDateFormat.format(millisecond);
     }
+
+
+    /**
+     * 系统当前时间
+     *
+     * @return
+     */
+    public static long nowNano() {
+        return System.nanoTime();
+    }
+
+    public static long now() {
+        return System.currentTimeMillis();
+    }
+
+
 }

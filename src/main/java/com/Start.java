@@ -22,8 +22,8 @@ public class Start {
         applicationContext = new ClassPathXmlApplicationContext(APPLICATION_CONTEXT);
         applicationContext.start();
         SpringContext.getGlobalService().onStart();
-        new GameServer().connect();
         long end = System.nanoTime() - start;
         logger.info("服务器启动，耗时{}s", TimeUnit.NANOSECONDS.toSeconds(end));
+        new GameServer().connect();
     }
 }

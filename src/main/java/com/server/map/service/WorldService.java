@@ -1,7 +1,9 @@
 package com.server.map.service;
 
 import com.SpringContext;
+import com.server.common.command.SceneRateCommand;
 import com.server.common.resource.ResourceManager;
+import com.server.map.command.ChangeMapCommand;
 import com.server.map.model.Grid;
 import com.server.map.model.MapInfo;
 import com.server.map.packet.SM_AccountMove;
@@ -15,6 +17,8 @@ import com.server.publicsystem.i18n.I18Utils;
 import com.server.publicsystem.i18n.constant.I18nId;
 import com.server.tool.PacketSendUtil;
 import com.server.user.account.model.Account;
+import com.server.user.fight.FightAccount;
+import com.server.user.fight.syncStrategy.GridSyncStrategy;
 import com.server.user.item.model.AbstractItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +50,7 @@ public class WorldService {
         //初始化地图
         mapManager.initMap();
         //初始化刷怪
-        mapManager.loadMonser();
+        mapManager.loadMonster();
     }
 
     /**
@@ -56,6 +60,16 @@ public class WorldService {
      * @param targetMapId
      */
     public void changeMap(Account account, int targetMapId) {
+        SpringContext.getSceneExecutorService().submit(ChangeMapCommand.valueOf(account, targetMapId));
+    }
+
+    /**
+     * 切图
+     *
+     * @param account
+     * @param targetMapId
+     */
+    public void serverChangeMap(Account account, int targetMapId) {
         MapResource mapResource = getMapResource(targetMapId);
         logger.info("账号[{}]进入地图：mapid[{}],mapname[{}]  当前坐标：{}_{}",
                 account.getName(), targetMapId, mapResource.getName(),
@@ -85,7 +99,9 @@ public class WorldService {
         account.setMapId(targetMapId);
         account.setGridX(gridX);
         account.setGirdY(gridY);
-        mapInfo.addAccount(account.getAccountId(), Grid.valueOf(gridX, gridY));
+        FightAccount fightAccount = FightAccount.valueOf(account);
+        mapInfo.addFightAccount(fightAccount);
+        account.setFightAccount(fightAccount.copy());
         logger.info("账号[{}]进入地图：{}", account.getName(), mapResource.getName());
         SpringContext.getAccountService().saveAccountInfo(account.getAccountId());
 
@@ -105,14 +121,16 @@ public class WorldService {
         MapResource mapResource = getMapResource(account.getMapId());
         int preX = account.getGridX();
         int preY = account.getGirdY();
-        MapInfo mapInfo = mapManager.getMapInfo(account.getMapId());
-        if (isCanWalk(mapResource, targetGrid)) {
+        MapInfo mapInfo = getMapInfo(account.getMapId());
+
+        if (isCanWalk(mapResource, targetGrid) && mapInfo.isCanWalk(targetGrid.getX(), targetGrid.getY())) {
+            mapInfo.setGridAsRoad(preX, preY);
             int newX = targetGrid.getX();
             int newY = targetGrid.getY();
             account.setGridX(newX);
             account.setGirdY(newY);
             SpringContext.getAccountService().saveAccountInfo(account.getAccountId());
-            mapInfo.addAccount(account.getAccountId(), Grid.valueOf(newX, newY));
+            account.fightSync(GridSyncStrategy.valueOf(Grid.valueOf(newX, newY)));
             SM_AccountMove packet = SM_AccountMove.valueOf(account.getAccountId(), newX, newY, preX, preY);
             PacketSendUtil.send(account, packet);
         } else {
@@ -142,7 +160,7 @@ public class WorldService {
 
         int oldMapId = account.getMapId();
         MapInfo mapInfo = mapManager.getMapInfo(oldMapId);
-        mapInfo.removeAccount(account.getAccountId());
+        mapInfo.removeFightAccount(account.getAccountId());
     }
 
     public void printMapInfo(Account account) {
@@ -226,6 +244,22 @@ public class WorldService {
         }
 
         printMonstersInfo(account, account.getMapId());
+
+    }
+
+    public MapInfo getMapInfo(int mapId) {
+        return mapManager.getMapInfo(mapId);
+    }
+
+    /**
+     * 场景执行周期任务
+     */
+    public void doRateCommand() {
+
+        Map<Integer, MapInfo> mapInfoMap = SpringContext.getMapManager().getMapInfos();
+        for (int mapId : mapInfoMap.keySet()) {
+            SpringContext.getSceneExecutorService().submit(SceneRateCommand.valueOf(null, mapId, 0, 500));
+        }
 
     }
 

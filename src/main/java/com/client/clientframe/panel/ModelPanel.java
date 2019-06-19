@@ -2,7 +2,7 @@ package com.client.clientframe.panel;
 
 import com.SpringContext;
 import com.client.clientframe.constant.ClientFrameConstant;
-import com.server.command.service.GmDefinition;
+import com.server.gm.service.GmDefinition;
 import io.netty.channel.Channel;
 
 import javax.swing.*;

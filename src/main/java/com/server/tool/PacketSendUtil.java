@@ -17,6 +17,12 @@ public class PacketSendUtil {
         }
     }
 
+    public static void send(String accountId, Object packet) {
+        TSession session = SpringContext.getSessionService().getSession(accountId);
+        if (session != null) {
+            send(session, packet);
+        }
+    }
 
     public static void send(TSession session, Object packet) {
         if (session != null) {

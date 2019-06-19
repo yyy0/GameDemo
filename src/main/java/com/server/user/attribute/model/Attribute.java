@@ -21,6 +21,13 @@ public class Attribute implements Serializable {
         return attribute;
     }
 
+    public static Attribute valueOf(Attribute attribute) {
+        Attribute result = new Attribute();
+        result.type = attribute.getType();
+        result.value = attribute.getValue();
+        return result;
+    }
+
     public boolean isRateAttribute() {
         if (type == null) {
             return false;

@@ -1,0 +1,4 @@
+buffid,buff�� ,buff����,����ʱ�� ,��������ʱ��,Ч��ֵ       ,Ч���ٷֱ�
+id    ,name   ,type    ,duration,periodTime ,effectValue,effectRatio
+101   ,�����˺�,101     ,5000    ,1000       ,30         ,
+102   ,���ӹ���,101     ,5000    ,           ,100        ,

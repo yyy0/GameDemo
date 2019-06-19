@@ -1,8 +1,8 @@
 package com.server.user.equipment.gm;
 
 import com.SpringContext;
-import com.server.command.anno.GmAnno;
-import com.server.command.anno.GmMethod;
+import com.server.gm.anno.GmAnno;
+import com.server.gm.anno.GmMethod;
 import com.server.user.account.model.Account;
 import com.server.user.equipment.packet.CM_Equip;
 import com.server.user.equipment.packet.CM_EquipmentInfo;

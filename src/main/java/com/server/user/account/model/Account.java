@@ -2,13 +2,22 @@ package com.server.user.account.model;
 
 import com.SpringContext;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.server.map.model.Grid;
 import com.server.user.account.resource.AccountResource;
+import com.server.user.attribute.AttributeUtil;
 import com.server.user.attribute.constant.AttributeModel;
+import com.server.user.attribute.constant.AttributeType;
 import com.server.user.attribute.model.AccountAttribute;
+import com.server.user.attribute.model.Attribute;
+import com.server.user.fight.FightAccount;
+import com.server.user.fight.command.FightSyncCommand;
+import com.server.user.fight.syncStrategy.AbstractAccountSyncStrategy;
+import com.server.user.skill.model.AccountSkill;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Date;
+import java.util.Map;
 
 
 /**
@@ -45,6 +54,9 @@ public class Account {
     @JsonIgnore
     private transient AccountAttribute attribute;
 
+    @JsonIgnore
+    private transient FightAccount fightAccount;
+
 
     /**
      * 初始化账号信息
@@ -76,8 +88,14 @@ public class Account {
     }
 
 
-    public AccountAttribute getAccountAttribute(String accountId) {
+    public AccountAttribute getAccountAttribute() {
         return SpringContext.getAttributeManager().getAccountAttribute(accountId);
+    }
+
+    @JsonIgnore
+    public Map<AttributeType, Attribute> getCurCopyAttribute() {
+        Map<AttributeType, Attribute> result = AttributeUtil.copy(getAccountAttribute().getFinalAttribute());
+        return result;
     }
 
     public String getAccountId() {
@@ -136,10 +154,6 @@ public class Account {
         this.level = level;
     }
 
-    public AccountAttribute getAttribute() {
-        return attribute;
-    }
-
     public void setAttribute(AccountAttribute attribute) {
         this.attribute = attribute;
     }
@@ -147,7 +161,7 @@ public class Account {
     @Override
     public String toString() {
 
-        AccountAttribute accountAttribute = getAccountAttribute(accountId);
+        AccountAttribute accountAttribute = getAccountAttribute();
         return "账号信息：Account{" +
                 "accountId='" + accountId + '\'' +
                 ", name='" + name + '\'' +
@@ -166,5 +180,44 @@ public class Account {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Grid getGrid() {
+        return Grid.valueOf(this.gridX, this.girdY);
+    }
+
+    public AccountSkill getAccountSkill() {
+        return SpringContext.getSkillService().getAccountSkill(accountId);
+    }
+
+    public FightAccount getFightAccount() {
+
+        if (fightAccount == null) {
+            return FightAccount.valueOf(this);
+        }
+        return fightAccount;
+    }
+
+    public void setFightAccount(FightAccount fightAccount) {
+        this.fightAccount = fightAccount;
+    }
+
+
+    /**
+     * 同步至战斗账号
+     *
+     * @param strategy
+     */
+    public void fightSync(AbstractAccountSyncStrategy strategy) {
+
+        strategy.init(this);
+        FightAccount fightAccount = getFightAccount();
+
+        //账号线程同步
+        strategy.syncInfo(fightAccount);
+
+        //场景线程同步
+        SpringContext.getSceneExecutorService().submit(FightSyncCommand.valueOf(strategy, this.accountId, this.mapId));
+
     }
 }

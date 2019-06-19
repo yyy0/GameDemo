@@ -40,7 +40,7 @@ public class SM_AccountInfo implements Serializable {
         packet.girdY = gridY;
         packet.attributes = new HashMap<>();
         AccountAttribute accountAttr = SpringContext.getAttributeManager().getAccountAttribute(accountId);
-        Map<AttributeType, Attribute> accountAtt = accountAttr.getAccountAttribute();
+        Map<AttributeType, Attribute> accountAtt = accountAttr.getFinalAttribute();
 
         for (Attribute attribute : accountAtt.values()) {
             String value;

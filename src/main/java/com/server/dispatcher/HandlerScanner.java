@@ -2,10 +2,10 @@ package com.server.dispatcher;
 
 import com.client.dispatcher.ClientHandlerAnno;
 import com.client.dispatcher.ClientHandlerDefinition;
-import com.server.command.anno.GmAnno;
-import com.server.command.anno.GmMethod;
-import com.server.command.service.GmDefinition;
-import com.server.command.service.GmDispatcher;
+import com.server.gm.anno.GmAnno;
+import com.server.gm.anno.GmMethod;
+import com.server.gm.service.GmDefinition;
+import com.server.gm.service.GmDispatcher;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;

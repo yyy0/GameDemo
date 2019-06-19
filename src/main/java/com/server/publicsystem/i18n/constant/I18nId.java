@@ -54,4 +54,18 @@ public interface I18nId {
     int NO_MONSTER = 23;
     //该怪物掉落为空
     int MONSTER_NULL_DROP = 24;
+    //已学过该技能
+    int SKILL_ALREADY_ACTIVE = 25;
+    //该技能尚未学习
+    int SKILL_NOT_ACTIVE = 26;
+    //该角色暂无技能
+    int ACCOUNT_NULL_SKILL = 27;
+    //技能冷却中
+    int SKILL_CD_NOW = 28;
+    //魔法值不足
+    int NO_MP = 29;
+    //攻击目标不在范围内
+    int TARGET_NOT_IN_RANGE = 30;
+    //攻击目标已死亡
+    int TARGET_ALREADY_DEATH = 31;
 }

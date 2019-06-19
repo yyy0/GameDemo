@@ -106,9 +106,9 @@ public enum AttributeType implements Serializable {
     AGILITY(12, "敏捷"),
 
     /**
-     * 魔法（蓝量）
+     * 魔法（蓝量上限）
      */
-    MAGIC(13, "魔法值")
+    MAGIC(13, "魔法值上限")
     ;
     /**
      * 属性id

@@ -3,9 +3,9 @@ package com.client.clientframe.frame;
 import com.SpringContext;
 import com.client.clientframe.panel.ModelPanel;
 import com.client.dispatcher.ClientHandlerAnno;
-import com.server.command.packet.CM_GMcommand;
-import com.server.command.service.GmDefinition;
 import com.server.common.resource.ResourceManager;
+import com.server.gm.packet.CM_GMcommand;
+import com.server.gm.service.GmDefinition;
 import com.server.map.packet.SM_AccountMove;
 import com.server.map.packet.SM_ChangeMap;
 import com.server.map.packet.SM_MapInfo;
@@ -15,15 +15,22 @@ import com.server.publicsystem.i18n.packet.SM_Notify_Message;
 import com.server.publicsystem.i18n.resource.I18NResource;
 import com.server.server.message.MessageContent;
 import com.server.user.account.packet.SM_AccountInfo;
+import com.server.user.account.packet.SM_FightAccountInfo;
 import com.server.user.attribute.constant.AttributeType;
 import com.server.user.attribute.constant.GlobalConstant;
 import com.server.user.attribute.model.Attribute;
 import com.server.user.equipment.constant.EquipmentPosition;
 import com.server.user.equipment.model.Equipment;
 import com.server.user.equipment.packet.SM_EquipsInfo;
+import com.server.user.fight.packet.SM_Attacker;
+import com.server.user.fight.packet.SM_Buff;
+import com.server.user.fight.packet.SM_Hit;
 import com.server.user.item.model.AbstractItem;
 import com.server.user.item.packet.SM_BagInfo;
 import com.server.user.item.packet.SM_WareInfo;
+import com.server.user.skill.packet.SM_AllSkill;
+import com.server.user.skill.packet.SM_SlotSkill;
+import com.server.user.skill.resource.SkillResource;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +45,7 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 游戏指令界面
@@ -181,6 +189,25 @@ public class CommandFrame extends JFrame {
 
     }
 
+    /**
+     * 打印战斗账号信息
+     *
+     * @param packet
+     */
+    @ClientHandlerAnno
+    public void clientPrintFightAccount(SM_FightAccountInfo packet) {
+        printArea.setText("");
+        System.out.println("打印战斗账号信息");
+        String message = packet.toString();
+        printArea.append(message + "\r\n");
+        printArea.append("战斗账号属性如下：" + "\r\n");
+        Map<String, String> attributes = packet.getAttributes();
+        for (Map.Entry<String, String> entry : attributes.entrySet()) {
+            printArea.append("name：" + entry.getKey() + " value:" + entry.getValue() + "\r\n");
+        }
+
+    }
+
     @ClientHandlerAnno
     public void clientChangeMap(SM_ChangeMap packet) {
 
@@ -196,6 +223,7 @@ public class CommandFrame extends JFrame {
 
     /**
      * 打印地图信息
+     *
      * @param packet
      */
     @ClientHandlerAnno
@@ -272,7 +300,7 @@ public class CommandFrame extends JFrame {
     @ClientHandlerAnno
     public void printEquips(SM_EquipsInfo packet) {
         Map<Integer, Equipment> equipmentMap = packet.getEquipmentMap();
-//        printArea.setText("");
+
         for (Map.Entry<Integer, Equipment> entry : equipmentMap.entrySet()) {
             EquipmentPosition position = EquipmentPosition.typeOf(entry.getKey());
             printArea.append(position + ":" + entry.getValue() + "\r\n");
@@ -309,5 +337,62 @@ public class CommandFrame extends JFrame {
         }
     }
 
+
+    @ClientHandlerAnno
+    public void printAllSkill(SM_AllSkill packet) {
+        printArea.setText("");
+        Set<Integer> skills = packet.getAllSkill();
+        for (int skillId : skills) {
+            SkillResource resource = SpringContext.getSkillService().getSkillResource(skillId);
+            printArea.append("技能id：" + resource.getId() + " 技能名称：" + resource.getName() + "\r\n");
+        }
+    }
+
+    @ClientHandlerAnno
+    public void printSlotSkill(SM_SlotSkill packet) {
+        printArea.setText("");
+        int[] skills = packet.getSkills();
+        for (int i = 0; i < skills.length; i++) {
+            if (skills[i] == 0) {
+                printArea.append("第" + (i + 1) + "个槽位：" + "暂无技能" + "\r\n");
+                continue;
+            }
+            SkillResource resource = SpringContext.getSkillService().getSkillResource(skills[i]);
+            printArea.append("第" + (i + 1) + "个槽位：" + resource.getName() + "\r\n");
+        }
+    }
+
+    /**
+     * 受击协议
+     *
+     * @param packet
+     */
+    @ClientHandlerAnno
+    public void printHit(SM_Hit packet) {
+        printArea.append("您被【" + packet.getAccountId() + "】使用【" + packet.getSkillName() + "】攻击了,受到伤害:"
+                + " " + packet.getDamage()
+                + " 血量： " + packet.getCurHP() + "/" + packet.getMax_HP() + "\r\n"
+        );
+    }
+
+    /**
+     * 攻击者信息 您使用xx技能攻击了xx，造成伤害: xx
+     *
+     * @param packet
+     */
+    @ClientHandlerAnno
+    public void printAttacker(SM_Attacker packet) {
+        printArea.append("您使用了【" + packet.getSkillName() + "】攻击" + "【" + packet.getVictim() + "】,造成伤害："
+                + packet.getDamage() + "\r\n");
+    }
+
+    @ClientHandlerAnno
+    public void printBuff(SM_Buff packet) {
+        if (packet.getDamage() > 0) {
+            printArea.append("您受到【" + packet.getBuffName() + "】buff影响，扣除伤害： " + packet.getDamage() +
+                    " 当前生命： " + packet.getCurHP() + "/" + packet.getMax_HP() + "\r\n");
+        }
+
+    }
 
 }
