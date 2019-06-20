@@ -2,6 +2,7 @@ package com.client;
 
 
 import com.SpringContext;
+import com.server.log.LoggerUtil;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
@@ -18,7 +19,7 @@ import javax.net.ssl.SSLException;
  */
 public class GameClient {
 
-    static final String HOST = "localhost";
+    static final String HOST = "10.9.13.52";
     static final int PORT = 8888;
     private static final String APPLICATION_CONTEXT = "applicationContext.xml";
     private static ClassPathXmlApplicationContext applicationContext;
@@ -26,10 +27,11 @@ public class GameClient {
     public static void main(String[] args) throws InterruptedException, SSLException {
 
 
+        LoggerUtil.info("客户端开启");
         applicationContext = new ClassPathXmlApplicationContext(APPLICATION_CONTEXT);
         applicationContext.start();
-
-        SpringContext.getResourceManager().loadResource();
+        LoggerUtil.info("加载resource资源");
+        SpringContext.getResourceManager().loadNewResource();
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             Bootstrap b = new Bootstrap();

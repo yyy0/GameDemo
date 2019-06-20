@@ -125,6 +125,34 @@ public class AnnotationScanner {
     }
 
     /**
+     * 通过指定注解获得class
+     *
+     * @param pkgName
+     * @param pkgPath
+     * @param recursive
+     * @param targetAnnotation
+     * @return
+     */
+    public static Set<Class<?>> scanClazzByAnnotation(
+            List<String> classNames, Class<? extends Annotation> targetAnnotation) {
+        Set<Class<?>> clazz = new HashSet<>();
+
+        for (String className : classNames) {
+            try {
+                Class<?> curClass = Thread.currentThread().getContextClassLoader().loadClass(className);
+                if (curClass.isAnnotationPresent(targetAnnotation)) {
+                    clazz.add(curClass);
+                }
+            } catch (ClassNotFoundException e) {
+                logger.error("load class fail", e);
+            }
+        }
+
+
+        return clazz;
+    }
+
+    /**
      * 加载类
      *
      * @param file
@@ -190,17 +218,6 @@ public class AnnotationScanner {
         return resultMap;
     }
 
-    public static void main(String[] args) {
-        String packageName = "com.server";
-//        String packPath = "target/classes/com";
-        String packPath = getPkgPath(packageName);
-        logger.info("pkgPath is {}", packageName);
-
-        Set<Class<?>> classSet = scanClazzByAnnotation(packageName, packPath, true,
-                Resource.class);
-
-
-    }
 
 
 }

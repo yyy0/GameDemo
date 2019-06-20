@@ -29,12 +29,6 @@ public class MapInfo {
     private int mapId;
 
     /**
-     * 账号格子信息
-     * String 账号id  grid 账号坐标
-     */
-    private Map<String, Grid> accountsGrid = new HashMap<>();
-
-    /**
      * 怪物信息
      */
     private List<Monster> monsters = new ArrayList<>();
@@ -80,7 +74,7 @@ public class MapInfo {
      * 打印地图信息
      */
     public char[][] printInfo() {
-        logger.info("【{}】地图信息：当前人数【{}】人", mapResource.getName(), accountsGrid.keySet().size());
+        logger.info("【{}】地图信息：当前人数【{}】人", mapResource.getName(), fightAccountMap.size());
         fightAccountMap.forEach((accountId, fightAccount) -> mapChars[fightAccount.getGrid().getX()][fightAccount.getGrid().getY()] = MapConstant.USER);
 
         logger.info("【{}】地图信息：当前怪物数量【{}】个", mapResource.getName(), monsters.size());
@@ -114,13 +108,6 @@ public class MapInfo {
         }
     }
 
-    public void addAccount(String accountId, Grid grid) {
-        if (accountsGrid.containsKey(accountId)) {
-            Grid gridTemp = accountsGrid.remove(accountId);
-            mapChars[gridTemp.getX()][gridTemp.getY()] = MapConstant.ROAD;
-        }
-        accountsGrid.put(accountId, grid);
-    }
 
     public void addFightAccount(FightAccount fightAccount) {
         String accountId = fightAccount.getAccountId();
@@ -141,11 +128,6 @@ public class MapInfo {
         return null;
     }
 
-    public void removeAccount(String accountId) {
-        Grid grid = accountsGrid.remove(accountId);
-        mapChars[grid.getX()][grid.getY()] = MapConstant.ROAD;
-    }
-
     public void removeFightAccount(String accountId) {
         FightAccount fightAccount = fightAccountMap.remove(accountId);
         if (fightAccount == null) {
@@ -156,20 +138,12 @@ public class MapInfo {
     }
 
 
-    public Grid getAccountGrid(String accountId) {
-        return accountsGrid.get(accountId);
-    }
-
     public int getMapId() {
         return mapId;
     }
 
     public void setMapId(int mapId) {
         this.mapId = mapId;
-    }
-
-    public int getAccountNum() {
-        return accountsGrid.keySet().size();
     }
 
     public boolean isCanWalk(int gridX, int gridY) {

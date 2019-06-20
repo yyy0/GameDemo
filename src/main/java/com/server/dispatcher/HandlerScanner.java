@@ -45,7 +45,6 @@ public class HandlerScanner implements BeanPostProcessor {
                 actionDispatcher.regHandlerDefintion(definition.getClz(), definition);
             } else if (method.isAnnotationPresent(ClientHandlerAnno.class)) {
                 ClientHandlerDefinition clientDefinition = ClientHandlerDefinition.valueOf(bean, method);
-                System.out.println(clientDefinition.getClz().getName());
                 actionDispatcher.regClientHandler(clientDefinition.getClz(), clientDefinition);
             }
         }

@@ -22,7 +22,7 @@ public class GlobalService {
     public void onStart() {
 
         logger.info("预加载resource资源");
-        resourceManager.loadResource();
+        resourceManager.loadNewResource();
         logger.info("预加载地图资源");
         SpringContext.getWorldService().initMap();
         SpringContext.getEquipUpgradeService().initEquipUpResource();

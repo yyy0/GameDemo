@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
  * @author yuxianming
  * @date 2019/5/9 15:10
  */
-public class Start {
+public class ServerStart {
     private static final String APPLICATION_CONTEXT = "applicationContext.xml";
     private static ClassPathXmlApplicationContext applicationContext;
     private static Logger logger = LoggerFactory.getLogger("START");

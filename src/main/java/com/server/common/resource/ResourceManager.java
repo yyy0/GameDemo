@@ -8,9 +8,11 @@ import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ReflectionUtils;
 
 import java.io.File;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -61,6 +63,24 @@ public class ResourceManager {
     }
 
     /**
+     * 获取所有csv文件
+     *
+     * @param resourcePath
+     * @param recursive    是否递归遍历
+     * @return
+     */
+//    private Collection<InputStream> getAllStream(String resourcePath, boolean recursive) {
+//        File csvFile = new File(resourcePath);
+//
+//        if (!(csvFile.exists() && csvFile.isDirectory())) {
+//            logger.error("the directory to package is empty: {}", resourcePath);
+//            return null;
+//        }
+//
+//        return FileUtils.listFiles(csvFile, new String[]{EXT}, recursive);
+//    }
+
+    /**
      * 去除文件后缀名
      *
      * @param fileName
@@ -77,9 +97,13 @@ public class ResourceManager {
      * @return
      */
     public String getPkgPath(String pkgName) {
-        String pkgDirName = pkgName.replace('.', '/');
-        URL url = Thread.currentThread().getContextClassLoader().getResource(pkgDirName);
+        String pkgDirName = "/" + pkgName.replace('.', '/');
 
+//        URL url = Thread.currentThread().getContextClassLoader().getResource(pkgDirName);
+        URL url = this.getClass().getResource(pkgDirName);
+        if (url == null) {
+            logger.warn("获取不到url地址");
+        }
         return url == null ? null : url.getFile();
     }
 
@@ -90,9 +114,12 @@ public class ResourceManager {
      */
     private Set<Class<?>> loadResourceClazz() {
 
-        String packPath = getPkgPath(RESOURCE_PACKAGE);
-        Set<Class<?>> classSet = AnnotationScanner.scanClazzByAnnotation(RESOURCE_PACKAGE, packPath, true,
-                Resource.class);
+        List<String> classNames = PackageUtil.getClassName(RESOURCE_PACKAGE, true);
+        Set<Class<?>> classSet = AnnotationScanner.scanClazzByAnnotation(classNames, Resource.class);
+//        String packPath = getPkgPath(RESOURCE_PACKAGE);
+//        Set<Class<?>> classSet = AnnotationScanner.scanClazzByAnnotation(RESOURCE_PACKAGE, packPath, true,
+//                Resource.class);
+
         return classSet;
     }
 
@@ -103,7 +130,7 @@ public class ResourceManager {
         this.resourceClazz = loadResourceClazz();
         String packPath = getPkgPath(RESOURCE);
         Collection<File> allClassFile = getAllCsvFile(packPath, false);
-        if (allClassFile == null) {
+        if (CollectionUtils.isEmpty(allClassFile)) {
             logger.error("未获取csv文件资源！！");
             return;
         }
@@ -134,6 +161,39 @@ public class ResourceManager {
                 }
 
                 resourceDatas.put(fileSimpleName, resourceData);
+            }
+        }
+    }
+
+    public void loadNewResource() {
+        this.resourceClazz = loadResourceClazz();
+        List<String> csvNames = PackageUtil.getCsvName(RESOURCE, false);
+        for (String csvName : csvNames) {
+
+            Class<?> fileClass = null;
+            for (Class<?> fileClazz : resourceClazz) {
+                if (fileClazz.getSimpleName().equals(csvName)) {
+                    fileClass = fileClazz;
+                    break;
+                }
+            }
+            if (fileClass == null) {
+                logger.error("找不到对应的class与csv对应: " + csvName);
+                return;
+            }
+            String resourceName = "/" + RESOURCE + "/" + csvName + ".csv";
+            InputStream inputStream = this.getClass().getResourceAsStream(resourceName);
+
+            List resourceBeans = CsvUtil.getCsvData(inputStream, fileClass);
+            if (resourceBeans != null) {
+                Map<Integer, Object> resourceData = new HashMap<>();
+                //将主键封装进map
+                for (Object resource : resourceBeans) {
+                    int getValue = getIdValue(resource);
+                    resourceData.put(getValue, resource);
+                }
+
+                resourceDatas.put(csvName, resourceData);
             }
         }
     }

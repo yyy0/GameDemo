@@ -6,7 +6,6 @@ import com.server.map.model.MapInfo;
 import com.server.publicsystem.i18n.I18Utils;
 import com.server.publicsystem.i18n.constant.I18nId;
 import com.server.tool.PacketSendUtil;
-import com.server.tool.TimeUtil;
 import com.server.user.account.model.Account;
 import com.server.user.attribute.constant.GlobalConstant;
 import com.server.user.buff.model.AbstractBuff;
@@ -39,6 +38,9 @@ public class FightService {
         }
         MapInfo mapInfo = SpringContext.getMapManager().getMapInfo(mapId);
         FightAccount targetAccount = mapInfo.getFightAccount(targetAccountId);
+        if (targetAccount == null) {
+            I18Utils.notifyMessageThrow(fightAccount.getAccountId(), I18nId.TARGET_NOT_IN_RANGE);
+        }
 
         //是否在攻击范围内
         if (!isCanAttackTarget(fightAccount, mapId, targetAccount, skillResource.getRange())) {
@@ -51,7 +53,6 @@ public class FightService {
         //真正造成伤害
         causeDamage(fightAccount, targetAccount, skillResource);
 
-        targetNum = 3;
         // 多目标技能攻击周围角色
         if (targetNum > 1) {
             List<FightAccount> aroundFightAccounts = mapInfo.getAroundFightAccount(fightAccount, skillResource.getRange());
@@ -130,7 +131,7 @@ public class FightService {
             PacketSendUtil.send(attacker.getAccountId(), atkPacket);
             if (skillResource.getBuff() != 0) {
                 AbstractBuff abstractBuff = SpringContext.getBuffService().createBuff(skillResource.getBuff());
-                abstractBuff.setCreateTime(TimeUtil.now());
+
                 target.addBuff(abstractBuff.getBuffId(), abstractBuff);
             }
         }

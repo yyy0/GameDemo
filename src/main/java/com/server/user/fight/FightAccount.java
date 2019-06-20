@@ -208,6 +208,9 @@ public class FightAccount {
 
     public void addBuff(int buffId, AbstractBuff buff) {
         buffMap.put(buffId, buff);
+        long now = TimeUtil.now();
+        buff.setCreateTime(now);
+        buff.setLastEffectTime(now);
         buff.doAction(this);
     }
 
