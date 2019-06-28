@@ -18,6 +18,7 @@ public class PvpFacade {
     @HandlerAnno
     public void useSkill(TSession session, CM_UseSkill req) {
         Account account = SessionUtil.getAccountBySession(session);
+
         SpringContext.getFightService().useSkill(account, req.getTargetAccountId(), req.getSkillId());
     }
 }

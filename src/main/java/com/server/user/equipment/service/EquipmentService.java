@@ -5,6 +5,8 @@ import com.server.common.entity.CommonEntManager;
 import com.server.common.resource.ResourceManager;
 import com.server.publicsystem.i18n.I18Utils;
 import com.server.publicsystem.i18n.constant.I18nId;
+import com.server.task.constant.TaskConditionType;
+import com.server.task.event.TaskEvent;
 import com.server.tool.PacketSendUtil;
 import com.server.user.account.model.Account;
 import com.server.user.attribute.constant.AttributeModel;
@@ -99,9 +101,14 @@ public class EquipmentService {
         Equipment unEquipment = equipStorage.equip(equipment, equipmentPosition);
         if (unEquipment != null) {
             SpringContext.getStoreService().addItemToBag(account, unEquipment);
+        } else {
+            //提交穿戴装备事件
+            SpringContext.getEventManager().syncSubmit(TaskEvent.valueOf(account, TaskConditionType.EQUIP_NUM, 1));
         }
         saveEquipStorage(account.getAccountId(), equipStorage);
+        //刷新属性
         SpringContext.getAttributeManager().refreshAttr(account, AttributeModel.EQUIPMENT);
+
         printEquipments(account);
     }
 
@@ -137,7 +144,10 @@ public class EquipmentService {
             return;
         }
         equipStorage.unEquip(equipmentPosition);
+
         SpringContext.getStoreService().addItemToBag(account, equipment);
+        //提交脱装备事件
+        SpringContext.getEventManager().syncSubmit(TaskEvent.valueOf(account, TaskConditionType.EQUIP_NUM, -1));
         saveEquipStorage(account.getAccountId(), equipStorage);
         SpringContext.getAttributeManager().refreshAttr(account, AttributeModel.EQUIPMENT);
         printEquipments(account);

@@ -1,5 +1,6 @@
 package com.server.common.event.core;
 
+import com.server.common.event.event.IEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -37,7 +38,7 @@ public class EventBusManager {
      *
      * @param event
      */
-    public void syncSubmit(Object event) {
+    public void syncSubmit(IEvent event) {
         this.doSubmitEvent(event);
     }
 
@@ -46,12 +47,12 @@ public class EventBusManager {
      *
      * @param event
      */
-    public void asyncSubmit(Object event) {
-        this.executorServices[new Random().nextInt(2)].submit(() -> doSubmitEvent(event));
+    public void asyncSubmit(IEvent event) {
+        this.executorServices[Math.abs((int) event.getOwner() % 2)].submit(() -> doSubmitEvent(event));
 
     }
 
-    private void doSubmitEvent(Object event) {
+    private void doSubmitEvent(IEvent event) {
         List definitions = getDefinitions(event);
 
         if (definitions != null) {

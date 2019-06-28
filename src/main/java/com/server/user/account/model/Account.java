@@ -9,6 +9,7 @@ import com.server.user.attribute.constant.AttributeModel;
 import com.server.user.attribute.constant.AttributeType;
 import com.server.user.attribute.model.AccountAttribute;
 import com.server.user.attribute.model.Attribute;
+import com.server.user.equipment.model.EquipStorage;
 import com.server.user.fight.FightAccount;
 import com.server.user.fight.command.FightSyncCommand;
 import com.server.user.fight.syncStrategy.AbstractAccountSyncStrategy;
@@ -50,6 +51,8 @@ public class Account {
     private int girdY;
 
     private int level;
+
+    private long fightPower;
 
     @JsonIgnore
     private transient AccountAttribute attribute;
@@ -219,5 +222,18 @@ public class Account {
         //场景线程同步
         SpringContext.getSceneExecutorService().submit(FightSyncCommand.valueOf(strategy, this.accountId, this.mapId));
 
+    }
+
+    public long getFightPower() {
+        return fightPower;
+    }
+
+    public void setFightPower(long fightPower) {
+        this.fightPower = fightPower;
+    }
+
+    public EquipStorage getEquipStorage() {
+        EquipStorage equipStorage = SpringContext.getEquipmentService().getEquipStorage(accountId);
+        return equipStorage;
     }
 }

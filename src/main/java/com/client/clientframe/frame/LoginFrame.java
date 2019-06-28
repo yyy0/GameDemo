@@ -87,7 +87,7 @@ public class LoginFrame extends JFrame {
     public void clientLoginSuccess(SM_LoginSuccess packet) {
         this.dispose();
         CommandFrame commandFrame = SpringContext.getCommandFrame();
-        commandFrame.initFrame(channel);
+        commandFrame.initFrame(channel, packet.getAccountId());
     }
 
 }

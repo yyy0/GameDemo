@@ -30,10 +30,13 @@ public class GlobalService {
         SpringContext.getSceneExecutorService().init();
         logger.info("开启账号线程池");
         SpringContext.getAccountExecutorService().init();
+        logger.info("加载排行榜");
+        SpringContext.getRankService().initRank();
         logger.info("开启通用定时器");
         SpringContext.getScheduleService().init();
         logger.info("开启场景定时器");
         SpringContext.getWorldService().doRateCommand();
+
 
     }
 }

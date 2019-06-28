@@ -100,4 +100,16 @@ public class AttributeUtil {
         }
         return result;
     }
+
+    public static long getAttrValue(Map<AttributeType, Attribute> attributeMap, AttributeType type) {
+        if (attributeMap == null) {
+            return 0;
+        }
+        Attribute attribute = attributeMap.get(type);
+        if (attribute == null) {
+            return 0;
+        } else {
+            return attribute.getValue() < 0 ? 0 : attribute.getValue();
+        }
+    }
 }

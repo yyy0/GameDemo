@@ -202,6 +202,35 @@ public class MapInfo {
         return list;
     }
 
+
+    /**
+     * 获取指定战斗账号周围的角色，指定数量
+     *
+     * @param fightAccount
+     * @param range
+     * @param num
+     * @return
+     */
+    public List<FightAccount> getAroundFightAccount(FightAccount fightAccount, int range, int num) {
+
+        Grid selfGrid = fightAccount.getGrid();
+        List<FightAccount> list = new ArrayList<>(fightAccountMap.size());
+        for (FightAccount around : fightAccountMap.values()) {
+            // 除去自身
+            if (around.getAccountId().equals(fightAccount.getAccountId())) {
+                continue;
+            }
+            if (selfGrid.isInRange(around.getGrid(), range)) {
+                list.add(around);
+                num--;
+                if (num == 0) {
+                    break;
+                }
+            }
+        }
+        return list;
+    }
+
     public Map<String, FightAccount> getFightAccountMap() {
         return fightAccountMap;
     }

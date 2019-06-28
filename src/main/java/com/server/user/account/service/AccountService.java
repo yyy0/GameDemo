@@ -52,7 +52,7 @@ public class AccountService {
     public void printAccount(Account account) {
         System.out.println(account);
         SM_AccountInfo packet = SM_AccountInfo.valueOf(account.getAccountId(), account.getName(), account.getMapId()
-                , account.getGridX(), account.getGirdY());
+                , account.getGridX(), account.getGirdY(), account.getFightPower());
         PacketSendUtil.send(account, packet);
     }
 
@@ -79,9 +79,11 @@ public class AccountService {
         commonEntManager.update();
     }
 
+
     public void saveAccountInfo(Account account) {
         AccountEnt accountEnt = getAccountEnt(account.getAccountId());
         accountEnt.setAccount(account);
+        accountEnt.setFightPower(account.getFightPower());
         accountEnt.doSerialize();
         commonEntManager.update();
     }

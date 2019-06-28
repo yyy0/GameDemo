@@ -19,4 +19,9 @@ public class FightGm {
     public void useSkill(Account account, String targetAccountId, int skillId) {
         SpringContext.getFightService().useSkill(account, targetAccountId, skillId);
     }
+
+    @GmMethod(name = "使用技能", param = "参数:目标账号 技能id ", clz = CM_UseSkill.class)
+    public void atkMonster(Account account, String targetAccountId, int skillId) {
+        SpringContext.getFightService().useSkill(account, targetAccountId, skillId);
+    }
 }

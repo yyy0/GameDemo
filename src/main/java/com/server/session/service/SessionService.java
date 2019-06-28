@@ -1,7 +1,10 @@
 package com.server.session.service;
 
+import com.SpringContext;
+import com.server.map.model.MapInfo;
 import com.server.session.SessionUtil;
 import com.server.session.model.TSession;
+import com.server.user.account.model.Account;
 import io.netty.channel.Channel;
 import io.netty.util.internal.ConcurrentSet;
 import org.slf4j.Logger;
@@ -102,7 +105,11 @@ public class SessionService {
 
             String accountId = (String) session.removeAttribute(SessionUtil.ACCOUNT_ID);
             if (accountId != null) {
+                Account account = SpringContext.getAccountService().getAccount(accountId);
+                MapInfo mapInfo = SpringContext.getMapManager().getMapInfo(account.getMapId());
+                mapInfo.removeFightAccount(accountId);
                 boolean remove = idSessionMap.remove(accountId, session);
+
                 logger.info("Session unregister, accountId={}, remove={}", accountId, remove);
             }
             Channel channel = session.getChannel();

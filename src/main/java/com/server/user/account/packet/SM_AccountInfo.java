@@ -29,15 +29,18 @@ public class SM_AccountInfo implements Serializable {
 
     private Map<String, String> attributes;
 
+    private Long fightPower;
+
     private static DecimalFormat df = new DecimalFormat("0.00%");
 
-    public static SM_AccountInfo valueOf(String accountId, String name, int mapId, int girdX, int gridY) {
+    public static SM_AccountInfo valueOf(String accountId, String name, int mapId, int girdX, int gridY, long fightPower) {
         SM_AccountInfo packet = new SM_AccountInfo();
         packet.accountId = accountId;
         packet.name = name;
         packet.mapId = mapId;
         packet.gridX = girdX;
         packet.girdY = gridY;
+        packet.fightPower = fightPower;
         packet.attributes = new HashMap<>();
         AccountAttribute accountAttr = SpringContext.getAttributeManager().getAccountAttribute(accountId);
         Map<AttributeType, Attribute> accountAtt = accountAttr.getFinalAttribute();
@@ -102,6 +105,14 @@ public class SM_AccountInfo implements Serializable {
         this.attributes = attributes;
     }
 
+    public Long getFightPower() {
+        return fightPower;
+    }
+
+    public void setFightPower(Long fightPower) {
+        this.fightPower = fightPower;
+    }
+
     @Override
     public String toString() {
         return "账号信息如下：{" +
@@ -110,6 +121,7 @@ public class SM_AccountInfo implements Serializable {
                 ", mapId=" + mapId +
                 ", gridX=" + gridX +
                 ", girdY=" + girdY +
+                ", fightPower=" + fightPower +
                 '}';
     }
 }

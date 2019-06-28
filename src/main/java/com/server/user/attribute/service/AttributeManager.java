@@ -1,5 +1,8 @@
 package com.server.user.attribute.service;
 
+import com.SpringContext;
+import com.server.rank.event.FightPowerRefreshEvent;
+import com.server.tool.TimeUtil;
 import com.server.user.account.model.Account;
 import com.server.user.attribute.constant.AttributeModel;
 import com.server.user.attribute.constant.AttributeType;
@@ -49,17 +52,19 @@ public class AttributeManager {
         return accountAttrs.get(accountId);
     }
 
-    public void recompute(String accountId) {
-        AccountAttribute accountAttr = accountAttrs.get(accountId);
-        accountAttr.recompute();
-    }
 
     public void refreshAttr(Account account, AttributeModel model) {
         AccountAttribute accountAttribute = getAccountAttribute(account.getAccountId());
         accountAttribute.putAttributeModel(model, model.getAttributeModel(account));
         accountAttribute.recompute();
-
+        long oldFightPower = accountAttribute.getFightPower();
+        long newFightPower = accountAttribute.calSelfFightPower();
+        if (oldFightPower != newFightPower) {
+            account.setFightPower(newFightPower);
+            SpringContext.getEventManager().asyncSubmit(FightPowerRefreshEvent.valueOf(account, newFightPower, TimeUtil.now()));
+        }
         account.fightSync(AttributeSyncStrategy.valueOf());
+        SpringContext.getAccountService().saveAccountInfo(account);
     }
 
 

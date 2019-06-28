@@ -3,6 +3,7 @@ package com.server.user.fight.service;
 import com.SpringContext;
 import com.server.map.model.Grid;
 import com.server.map.model.MapInfo;
+import com.server.monster.model.Monster;
 import com.server.publicsystem.i18n.I18Utils;
 import com.server.publicsystem.i18n.constant.I18nId;
 import com.server.tool.PacketSendUtil;
@@ -10,6 +11,7 @@ import com.server.user.account.model.Account;
 import com.server.user.attribute.constant.GlobalConstant;
 import com.server.user.buff.model.AbstractBuff;
 import com.server.user.fight.FightAccount;
+import com.server.user.fight.command.FightAtkMonsterCommand;
 import com.server.user.fight.command.FightUseSkillCommand;
 import com.server.user.fight.packet.SM_Attacker;
 import com.server.user.fight.packet.SM_Hit;
@@ -40,13 +42,12 @@ public class FightService {
         FightAccount targetAccount = mapInfo.getFightAccount(targetAccountId);
         if (targetAccount == null) {
             I18Utils.notifyMessageThrow(fightAccount.getAccountId(), I18nId.TARGET_NOT_IN_RANGE);
+            return;
         }
-
         //是否在攻击范围内
         if (!isCanAttackTarget(fightAccount, mapId, targetAccount, skillResource.getRange())) {
             return;
         }
-
         //真正使用技能，扣除蓝量，计算cd等
         fightAccount.useSkill(skillResource);
 
@@ -55,18 +56,13 @@ public class FightService {
 
         // 多目标技能攻击周围角色
         if (targetNum > 1) {
-            List<FightAccount> aroundFightAccounts = mapInfo.getAroundFightAccount(fightAccount, skillResource.getRange());
-            int size = targetNum - 1;
-            if (aroundFightAccounts.size() > 1) {
+            List<FightAccount> aroundFightAccounts = mapInfo.getAroundFightAccount(fightAccount, skillResource.getRange(), targetNum - 1);
+            if (aroundFightAccounts.size() > 0) {
                 for (FightAccount account : aroundFightAccounts) {
-                    if (account.getAccountId().equals(targetAccount.getAccountId())) {
+                    if (account.getAccountId().equals(targetAccountId)) {
                         continue;
                     }
                     causeDamage(fightAccount, account, skillResource);
-                    size--;
-                    if (size == 0) {
-                        break;
-                    }
                 }
             }
         }
@@ -75,6 +71,15 @@ public class FightService {
 
     public void useSkill(Account account, String targetAccountId, int skillId) {
         SpringContext.getSceneExecutorService().submit(FightUseSkillCommand.valueOf(account, targetAccountId, skillId));
+    }
+
+    public void atkMonster(Account account, int skillId, long monsterGid) {
+        SpringContext.getSceneExecutorService().submit(FightAtkMonsterCommand.valueOf(account, skillId, monsterGid));
+    }
+
+    public void doAtkMonster(FightAccount account, int skillId, long monsterGid) {
+
+
     }
 
 
@@ -101,6 +106,31 @@ public class FightService {
             return false;
         }
 
+        return true;
+    }
+
+    /**
+     * 是否能攻击怪物
+     *
+     * @param fightAccount
+     * @param mapId
+     * @param monster
+     * @param range
+     * @return
+     */
+    public boolean isCanAttackMonster(FightAccount fightAccount, int mapId, Monster monster, int range) {
+
+        if (monster == null) {
+            I18Utils.notifyMessage(fightAccount.getAccountId(), I18nId.TARGET_NOT_IN_RANGE);
+            return false;
+        }
+        Grid grid = fightAccount.getGrid();
+        Grid targetGrid = Grid.valueOf(monster.getGridX(), monster.getGridY());
+
+        if (!grid.isInRange(targetGrid, range)) {
+            I18Utils.notifyMessage(fightAccount.getAccountId(), I18nId.TARGET_NOT_IN_RANGE);
+            return false;
+        }
         return true;
     }
 

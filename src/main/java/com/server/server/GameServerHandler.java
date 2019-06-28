@@ -62,7 +62,7 @@ public class GameServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         TSession session = SessionUtil.getSessionByChannel(ctx.channel());
-        String accountId = SessionUtil.getAccountIdBySession(session);
+
         if (session != null) {
             SpringContext.getSessionService().unregister(session);
         }

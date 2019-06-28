@@ -2,6 +2,8 @@ package com.server.dispatcher;
 
 import com.SpringContext;
 import com.client.dispatcher.ClientHandlerDefinition;
+import com.server.login.packet.CM_Login;
+import com.server.login.packet.CM_Reg;
 import com.server.session.model.TSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,15 +27,32 @@ public class ActionDispatcher {
     private Map<Class<?>, ClientHandlerDefinition> ClientHandlerMap = new HashMap<Class<?>, ClientHandlerDefinition>();
 
     public final void handle(TSession session, Object packet) {
-        addSessionTask(session, new HandlerEvent(session, packet, this));
+
+        String accountId = session.getAccountId();
+        if (accountId != null) {
+            addTask(accountId, new HandlerEvent(session, packet, this));
+        } else {
+            if (packet instanceof CM_Login) {
+                accountId = ((CM_Login) packet).getAccountId();
+
+            } else if (packet instanceof CM_Reg) {
+                accountId = ((CM_Reg) packet).getAccountId();
+            }
+            if (accountId == null) {
+                throw new NullPointerException("该session找不到账号id！！");
+            }
+            addTask(accountId, new HandlerEvent(session, packet, this));
+        }
+
+
     }
 
     public void doClientHandle(Object packet) {
-        ClientHandlerDefinition defintion = ClientHandlerMap.get(packet.getClass());
-        if (defintion == null) {
+        ClientHandlerDefinition definition = ClientHandlerMap.get(packet.getClass());
+        if (definition == null) {
             throw new NullPointerException("没找到对应的ClientHandlerDefinition:" + packet.getClass().getSimpleName());
         }
-        defintion.invoke(packet);
+        definition.invoke(packet);
     }
 
     public void doHandle(Object packet) {
@@ -52,7 +71,7 @@ public class ActionDispatcher {
         definition.invoke(session, packet);
     }
 
-    public void regHandlerDefintion(Class<?> clz, HandlerDefintion definition) {
+    public void regHandlerDefinition(Class<?> clz, HandlerDefintion definition) {
         HandlerDefintion handlerDefintion = handlerMap.put(clz, definition);
         if (handlerDefintion != null) {
             throw new IllegalArgumentException("太多handler处理packet了：" + clz.getSimpleName());

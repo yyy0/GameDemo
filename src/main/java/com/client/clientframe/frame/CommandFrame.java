@@ -13,7 +13,12 @@ import com.server.map.packet.SM_MonsterInfo;
 import com.server.monster.model.Monster;
 import com.server.publicsystem.i18n.packet.SM_Notify_Message;
 import com.server.publicsystem.i18n.resource.I18NResource;
+import com.server.rank.model.FightPowerInfoVO;
+import com.server.rank.packet.SM_FightPowerRank;
 import com.server.server.message.MessageContent;
+import com.server.task.model.TaskVO;
+import com.server.task.packet.SM_TaskFinish;
+import com.server.task.packet.SM_TaskInfo;
 import com.server.user.account.packet.SM_AccountInfo;
 import com.server.user.account.packet.SM_FightAccountInfo;
 import com.server.user.attribute.constant.AttributeType;
@@ -95,7 +100,9 @@ public class CommandFrame extends JFrame {
      */
     JScrollPane scrollPane = new JScrollPane();
 
-    public void initFrame(Channel channel) {
+    JLabel accountLabel = new JLabel();
+
+    public void initFrame(Channel channel, String accountId) {
         this.setTitle("游戏指令界面");
         this.channel = channel;
         container.setLayout(null);
@@ -111,13 +118,16 @@ public class CommandFrame extends JFrame {
         /** 功能panel */
         JScrollPane modelPanel = new ModelPanel(channel);
 
-        modelBox.setBounds(20, 10, 150, 50);
+        accountLabel.setText("角色: " + accountId);
+        accountLabel.setBounds(20, 10, 100, 50);
+
+//        modelBox.setBounds(20, 10, 150, 50);
         modelPanel.setBounds(20, 70, 320, 330);
         commandField.setBounds(20, 410, 210, 40);
         sendButton.setBounds(250, 410, 70, 40);
         printLabel.setBounds(350, 20, 80, 20);
-        scrollPane.setBounds(350, 70, 220, 400);
-        printArea.setBounds(350, 70, 220, 400);
+        scrollPane.setBounds(350, 70, 350, 400);
+        printArea.setBounds(350, 70, 350, 400);
         clearAreaButton.setBounds(470, 20, 100, 40);
 
         //添加button监听器
@@ -125,6 +135,7 @@ public class CommandFrame extends JFrame {
 
         // TODO  modelBox将在后续完成 显示指定gm功能模块
 //        container.add(modelBox);
+        container.add(accountLabel);
         container.add(modelPanel);
         container.add(commandField);
         container.add(sendButton);
@@ -135,7 +146,7 @@ public class CommandFrame extends JFrame {
         this.setResizable(false);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(600, 500);
+        this.setSize(750, 500);
         this.setLocation(450, 150);
     }
 
@@ -392,7 +403,43 @@ public class CommandFrame extends JFrame {
             printArea.append("您受到【" + packet.getBuffName() + "】buff影响，扣除伤害： " + packet.getDamage() +
                     " 当前生命： " + packet.getCurHP() + "/" + packet.getMax_HP() + "\r\n");
         }
+    }
 
+    @ClientHandlerAnno
+    public void printRank(SM_FightPowerRank packet) {
+        List<FightPowerInfoVO> list = packet.getRank();
+        if (list.size() > 0) {
+            int index = 0;
+            for (FightPowerInfoVO infoVO : list) {
+                index++;
+                printArea.append("第" + index + "名 " + "账号：" + infoVO.getAccountId() + "  战力： " + infoVO.getFightPower() + "\r\n");
+            }
+        } else {
+            printArea.append("排行榜暂无数据" + "\r\n");
+        }
+    }
+
+    /**
+     * 通知任务领奖
+     *
+     * @param packet
+     */
+    @ClientHandlerAnno
+    public void notifyRewardTask(SM_TaskFinish packet) {
+        printArea.append("任务[" + packet.getTaskId() + "]已完成，快去领奖吧！" + "\r\n");
+    }
+
+    @ClientHandlerAnno
+    public void printTaskInfo(SM_TaskInfo packet) {
+        List<TaskVO> list = packet.getList();
+        if (list.isEmpty()) {
+            printArea.append("您当前没有进行中的任务！" + "\r\n");
+            return;
+        } else {
+            for (TaskVO taskVO : list) {
+                printArea.append("任务[" + taskVO.getTaskId() + "] 当前进度： " + taskVO.getProgress() + "/" + taskVO.getFinalValue() + "\r\n");
+            }
+        }
     }
 
 }

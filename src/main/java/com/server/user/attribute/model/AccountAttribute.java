@@ -16,6 +16,11 @@ public class AccountAttribute {
 
 
     /**
+     * 战力
+     */
+    private long fightPower;
+
+    /**
      * 玩家最终总属性
      */
     private Map<AttributeType, Attribute> finalAttribute = new HashMap<>();
@@ -38,6 +43,7 @@ public class AccountAttribute {
             attributeModels.put(model, model.getAttributeModel(account));
         }
         compute(attributeModels, finalAttribute);
+        calSelfFightPower();
     }
 
 
@@ -78,6 +84,30 @@ public class AccountAttribute {
      */
     public void recompute() {
         compute(attributeModels, finalAttribute);
+    }
+
+    public long calFightPower(Map<AttributeType, Attribute> attributes) {
+        long fightPower = 0L;
+        //生命
+        fightPower += AttributeUtil.getAttributeValue(attributes, AttributeType.MAX_HP);
+        //攻击力
+        fightPower += AttributeUtil.getAttributeValue(attributes, AttributeType.ATTACK) * 10;
+        //防御力
+        fightPower += AttributeUtil.getAttributeValue(attributes, AttributeType.DEFENCE) * 10;
+        return fightPower;
+    }
+
+    public long calSelfFightPower() {
+        this.fightPower = calFightPower(this.finalAttribute);
+        return this.fightPower;
+    }
+
+    public long getFightPower() {
+        return fightPower;
+    }
+
+    public void setFightPower(long fightPower) {
+        this.fightPower = fightPower;
     }
 
     @Override

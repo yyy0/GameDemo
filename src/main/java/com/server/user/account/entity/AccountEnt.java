@@ -13,6 +13,9 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "account")
+@NamedQueries(value = {
+        @NamedQuery(name = "loadFightPowerRank", query = "select a from AccountEnt a order by a.fightPower")
+})
 public class AccountEnt implements Serializable {
     @Id
     @Column(name = "accountId", nullable = false)
@@ -26,6 +29,9 @@ public class AccountEnt implements Serializable {
 
     @Transient
     private Account account;
+
+    @Column(name = "fightPower", nullable = false)
+    private long fightPower;
 
     /**
      * json数据
@@ -96,5 +102,17 @@ public class AccountEnt implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public long getFightPower() {
+        return fightPower;
+    }
+
+    public void setFightPower(long fightPower) {
+        this.fightPower = fightPower;
+    }
+
+    public byte[] getAccountData() {
+        return accountData;
     }
 }

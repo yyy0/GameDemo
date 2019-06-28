@@ -19,6 +19,7 @@ public class AttributeSyncStrategy extends AbstractAccountSyncStrategy {
 
     private Map<AttributeType, Attribute> attributeMap = new HashMap<>();
 
+
     @Override
     public void syncInfo(FightAccount fightAccount) {
         fightAccount.setAttributeMap(attributeMap);
@@ -32,6 +33,7 @@ public class AttributeSyncStrategy extends AbstractAccountSyncStrategy {
 
     public static AttributeSyncStrategy valueOf() {
         AttributeSyncStrategy syncStrategy = new AttributeSyncStrategy();
+
         return syncStrategy;
     }
 }

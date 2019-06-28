@@ -50,6 +50,21 @@ public class EquipStorage {
         return equipments;
     }
 
+    /**
+     * 已穿戴的装备数量
+     *
+     * @return
+     */
+    public int getEquipmentNum() {
+        int num = 0;
+        for (Equipment equipment : equipments.values()) {
+            if (equipment != null) {
+                num++;
+            }
+        }
+        return num;
+    }
+
     public void setEquipments(Map<EquipmentPosition, Equipment> equipments) {
         this.equipments = equipments;
     }

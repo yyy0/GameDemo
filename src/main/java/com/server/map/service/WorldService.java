@@ -4,6 +4,9 @@ import com.SpringContext;
 import com.server.common.command.SceneRateCommand;
 import com.server.common.resource.ResourceManager;
 import com.server.map.command.ChangeMapCommand;
+import com.server.map.command.EnterMapCommand;
+import com.server.map.command.MapInfoCommand;
+import com.server.map.command.MapMoveCommand;
 import com.server.map.model.Grid;
 import com.server.map.model.MapInfo;
 import com.server.map.packet.SM_AccountMove;
@@ -71,16 +74,13 @@ public class WorldService {
      */
     public void serverChangeMap(Account account, int targetMapId) {
         MapResource mapResource = getMapResource(targetMapId);
-        logger.info("账号[{}]进入地图：mapid[{}],mapname[{}]  当前坐标：{}_{}",
+        logger.info("账号[{}]进入地图：mapId[{}],mapName[{}]  当前坐标：{}_{}",
                 account.getName(), targetMapId, mapResource.getName(),
                 mapResource.getBornX(), mapResource.getBornY());
 
         int oldMapId = account.getMapId();
         leaveMap(account);
-        enterMap(account, targetMapId);
-
-        SM_ChangeMap packet = SM_ChangeMap.valueOf(account.getAccountId(), targetMapId, oldMapId);
-        PacketSendUtil.send(account, packet);
+        SpringContext.getSceneExecutorService().submit(EnterMapCommand.valueOf(account, targetMapId));
 
     }
 
@@ -104,20 +104,15 @@ public class WorldService {
         account.setFightAccount(fightAccount.copy());
         logger.info("账号[{}]进入地图：{}", account.getName(), mapResource.getName());
         SpringContext.getAccountService().saveAccountInfo(account.getAccountId());
+        SM_ChangeMap packet = SM_ChangeMap.valueOf(account.getAccountId(), targetMapId, account.getMapId());
+        PacketSendUtil.send(account, packet);
 
         char[][] mapInfos = mapInfo.printInfo();
-        SM_MapInfo packet = SM_MapInfo.valueOf(mapInfos);
-        PacketSendUtil.send(account, packet);
+        SM_MapInfo mapInfoPacket = SM_MapInfo.valueOf(mapInfos);
+        PacketSendUtil.send(account, mapInfoPacket);
     }
 
-
-    /**
-     * 移动坐标
-     *
-     * @param account
-     * @param targetGrid
-     */
-    public void move(Account account, Grid targetGrid) {
+    public void doMove(Account account, Grid targetGrid) {
         MapResource mapResource = getMapResource(account.getMapId());
         int preX = account.getGridX();
         int preY = account.getGirdY();
@@ -131,11 +126,23 @@ public class WorldService {
             account.setGirdY(newY);
             SpringContext.getAccountService().saveAccountInfo(account.getAccountId());
             account.fightSync(GridSyncStrategy.valueOf(Grid.valueOf(newX, newY)));
+            SpringContext.getSceneExecutorService().submit(MapInfoCommand.valueOf(account, mapInfo.getMapId()));
             SM_AccountMove packet = SM_AccountMove.valueOf(account.getAccountId(), newX, newY, preX, preY);
             PacketSendUtil.send(account, packet);
+
         } else {
             I18Utils.notifyMessage(account, I18nId.GRID_CAN_NOT_WALK);
         }
+    }
+
+    /**
+     * 移动坐标
+     *
+     * @param account
+     * @param targetGrid
+     */
+    public void move(Account account, Grid targetGrid) {
+        SpringContext.getSceneExecutorService().submit(MapMoveCommand.valueOf(account, targetGrid));
     }
 
     public boolean isCanWalk(MapResource mapResource, Grid grid) {
@@ -171,6 +178,10 @@ public class WorldService {
     }
 
     public void printMapInfo(Account account, int mapId) {
+        SpringContext.getSceneExecutorService().submit(MapInfoCommand.valueOf(account, mapId));
+    }
+
+    public void doPrintMapInfo(Account account, int mapId) {
         //记得传mapinfo
         MapInfo mapInfo = mapManager.getMapInfo(mapId);
 

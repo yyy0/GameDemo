@@ -4,10 +4,8 @@ package com.server.common.entity;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -72,6 +70,11 @@ public class CommonEntManager<K, T> {
         if (!transaction.isActive()) {
             transaction.begin();
         }
+    }
+
+    public List<T> namedQuery(String listQuery, Class<T> entClass) {
+        TypedQuery<T> query = entityManager.createNamedQuery(listQuery, entClass);
+        return query.getResultList();
     }
 
 }

@@ -42,9 +42,12 @@ public abstract class AbstractBuff {
     }
 
 
-    public void doAction(FightAccount fightAccount) {
-
-    }
+    /**
+     * buff 生效作用
+     *
+     * @param fightAccount
+     */
+    public abstract void doAction(FightAccount fightAccount);
 
     public int getBuffId() {
         return buffId;

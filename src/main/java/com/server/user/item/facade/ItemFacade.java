@@ -29,6 +29,7 @@ public class ItemFacade {
         Account account = SessionUtil.getAccountBySession(session);
         List<AbstractItem> items = SpringContext.getStoreService().createItems(req.getItemModelId(), req.getNum());
         SpringContext.getStoreService().addItemsToBag(account, items);
+        SpringContext.getStoreService().printItems(account.getAccountId());
     }
 
     /**

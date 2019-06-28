@@ -17,7 +17,9 @@ import com.server.gm.service.GmDispatcher;
 import com.server.login.service.LoginService;
 import com.server.map.service.MapManager;
 import com.server.map.service.WorldService;
+import com.server.rank.service.RankService;
 import com.server.session.service.SessionService;
+import com.server.task.service.TaskService;
 import com.server.user.account.service.AccountService;
 import com.server.user.attribute.service.AttributeManager;
 import com.server.user.buff.service.BuffService;
@@ -121,6 +123,20 @@ public class SpringContext implements ApplicationContextAware {
 
     @Autowired
     public BuffService buffService;
+
+    @Autowired
+    public RankService rankService;
+
+    @Autowired
+    public TaskService taskService;
+
+    public static TaskService getTaskService() {
+        return instance.taskService;
+    }
+
+    public static RankService getRankService() {
+        return instance.rankService;
+    }
 
     public static BuffService getBuffService() {
         return instance.buffService;

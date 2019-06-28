@@ -3,6 +3,7 @@ package com.server.common.resource.converter;
 import com.opencsv.bean.AbstractBeanField;
 import com.opencsv.exceptions.CsvConstraintViolationException;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.server.common.constant.SplitSymbol;
 import com.server.tool.JsonUtils;
 
 /**
@@ -15,7 +16,7 @@ public class StringToIntMatrixConverter extends AbstractBeanField<int[][]> {
         if ("".equals(value)) {
             return null;
         }
-        String newValue = value.replace(";", ",");
+        String newValue = value.replace(SplitSymbol.FENHAO, SplitSymbol.DOUHAO);
         return JsonUtils.json2pojo(newValue, int[][].class);
     }
 }

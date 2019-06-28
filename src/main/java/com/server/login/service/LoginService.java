@@ -7,6 +7,8 @@ import com.server.map.service.WorldService;
 import com.server.publicsystem.i18n.constant.I18Message;
 import com.server.session.SessionUtil;
 import com.server.session.model.TSession;
+import com.server.task.model.AccountTask;
+import com.server.task.packet.SM_TaskInfo;
 import com.server.tool.PacketSendUtil;
 import com.server.user.account.model.Account;
 import com.server.user.account.packet.SM_LoginSuccess;
@@ -73,6 +75,10 @@ public class LoginService {
 
         SM_LoginSuccess packet = SM_LoginSuccess.valueOf(accountId, mapId);
         PacketSendUtil.send(session, packet);
+
+        AccountTask accountTask = SpringContext.getTaskService().getAccountTask(accountId);
+        SM_TaskInfo taskPacket = SM_TaskInfo.valueOf(accountTask);
+        PacketSendUtil.send(session, taskPacket);
 
     }
 

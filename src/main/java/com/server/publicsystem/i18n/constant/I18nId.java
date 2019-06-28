@@ -68,4 +68,8 @@ public interface I18nId {
     int TARGET_NOT_IN_RANGE = 30;
     //攻击目标已死亡
     int TARGET_ALREADY_DEATH = 31;
+    //任务尚未完成
+    int TASK_NOT_FINISH = 32;
+    //已完成所有任务
+    int FINISH_ALL_TASK = 33;
 }

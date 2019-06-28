@@ -15,6 +15,7 @@ import com.server.user.skill.model.AccountSkill;
 import com.server.user.skill.resource.SkillResource;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -224,9 +225,13 @@ public class FightAccount {
 
     public void handleBuff() {
         long now = TimeUtil.now();
-        for (AbstractBuff abstractBuff : buffMap.values()) {
+        Iterator<Map.Entry<Integer, AbstractBuff>> it = buffMap.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<Integer, AbstractBuff> entry = it.next();
+            AbstractBuff abstractBuff = entry.getValue();
             if (abstractBuff.isExpire(now)) {
-                this.removeBuff(abstractBuff.getBuffId());
+                it.remove();
+                continue;
             }
             if (abstractBuff.isCanAction(now)) {
                 abstractBuff.setLastEffectTime(abstractBuff.getLastEffectTime() + abstractBuff.getPeriod());

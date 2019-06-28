@@ -19,7 +19,7 @@ import javax.net.ssl.SSLException;
  */
 public class GameClient {
 
-    static final String HOST = "10.9.13.52";
+    static final String HOST = "localhost";
     static final int PORT = 8888;
     private static final String APPLICATION_CONTEXT = "applicationContext.xml";
     private static ClassPathXmlApplicationContext applicationContext;
@@ -32,6 +32,9 @@ public class GameClient {
         applicationContext.start();
         LoggerUtil.info("加载resource资源");
         SpringContext.getResourceManager().loadNewResource();
+        LoggerUtil.info("预加载地图资源");
+        SpringContext.getWorldService().initMap();
+        SpringContext.getEquipUpgradeService().initEquipUpResource();
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             Bootstrap b = new Bootstrap();

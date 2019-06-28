@@ -29,7 +29,6 @@ public class MapFacade {
         SpringContext.getWorldService().changeMap(account, req.getMapId());
     }
 
-
     /**
      * 移动坐标
      *
@@ -41,6 +40,8 @@ public class MapFacade {
         Account account = SessionUtil.getAccountBySession(session);
         Grid grid = Grid.valueOf(req.getGridX(), req.getGirdY());
         SpringContext.getWorldService().move(account, grid);
+
+
     }
 
     /**
