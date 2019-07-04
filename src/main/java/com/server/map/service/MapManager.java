@@ -2,6 +2,7 @@ package com.server.map.service;
 
 
 import com.server.common.resource.ResourceManager;
+import com.server.map.constant.MapType;
 import com.server.map.model.MapInfo;
 import com.server.map.resource.MapResource;
 import com.server.monster.model.Monster;
@@ -38,10 +39,36 @@ public class MapManager {
     public void initMap() {
         mapResources = resourceManager.getResources(MapResource.class.getSimpleName());
         monsterResources = resourceManager.getResources(MonsterResource.class.getSimpleName());
+        Map<Integer, Object> monsterAreaResource = resourceManager.getResources(MonsterAreaResource.class.getSimpleName());
         for (Map.Entry<Integer, Object> entry : mapResources.entrySet()) {
             int mapId = entry.getKey();
             MapResource resource = (MapResource) entry.getValue();
-            mapInfos.put(mapId, MapInfo.valueOf(mapId, resource));
+            if (resource == null) {
+                continue;
+            }
+            if (resource.getType() != MapType.COMMON_MAP) {
+                continue;
+            }
+            MapInfo mapInfo = MapInfo.valueOf(mapId, resource);
+
+            //加载刷怪 放入地图中
+            for (Object object : monsterAreaResource.values()) {
+
+                MonsterAreaResource areaResource = (MonsterAreaResource) object;
+                if (areaResource.getMapId() != mapInfo.getMapId()) {
+                    continue;
+                }
+                int monsterId = areaResource.getMonsterId();
+                MonsterResource monsterResource = (MonsterResource) monsterResources.get(monsterId);
+                Monster monster = Monster.valueOf(monsterResource);
+                monster.setGridX(areaResource.getGridX());
+                monster.setGridY(areaResource.getGridY());
+                //将怪物放入地图信息中
+                mapInfo.addMonster(monster);
+
+            }
+
+            mapInfos.put(mapId, mapInfo);
         }
 
     }
@@ -71,33 +98,6 @@ public class MapManager {
         return resource;
     }
 
-    /**
-     * 加载刷新怪物至地图
-     */
-    public void loadMonster() {
-        Map<Integer, Object> monsterAreaResource = resourceManager.getResources(MonsterAreaResource.class.getSimpleName());
-        for (Object object : monsterAreaResource.values()) {
-            MonsterAreaResource areaResource = (MonsterAreaResource) object;
-            int monsterId = areaResource.getMonsterId();
-            int mapId = areaResource.getMapId();
-            MapResource mapResource = getMapResource(mapId);
-            if (mapResource != null) {
-                MonsterResource monsterResource = (MonsterResource) monsterResources.get(monsterId);
-                if (monsterResource == null) {
-                    throw new NullPointerException("初始化刷怪找不到对应的怪物资源:" + monsterId);
-                }
-                Monster monster = Monster.valueOf(monsterResource);
-                monster.setGridX(areaResource.getGridX());
-                monster.setGridY(areaResource.getGridY());
-                //将怪物放入地图信息中
-                MapInfo mapInfo = getMapInfo(mapId);
-                mapInfo.addMonster(monster);
-            } else {
-                throw new NullPointerException("初始化刷怪找不到对应的地图资源:" + mapId);
-            }
-        }
-
-    }
 
 }
 

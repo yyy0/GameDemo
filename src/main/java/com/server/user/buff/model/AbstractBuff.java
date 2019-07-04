@@ -1,5 +1,6 @@
 package com.server.user.buff.model;
 
+import com.server.monster.model.Monster;
 import com.server.user.buff.resource.BuffResource;
 import com.server.user.fight.FightAccount;
 
@@ -48,6 +49,13 @@ public abstract class AbstractBuff {
      * @param fightAccount
      */
     public abstract void doAction(FightAccount fightAccount);
+
+    /**
+     * buff 对怪物 生效作用
+     *
+     * @param monster
+     */
+    public abstract void doAction(Monster monster);
 
     public int getBuffId() {
         return buffId;

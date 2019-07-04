@@ -58,7 +58,7 @@ public class Grid {
      */
     public boolean isInRange(Grid targetGrid, int range) {
         for (int i = Math.max(this.x - range, 0); i < this.x + range; i++) {
-            for (int j = Math.max(this.y - range, 0); j < this.y + range; j++) {
+            for (int j = Math.max(this.y - range, 0); j <= this.y + range; j++) {
                 if (Grid.valueOf(i, j).equals(targetGrid)) {
                     return true;
                 }

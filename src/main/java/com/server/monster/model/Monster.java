@@ -3,7 +3,14 @@ package com.server.monster.model;
 import com.SpringContext;
 import com.server.common.identity.gameobject.GameObject;
 import com.server.common.identity.service.IdentifyService;
+import com.server.map.model.Grid;
 import com.server.monster.resource.MonsterResource;
+import com.server.tool.TimeUtil;
+import com.server.user.buff.model.AbstractBuff;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * @author yuxianming
@@ -23,12 +30,12 @@ public class Monster extends GameObject {
     /**
      * 当前血量
      */
-    private int curHp;
+    private long curHp;
 
     /**
      * 最大生命值
      */
-    private int maxHp;
+    private long maxHp;
 
     private int atk;
 
@@ -37,6 +44,10 @@ public class Monster extends GameObject {
     private int gridX;
 
     private int gridY;
+    /**
+     * buff 列表
+     */
+    private Map<Integer, AbstractBuff> buffMap = new HashMap<>();
 
     public static Monster valueOf(MonsterResource resource) {
         Monster monster = new Monster();
@@ -75,19 +86,19 @@ public class Monster extends GameObject {
         this.level = level;
     }
 
-    public int getCurHp() {
+    public long getCurHp() {
         return curHp;
     }
 
-    public void setCurHp(int curHp) {
+    public void setCurHp(long curHp) {
         this.curHp = curHp;
     }
 
-    public int getMaxHp() {
+    public long getMaxHp() {
         return maxHp;
     }
 
-    public void setMaxHp(int maxHp) {
+    public void setMaxHp(long maxHp) {
         this.maxHp = maxHp;
     }
 
@@ -121,6 +132,43 @@ public class Monster extends GameObject {
 
     public void setGridY(int gridY) {
         this.gridY = gridY;
+    }
+
+    public Grid getGrid() {
+        return Grid.valueOf(getGridX(), getGridY());
+    }
+
+    public void addBuff(int buffId, AbstractBuff buff) {
+        buffMap.put(buffId, buff);
+        long now = TimeUtil.now();
+        buff.setCreateTime(now);
+        buff.setLastEffectTime(now);
+        buff.doAction(this);
+    }
+
+    public boolean isHasBuff() {
+        return buffMap.size() != 0;
+    }
+
+    public void handleBuff() {
+        long now = TimeUtil.now();
+        Iterator<Map.Entry<Integer, AbstractBuff>> it = buffMap.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<Integer, AbstractBuff> entry = it.next();
+            AbstractBuff abstractBuff = entry.getValue();
+            if (abstractBuff.isExpire(now)) {
+                it.remove();
+                continue;
+            }
+            if (abstractBuff.isCanAction(now)) {
+                abstractBuff.setLastEffectTime(abstractBuff.getLastEffectTime() + abstractBuff.getPeriod());
+                abstractBuff.doAction(this);
+            }
+        }
+    }
+
+    public boolean isDead() {
+        return getCurHp() <= 0;
     }
 
     @Override

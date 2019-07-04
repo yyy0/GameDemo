@@ -1,8 +1,10 @@
 package com.server.common.command;
 
 import com.server.map.model.MapInfo;
+import com.server.monster.model.Monster;
 import com.server.user.fight.FightAccount;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,15 +25,26 @@ public class SceneRateCommand extends AbstractSceneRateCommand {
         // LoggerUtil.info("定时执行场景处理任务,地图id：" + getMapId());
         MapInfo mapInfo = getMapInfo();
         Map<String, FightAccount> fightAccounts = mapInfo.getFightAccountMap();
-        if (fightAccounts.size() == 0) {
-            return;
-        }
-        //处理buff
-        for (FightAccount account : fightAccounts.values()) {
-            if (account.isHasBuff()) {
-                account.handleBuff();
-            }
 
+        List<Monster> monsters = mapInfo.getMonsters();
+        if (fightAccounts.size() > 0) {
+            //处理buff
+            for (FightAccount account : fightAccounts.values()) {
+                if (account.isHasBuff()) {
+                    account.handleBuff();
+                }
+
+            }
+        }
+
+        //处理怪物
+        if (monsters.size() > 0) {
+            for (Monster monster : monsters) {
+                if (monster.isHasBuff()) {
+                    monster.handleBuff();
+                }
+
+            }
         }
     }
 

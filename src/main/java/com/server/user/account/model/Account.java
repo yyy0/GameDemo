@@ -44,6 +44,11 @@ public class Account {
     private int mapId;
 
     /**
+     * 上次进入地图
+     */
+    private int oldMapId;
+
+    /**
      * 当前地图坐标（也是上次地图坐标）
      */
     private int gridX;
@@ -159,6 +164,14 @@ public class Account {
 
     public void setAttribute(AccountAttribute attribute) {
         this.attribute = attribute;
+    }
+
+    public int getOldMapId() {
+        return oldMapId;
+    }
+
+    public void setOldMapId(int oldMapId) {
+        this.oldMapId = oldMapId;
     }
 
     @Override

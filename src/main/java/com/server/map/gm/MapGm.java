@@ -42,4 +42,9 @@ public class MapGm {
     public void killMonster(Account account, long gid) {
         SpringContext.getWorldService().killMonster(account, gid);
     }
+
+    @GmMethod(name = "攻击怪物", param = "参数:技能id 唯一id ", clz = CM_HitMonster.class)
+    public void hitMonster(Account account, int skillId, long gid) {
+        SpringContext.getWorldService().hitMonster(account, skillId, gid);
+    }
 }

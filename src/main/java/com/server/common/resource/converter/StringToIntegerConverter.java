@@ -12,7 +12,7 @@ public class StringToIntegerConverter<T extends Number> extends AbstractBeanFiel
 
     @Override
     protected Object convert(String s) {
-        if (s.length() == 0) {
+        if (s == null || s.length() == 0) {
             return 0;
         }
 

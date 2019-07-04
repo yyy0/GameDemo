@@ -79,7 +79,7 @@ public class CsvUtil {
                     .withMappingStrategy(strategy).build();
             return csvToBean.parse();
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error(e.getMessage() + fileStream.toString());
 
         }
         return null;

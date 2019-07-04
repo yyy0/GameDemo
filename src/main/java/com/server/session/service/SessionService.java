@@ -106,7 +106,7 @@ public class SessionService {
             String accountId = (String) session.removeAttribute(SessionUtil.ACCOUNT_ID);
             if (accountId != null) {
                 Account account = SpringContext.getAccountService().getAccount(accountId);
-                MapInfo mapInfo = SpringContext.getMapManager().getMapInfo(account.getMapId());
+                MapInfo mapInfo = SpringContext.getWorldService().getMapInfo(account, account.getMapId());
                 mapInfo.removeFightAccount(accountId);
                 boolean remove = idSessionMap.remove(accountId, session);
 

@@ -3,6 +3,7 @@ package com;
 import com.client.clientframe.frame.CommandFrame;
 import com.client.clientframe.frame.LoginFrame;
 import com.client.clientframe.frame.RegFrame;
+import com.server.challengeMap.ChallengeMapService;
 import com.server.common.event.core.EventBusManager;
 import com.server.common.executor.account.AccountExecutorService;
 import com.server.common.executor.scene.SceneExecutorService;
@@ -17,6 +18,7 @@ import com.server.gm.service.GmDispatcher;
 import com.server.login.service.LoginService;
 import com.server.map.service.MapManager;
 import com.server.map.service.WorldService;
+import com.server.publicsystem.guild.service.GuildService;
 import com.server.rank.service.RankService;
 import com.server.session.service.SessionService;
 import com.server.task.service.TaskService;
@@ -129,6 +131,21 @@ public class SpringContext implements ApplicationContextAware {
 
     @Autowired
     public TaskService taskService;
+
+    @Autowired
+    public ChallengeMapService challengeMapService;
+
+    @Autowired
+    public GuildService guildService;
+
+    public static GuildService getGuildService() {
+        return instance.guildService;
+    }
+
+    public static ChallengeMapService getChallengeMapService() {
+        return instance.challengeMapService;
+    }
+
 
     public static TaskService getTaskService() {
         return instance.taskService;

@@ -36,7 +36,7 @@ public class FightUseSkillCommand extends AbstractSceneCommand {
         FightAccount fightAccount = getMapInfo().getFightAccount(accountId);
 
         if (fightAccount == null) {
-            LoggerUtil.error("玩家[{}]使用技能，找不到fightAccount,地图:{}", accountId, mapId);
+            LoggerUtil.error("玩家[{}]使用技能攻击玩家，找不到fightAccount,地图:{}", accountId, mapId);
         } else {
             SpringContext.getFightService().doUseSkill(fightAccount, targetAccount, skillId, getMapId());
         }

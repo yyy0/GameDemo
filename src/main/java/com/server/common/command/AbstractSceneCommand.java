@@ -4,6 +4,7 @@ import com.SpringContext;
 import com.server.map.model.MapInfo;
 import com.server.publicsystem.i18n.I18Utils;
 import com.server.publicsystem.i18n.constant.I18nId;
+import com.server.user.account.model.Account;
 
 /**
  * @author yuxianming
@@ -26,7 +27,8 @@ public abstract class AbstractSceneCommand extends AbstractCommand {
     public AbstractSceneCommand(String accountId, int mapId) {
         this.accountId = accountId;
         this.mapId = mapId;
-        this.mapInfo = SpringContext.getMapManager().getMapInfo(mapId);
+        Account account = SpringContext.getAccountService().getAccount(accountId);
+        this.mapInfo = SpringContext.getWorldService().getMapInfo(account, mapId);
     }
 
     public String getAccountId() {

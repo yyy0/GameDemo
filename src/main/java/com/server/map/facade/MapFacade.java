@@ -53,7 +53,9 @@ public class MapFacade {
     @HandlerAnno
     public void printMapInfo(TSession session, CM_MapInfo req) {
         Account account = SessionUtil.getAccountBySession(session);
-        SpringContext.getWorldService().printMapInfo(account, req.getMapId());
+        int mapId = req.getMapId();
+        int id = mapId == 0 ? account.getMapId() : mapId;
+        SpringContext.getWorldService().printMapInfo(account, id);
     }
 
     /**
@@ -78,5 +80,11 @@ public class MapFacade {
     public void killMonster(TSession session, CM_KillMonster req) {
         Account account = SessionUtil.getAccountBySession(session);
         SpringContext.getWorldService().killMonster(account, req.getMonsterGid());
+    }
+
+    @HandlerAnno
+    public void hitMonster(TSession session, CM_HitMonster req) {
+        Account account = SessionUtil.getAccountBySession(session);
+        SpringContext.getWorldService().hitMonster(account, req.getSkillId(), req.getMonsterGid());
     }
 }

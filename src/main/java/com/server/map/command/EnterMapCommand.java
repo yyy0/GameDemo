@@ -2,6 +2,8 @@ package com.server.map.command;
 
 import com.SpringContext;
 import com.server.common.command.AbstractSceneCommand;
+import com.server.map.handler.AbstractMapHandler;
+import com.server.map.resource.MapResource;
 import com.server.user.account.model.Account;
 
 /**
@@ -20,7 +22,9 @@ public class EnterMapCommand extends AbstractSceneCommand {
 
     @Override
     public void action() {
-        SpringContext.getWorldService().enterMap(account, targetMapId);
+        MapResource mapResource = SpringContext.getWorldService().getMapResource(targetMapId);
+        AbstractMapHandler handler = AbstractMapHandler.getMapHandler(mapResource.getType());
+        handler.enterMap(account, targetMapId);
     }
 
     public static EnterMapCommand valueOf(Account account, int targetMapId) {

@@ -11,6 +11,10 @@ public interface ICommand {
      */
     void active();
 
+    boolean isCanceled();
+
+    void cancel();
+
     /**
      * 获取执行线程的index
      *

@@ -142,6 +142,12 @@ public class FightAccount {
             I18Utils.notifyMessage(accountId, I18nId.NO_MP);
             return false;
         }
+
+        //判断攻击数量
+        int targetNum = skillResource.getTargetNum();
+        if (targetNum <= 0) {
+            return false;
+        }
         return true;
     }
 

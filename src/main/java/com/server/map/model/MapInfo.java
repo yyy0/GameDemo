@@ -1,18 +1,19 @@
 package com.server.map.model;
 
 import com.SpringContext;
+import com.server.common.command.ICommand;
 import com.server.map.constant.MapConstant;
 import com.server.map.resource.MapResource;
 import com.server.monster.model.Monster;
+import com.server.monster.resource.MonsterAreaResource;
+import com.server.monster.resource.MonsterResource;
+import com.server.tool.TimeUtil;
 import com.server.user.fight.FightAccount;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author yuxianming
@@ -45,12 +46,39 @@ public class MapInfo {
 
     private MapResource mapResource;
 
+    /**
+     * 地图创建时间
+     */
+    private long createTime;
+
+    /**
+     * 定时command 用于指定条件时取消定时任务
+     */
+    private Map<Class<? extends ICommand>, ICommand> commandMap = new HashMap<>();
+
     public static MapInfo valueOf(int mapId, MapResource resource) {
         MapInfo mapInfo = new MapInfo();
         mapInfo.setMapId(mapId);
         mapInfo.mapResource = resource;
         mapInfo.initInfo();
+        mapInfo.createTime = TimeUtil.now();
         return mapInfo;
+    }
+
+    /**
+     * 加载怪物
+     */
+    public void initMonster() {
+        List<MonsterAreaResource> areaResources = SpringContext.getWorldService().getMonsterAreaResources(mapId);
+        for (MonsterAreaResource areaResource : areaResources) {
+            int monsterId = areaResource.getMonsterId();
+            MonsterResource monsterResource = SpringContext.getWorldService().getMonsterResource(monsterId);
+            Monster monster = Monster.valueOf(monsterResource);
+            monster.setGridX(areaResource.getGridX());
+            monster.setGridY(areaResource.getGridY());
+            //将怪物放入地图信息中
+            this.addMonster(monster);
+        }
     }
 
     /**
@@ -99,13 +127,16 @@ public class MapInfo {
     }
 
     public void removeMonster(long monsterGid) {
-        for (Monster monster : monsters) {
+        Iterator<Monster> iterator = monsters.iterator();
+        while (iterator.hasNext()) {
+            Monster monster = iterator.next();
             if (monster.getObjectId() == monsterGid) {
-                monsters.remove(monster);
+                iterator.remove();
                 mapChars[monster.getGridX()][monster.getGridY()] = MapConstant.ROAD;
                 return;
             }
         }
+
     }
 
 
@@ -231,11 +262,62 @@ public class MapInfo {
         return list;
     }
 
+    public List<Monster> getAroundMonster(FightAccount fightAccount, int range, int num, long monsterGid) {
+
+        Grid selfGrid = fightAccount.getGrid();
+        List<Monster> list = new ArrayList<>(monsters.size());
+        for (Monster monster : monsters) {
+            // 除去自身
+            if (monster.getObjectId() == monsterGid) {
+                continue;
+            }
+            if (selfGrid.isInRange(monster.getGrid(), range)) {
+                list.add(monster);
+                num--;
+                if (num == 0) {
+                    break;
+                }
+            }
+        }
+        return list;
+    }
+
     public Map<String, FightAccount> getFightAccountMap() {
         return fightAccountMap;
     }
 
     public void setFightAccountMap(Map<String, FightAccount> fightAccountMap) {
         this.fightAccountMap = fightAccountMap;
+    }
+
+    public boolean isEmptyMonster() {
+        return monsters.size() == 0;
+    }
+
+    public ICommand getCommand(Class<? extends ICommand> command) {
+        return commandMap.get(command);
+    }
+
+    public void addCommand(ICommand command) {
+        if (getCommand(command.getClass()) != null) {
+            command.cancel();
+        }
+        commandMap.put(command.getClass(), command);
+    }
+
+    public long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
+    }
+
+    public Map<Class<? extends ICommand>, ICommand> getCommandMap() {
+        return commandMap;
+    }
+
+    public void setCommandMap(Map<Class<? extends ICommand>, ICommand> commandMap) {
+        this.commandMap = commandMap;
     }
 }

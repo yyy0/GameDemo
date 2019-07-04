@@ -47,12 +47,6 @@ public class Command {
         SpringContext.getWorldService().changeMap(account, mapId);
     }
 
-    /**
-     * 打印指定账号当前地图信息
-     */
-    public void printMapInfo(Account account) {
-        SpringContext.getWorldService().printMapInfo(account);
-    }
 
     public void move(Account account, int gridX, int gridY) {
         Grid grid = Grid.valueOf(gridX, gridY);

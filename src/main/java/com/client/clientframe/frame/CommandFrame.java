@@ -6,10 +6,7 @@ import com.client.dispatcher.ClientHandlerAnno;
 import com.server.common.resource.ResourceManager;
 import com.server.gm.packet.CM_GMcommand;
 import com.server.gm.service.GmDefinition;
-import com.server.map.packet.SM_AccountMove;
-import com.server.map.packet.SM_ChangeMap;
-import com.server.map.packet.SM_MapInfo;
-import com.server.map.packet.SM_MonsterInfo;
+import com.server.map.packet.*;
 import com.server.monster.model.Monster;
 import com.server.publicsystem.i18n.packet.SM_Notify_Message;
 import com.server.publicsystem.i18n.resource.I18NResource;
@@ -49,8 +46,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.Timer;
+import java.util.*;
 
 /**
  * 游戏指令界面
@@ -239,7 +236,11 @@ public class CommandFrame extends JFrame {
      */
     @ClientHandlerAnno
     public void printMapInfo(SM_MapInfo packet) {
-        printArea.setText("");
+
+        long countDown = packet.getCoutDown();
+        if (countDown != 0) {
+            printArea.append("当前地图剩余时间：" + countDown / 1000 + " 秒\r\n");
+        }
         char[][] mapInfo = packet.getMapGrids();
         for (int i = 0; i < mapInfo.length; i++) {
             for (int j = 0; j < mapInfo[i].length; j++) {
@@ -440,6 +441,27 @@ public class CommandFrame extends JFrame {
                 printArea.append("任务[" + taskVO.getTaskId() + "] 当前进度： " + taskVO.getProgress() + "/" + taskVO.getFinalValue() + "\r\n");
             }
         }
+    }
+
+    @ClientHandlerAnno
+    public void notifyLeaveMap(final SM_NotifyLeaveMap packet) {
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            long countDown = packet.getCountDown();
+
+            @Override
+            public void run() {
+
+                printArea.append("您即将退出地图：" + packet.getLeaveMapId() + "  剩余时间：" + countDown / 1000 + "秒\r\n");
+                countDown -= 1000;
+                if (countDown <= 0) {
+                    System.gc();
+                    this.cancel();
+                }
+            }
+        }, 0, 1000);
+
     }
 
 }

@@ -57,7 +57,9 @@ public class SceneExecutor {
     public void addTask(ICommand command) {
         int modIndex = command.modIndex(DEFAULT_THREAD_SIZE);
         SCENE_EXECUTOR[modIndex].submit(() -> {
-            command.active();
+            if (!command.isCanceled()) {
+                command.active();
+            }
         });
     }
 
@@ -70,7 +72,8 @@ public class SceneExecutor {
      */
     public final void schedule(AbstractCommand command, long delay) {
 
-        SpringContext.getScheduleService().schedule(() -> addTask(command), delay);
+        command.setFuture(SpringContext.getScheduleService().schedule(() -> addTask(command), delay));
+
     }
 
     /**
@@ -82,7 +85,7 @@ public class SceneExecutor {
      */
     public final void schedule(AbstractCommand command, long delay, long period) {
 
-        SpringContext.getScheduleService().scheduleAtFixedRate(() -> addTask(command), delay, period);
+        command.setFuture(SpringContext.getScheduleService().scheduleAtFixedRate(() -> addTask(command), delay, period));
     }
 
 

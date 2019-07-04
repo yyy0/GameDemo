@@ -28,6 +28,11 @@ public class IdentifyService {
          * 怪物
          */
         MONSTER(true),
+
+        /**
+         * 工会
+         */
+        GUILD(true),
         ;
 
         private final boolean save;

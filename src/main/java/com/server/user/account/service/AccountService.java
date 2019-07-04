@@ -39,7 +39,7 @@ public class AccountService {
      * @param account
      */
     public void printFightAccount(Account account) {
-        MapInfo mapInfo = SpringContext.getMapManager().getMapInfo(account.getMapId());
+        MapInfo mapInfo = SpringContext.getWorldService().getMapInfo(account, account.getMapId());
         FightAccount fightAccount = mapInfo.getFightAccount(account.getAccountId());
         SM_FightAccountInfo packet = SM_FightAccountInfo.valueOf(fightAccount);
         PacketSendUtil.send(account, packet);

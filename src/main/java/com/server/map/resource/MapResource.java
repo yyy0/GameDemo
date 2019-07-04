@@ -2,10 +2,12 @@ package com.server.map.resource;
 
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvCustomBindByName;
-import com.server.common.resource.converter.StringToIntMatrixConverter;
-import com.server.common.resource.converter.StringToIntegerConverter;
+import com.server.common.resource.converter.*;
 import com.server.common.resource.reader.ResId;
 import com.server.common.resource.reader.Resource;
+import com.server.map.constant.MapType;
+
+import java.util.Map;
 
 /**
  * @author yuxianming
@@ -47,6 +49,16 @@ public class MapResource {
     private int width;
     @CsvCustomBindByName(converter = StringToIntegerConverter.class)
     private int height;
+
+    @CsvCustomBindByName(converter = StringToMapTypeConverter.class)
+    private MapType type;
+
+    @CsvCustomBindByName(converter = StringToIntegerMap.class)
+    private Map<Integer, Integer> reward;
+
+    @CsvCustomBindByName(converter = StringToLongConverter.class)
+    private long duration;
+
 
 //    public static MapResource valueOf(int id, String name, int bornX, int bornY) {
 //        MapResource map = new MapResource();
@@ -138,5 +150,29 @@ public class MapResource {
 
     public int getHeight() {
         return mapRes.length;
+    }
+
+    public MapType getType() {
+        return type;
+    }
+
+    public void setType(MapType type) {
+        this.type = type;
+    }
+
+    public Map<Integer, Integer> getReward() {
+        return reward;
+    }
+
+    public void setReward(Map<Integer, Integer> reward) {
+        this.reward = reward;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 }
