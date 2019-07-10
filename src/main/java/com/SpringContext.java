@@ -3,7 +3,7 @@ package com;
 import com.client.clientframe.frame.CommandFrame;
 import com.client.clientframe.frame.LoginFrame;
 import com.client.clientframe.frame.RegFrame;
-import com.server.challengeMap.ChallengeMapService;
+import com.server.challengeMap.service.ChallengeMapService;
 import com.server.common.event.core.EventBusManager;
 import com.server.common.executor.account.AccountExecutorService;
 import com.server.common.executor.scene.SceneExecutorService;

@@ -2,7 +2,7 @@ package com.server.map.command;
 
 import com.SpringContext;
 import com.server.common.command.AbstractSceneCommand;
-import com.server.map.model.MapInfo;
+import com.server.map.model.Scene;
 import com.server.user.account.model.Account;
 
 /**
@@ -13,8 +13,8 @@ public class MapInfoCommand extends AbstractSceneCommand {
 
     private Account account;
 
-    public MapInfoCommand(String accountId, MapInfo mapInfo) {
-        super(accountId, mapInfo);
+    public MapInfoCommand(String accountId, Scene scene) {
+        super(accountId, scene);
     }
 
     public MapInfoCommand(String accountId, int mapId) {

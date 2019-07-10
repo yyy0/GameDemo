@@ -39,6 +39,7 @@ public class CommonEntManager<K, T> {
             if (transaction.isActive()) {
                 transaction.rollback();
             }
+            System.out.println(e);
         }
     }
 

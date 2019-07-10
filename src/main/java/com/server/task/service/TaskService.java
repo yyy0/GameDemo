@@ -159,21 +159,28 @@ public class TaskService {
         }
         SpringContext.getStoreService().addItemsToBag(account, items);
 
+        //通知领取任务成功
+        I18Utils.notifyMessage(account, I18nId.TASK_REWARD_SUCCESS);
+
         //设置任务已完成
         accountTask.removeTaskFromProcess(taskId);
         accountTask.addFinishTask(taskId);
 
-        saveTaskEnt(account.getAccountId(), accountTask);
+
         //判断是否有下个任务
         if (resource.getNextTask() == 0) {
             I18Utils.notifyMessage(account, I18nId.FINISH_ALL_TASK);
-            return;
+        } else {
+            addNewTask(account, resource.getNextTask(), accountTask);
         }
-        addNewTask(account, resource.getNextTask());
+        saveTaskEnt(account.getAccountId(), accountTask);
+
+        //发送打印最新的任务信息
+        SM_TaskInfo packet = SM_TaskInfo.valueOf(accountTask);
+        PacketSendUtil.send(account, packet);
     }
 
-    public boolean canFinishTask(TaskInfo info, TaskResource resource) {
-
+    private boolean canFinishTask(TaskInfo info, TaskResource resource) {
 
         int finishValue = Integer.parseInt(resource.getCondition().getParam());
         if (info.getProgress() < finishValue) {
@@ -185,7 +192,7 @@ public class TaskService {
 
     }
 
-    public void addNewTask(Account account, int taskId) {
+    private void addNewTask(Account account, int taskId, AccountTask accountTask) {
         TaskResource resource = getTaskResource(taskId);
         if (resource == null) {
             logger.error("找不到TaskResource: " + taskId);
@@ -199,9 +206,7 @@ public class TaskService {
             SM_TaskFinish packet = SM_TaskFinish.valueOf(taskInfo.getTaskId());
             PacketSendUtil.send(account, packet);
         }
-        AccountTask accountTask = getAccountTask(account.getAccountId());
         accountTask.addProcessTask(taskInfo);
-        saveTaskEnt(account.getAccountId(), accountTask);
 
     }
 

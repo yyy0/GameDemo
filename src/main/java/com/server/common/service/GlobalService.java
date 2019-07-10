@@ -32,6 +32,8 @@ public class GlobalService {
         SpringContext.getAccountExecutorService().init();
         logger.info("加载排行榜");
         SpringContext.getRankService().initRank();
+        logger.info("预加载行会信息");
+        SpringContext.getGuildService().initGuild();
         logger.info("开启通用定时器");
         SpringContext.getScheduleService().init();
         logger.info("开启场景定时器");

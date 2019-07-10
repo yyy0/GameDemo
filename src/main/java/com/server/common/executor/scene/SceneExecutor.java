@@ -43,17 +43,6 @@ public class SceneExecutor {
         }
     }
 
-
-    /**
-     * 获取账号id与线程数的余数 将账号分配至指定的线程
-     *
-     * @param accountId
-     * @return
-     */
-    private int modIndex(String accountId) {
-        return Math.abs(accountId.hashCode() % DEFAULT_THREAD_SIZE);
-    }
-
     public void addTask(ICommand command) {
         int modIndex = command.modIndex(DEFAULT_THREAD_SIZE);
         SCENE_EXECUTOR[modIndex].submit(() -> {
@@ -63,7 +52,6 @@ public class SceneExecutor {
         });
     }
 
-
     /**
      * 延时命令
      *
@@ -71,9 +59,7 @@ public class SceneExecutor {
      * @param delay
      */
     public final void schedule(AbstractCommand command, long delay) {
-
         command.setFuture(SpringContext.getScheduleService().schedule(() -> addTask(command), delay));
-
     }
 
     /**
@@ -84,9 +70,6 @@ public class SceneExecutor {
      * @param period
      */
     public final void schedule(AbstractCommand command, long delay, long period) {
-
         command.setFuture(SpringContext.getScheduleService().scheduleAtFixedRate(() -> addTask(command), delay, period));
     }
-
-
 }

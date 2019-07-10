@@ -1,6 +1,7 @@
 package com.server.common.command;
 
 import com.SpringContext;
+import com.server.map.model.Scene;
 import com.server.map.packet.SM_NotifyLeaveMap;
 import com.server.tool.PacketSendUtil;
 import com.server.user.account.model.Account;
@@ -36,6 +37,8 @@ public class LeaveSceneNotifyCommand extends AbstractSceneDelayCommand {
         //抛出延时command 倒计时结束离开地图
         LeaveSceneDelayCommand delayCommand = new LeaveSceneDelayCommand(getAccountId(), getMapId(), countDown,
                 targetMapId, account);
+        Scene scene = SpringContext.getWorldService().getMapInfo(account, getMapId());
+        scene.addCommand(delayCommand);
         SpringContext.getSceneExecutorService().submit(delayCommand);
     }
 }

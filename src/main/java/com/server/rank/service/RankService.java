@@ -1,5 +1,6 @@
 package com.server.rank.service;
 
+import com.SpringContext;
 import com.server.common.entity.CommonEntManager;
 import com.server.rank.model.FightPowerInfo;
 import com.server.rank.model.FightPowerRank;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author yuxianming
@@ -31,8 +33,13 @@ public class RankService {
         List<AccountEnt> accountEntList = commonEntManager.namedQuery("loadFightPowerRank", AccountEnt.class);
         long now = TimeUtil.now();
         for (AccountEnt ent : accountEntList) {
-            fightPowerRank.addInfo(FightPowerInfo.valueOf(ent.getAccountId(), ent.getFightPower(), now));
+            ent.doDeserialize();
+            Account account = ent.getAccount();
+            SpringContext.getAttributeManager().loadAccountAttr(account);
+            long fightPower = SpringContext.getAttributeManager().getFightPower(account.getAccountId());
+            fightPowerRank.addInfo(FightPowerInfo.valueOf(ent.getAccountId(), fightPower, now));
         }
+        fightPowerRank.sortRank();
 
 
     }
@@ -43,7 +50,7 @@ public class RankService {
      * @param account
      */
     public void printRankInfo(Account account) {
-        List<FightPowerInfo> list = fightPowerRank.getFightPowerList();
+        CopyOnWriteArrayList<FightPowerInfo> list = fightPowerRank.getFightPowerList();
         SM_FightPowerRank packet = SM_FightPowerRank.valueOf(list);
         PacketSendUtil.send(account, packet);
     }
@@ -53,8 +60,6 @@ public class RankService {
      * 更新排行榜
      */
     public void updateRank(FightPowerInfo info) {
-
         fightPowerRank.updateRank(info);
-
     }
 }

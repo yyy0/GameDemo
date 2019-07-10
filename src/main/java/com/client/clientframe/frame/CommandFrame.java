@@ -8,6 +8,11 @@ import com.server.gm.packet.CM_GMcommand;
 import com.server.gm.service.GmDefinition;
 import com.server.map.packet.*;
 import com.server.monster.model.Monster;
+import com.server.publicsystem.guild.constant.GuildPositionType;
+import com.server.publicsystem.guild.packet.SM_GuildApplyList;
+import com.server.publicsystem.guild.packet.SM_GuildInfo;
+import com.server.publicsystem.guild.packet.SM_GuildList;
+import com.server.publicsystem.guild.packet.bean.GuildVO;
 import com.server.publicsystem.i18n.packet.SM_Notify_Message;
 import com.server.publicsystem.i18n.resource.I18NResource;
 import com.server.rank.model.FightPowerInfoVO;
@@ -462,6 +467,41 @@ public class CommandFrame extends JFrame {
             }
         }, 0, 1000);
 
+    }
+
+    @ClientHandlerAnno
+    public void printGuildInfo(SM_GuildInfo packet) {
+        long guildId = packet.getGuildId();
+        String name = packet.getGuildName();
+        printArea.append("行会id:" + guildId + "   行会名称：" + name + "\r\n" + "成员信息如下：" + "\r\n");
+        Map<String, GuildPositionType> members = packet.getMembers();
+        for (Map.Entry<String, GuildPositionType> entry : members.entrySet()) {
+            printArea.append("成员id：" + entry.getKey() + "  职位： " + entry.getValue().getPosition() + "\r\n");
+        }
+    }
+
+    @ClientHandlerAnno
+    public void printGuildList(SM_GuildList packet) {
+        List<GuildVO> list = packet.getVoList();
+        if (list == null || list.size() == 0) {
+            printArea.append("暂时没有任何工会" + "\r\n");
+            return;
+        }
+        for (GuildVO vo : list) {
+            printArea.append("工会id:" + vo.getGuildId() + "  名称:" + vo.getName() + "  会长:" + vo.getLeader() + "  会员数:" + vo.getMemberNum() + "\r\n");
+        }
+    }
+
+    @ClientHandlerAnno
+    public void printGuildApply(SM_GuildApplyList packet) {
+        Set<String> members = packet.getMembers();
+        if (members == null || members.size() == 0) {
+            printArea.append("暂时没有申请信息" + "\r\n");
+        }
+        printArea.append("申请列表如下: \r\n");
+        for (String member : members) {
+            printArea.append(member + "\r\n");
+        }
     }
 
 }

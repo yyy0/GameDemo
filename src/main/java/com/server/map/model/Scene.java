@@ -20,9 +20,9 @@ import java.util.*;
  * @date 2019/4/29 0:04
  */
 @Component
-public class MapInfo {
+public class Scene {
 
-    private Logger logger = LoggerFactory.getLogger(MapInfo.class);
+    private Logger logger = LoggerFactory.getLogger(Scene.class);
 
     /**
      * 地图id
@@ -56,13 +56,13 @@ public class MapInfo {
      */
     private Map<Class<? extends ICommand>, ICommand> commandMap = new HashMap<>();
 
-    public static MapInfo valueOf(int mapId, MapResource resource) {
-        MapInfo mapInfo = new MapInfo();
-        mapInfo.setMapId(mapId);
-        mapInfo.mapResource = resource;
-        mapInfo.initInfo();
-        mapInfo.createTime = TimeUtil.now();
-        return mapInfo;
+    public static Scene valueOf(int mapId, MapResource resource) {
+        Scene scene = new Scene();
+        scene.setMapId(mapId);
+        scene.mapResource = resource;
+        scene.initInfo();
+        scene.createTime = TimeUtil.now();
+        return scene;
     }
 
     /**
@@ -299,8 +299,11 @@ public class MapInfo {
     }
 
     public void addCommand(ICommand command) {
-        if (getCommand(command.getClass()) != null) {
-            command.cancel();
+
+        //如果有同类型的command 取消已有command
+        ICommand existCommand = getCommand(command.getClass());
+        if (existCommand != null) {
+            existCommand.cancel();
         }
         commandMap.put(command.getClass(), command);
     }

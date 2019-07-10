@@ -3,6 +3,7 @@ package com.server.user.account.model;
 import com.SpringContext;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.server.map.model.Grid;
+import com.server.publicsystem.guild.constant.GuildPositionType;
 import com.server.user.account.resource.AccountResource;
 import com.server.user.attribute.AttributeUtil;
 import com.server.user.attribute.constant.AttributeModel;
@@ -64,6 +65,19 @@ public class Account {
 
     @JsonIgnore
     private transient FightAccount fightAccount;
+
+    /**
+     * 工会id
+     */
+    private long guildId;
+
+    /**
+     * 工会职位
+     */
+    private GuildPositionType guildPosition;
+
+    private String guildName;
+
 
 
     /**
@@ -248,5 +262,41 @@ public class Account {
     public EquipStorage getEquipStorage() {
         EquipStorage equipStorage = SpringContext.getEquipmentService().getEquipStorage(accountId);
         return equipStorage;
+    }
+
+    public long getGuildId() {
+        return guildId;
+    }
+
+    public void setGuildId(long guildId) {
+        this.guildId = guildId;
+    }
+
+    public GuildPositionType getGuildPosition() {
+        return guildPosition;
+    }
+
+    public void setGuildPosition(GuildPositionType guildPosition) {
+        this.guildPosition = guildPosition;
+    }
+
+    public String getGuildName() {
+        return guildName;
+    }
+
+    public void setGuildName(String guildName) {
+        this.guildName = guildName;
+    }
+
+    public void exitGuild() {
+        this.setGuildPosition(null);
+        this.setGuildName(null);
+        this.setGuildId(0);
+    }
+
+    public void joinGuild(long guildId, String name) {
+        this.setGuildId(guildId);
+        this.setGuildName(name);
+        this.setGuildPosition(GuildPositionType.MEMBER);
     }
 }

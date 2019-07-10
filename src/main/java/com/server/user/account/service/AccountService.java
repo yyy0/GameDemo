@@ -3,7 +3,7 @@ package com.server.user.account.service;
 
 import com.SpringContext;
 import com.server.common.entity.CommonEntManager;
-import com.server.map.model.MapInfo;
+import com.server.map.model.Scene;
 import com.server.tool.PacketSendUtil;
 import com.server.user.account.entity.AccountEnt;
 import com.server.user.account.model.Account;
@@ -39,8 +39,8 @@ public class AccountService {
      * @param account
      */
     public void printFightAccount(Account account) {
-        MapInfo mapInfo = SpringContext.getWorldService().getMapInfo(account, account.getMapId());
-        FightAccount fightAccount = mapInfo.getFightAccount(account.getAccountId());
+        Scene scene = SpringContext.getWorldService().getMapInfo(account, account.getMapId());
+        FightAccount fightAccount = scene.getFightAccount(account.getAccountId());
         SM_FightAccountInfo packet = SM_FightAccountInfo.valueOf(fightAccount);
         PacketSendUtil.send(account, packet);
     }

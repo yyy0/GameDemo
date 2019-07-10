@@ -1,7 +1,7 @@
 package com.server.common.command;
 
 import com.SpringContext;
-import com.server.map.model.MapInfo;
+import com.server.map.model.Scene;
 import com.server.publicsystem.i18n.I18Utils;
 import com.server.publicsystem.i18n.constant.I18nId;
 import com.server.user.account.model.Account;
@@ -16,19 +16,19 @@ public abstract class AbstractSceneCommand extends AbstractCommand {
 
     private int mapId;
 
-    private MapInfo mapInfo;
+    private Scene scene;
 
-    public AbstractSceneCommand(String accountId, MapInfo mapInfo) {
+    public AbstractSceneCommand(String accountId, Scene scene) {
         this.accountId = accountId;
-        this.mapInfo = mapInfo;
-        this.mapId = mapInfo.getMapId();
+        this.scene = scene;
+        this.mapId = scene.getMapId();
     }
 
     public AbstractSceneCommand(String accountId, int mapId) {
         this.accountId = accountId;
         this.mapId = mapId;
         Account account = SpringContext.getAccountService().getAccount(accountId);
-        this.mapInfo = SpringContext.getWorldService().getMapInfo(account, mapId);
+        this.scene = SpringContext.getWorldService().getMapInfo(account, mapId);
     }
 
     public String getAccountId() {
@@ -68,11 +68,11 @@ public abstract class AbstractSceneCommand extends AbstractCommand {
      */
     public abstract void action();
 
-    public MapInfo getMapInfo() {
-        return mapInfo;
+    public Scene getScene() {
+        return scene;
     }
 
-    public void setMapInfo(MapInfo mapInfo) {
-        this.mapInfo = mapInfo;
+    public void setScene(Scene scene) {
+        this.scene = scene;
     }
 }

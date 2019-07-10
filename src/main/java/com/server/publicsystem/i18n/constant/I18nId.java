@@ -72,4 +72,36 @@ public interface I18nId {
     int TASK_NOT_FINISH = 32;
     //已完成所有任务
     int FINISH_ALL_TASK = 33;
+    //您已经加入工会了
+    int GUILD_BEEN_JOIN = 34;
+    //您的权限不足
+    int NO_PERMISSION = 35;
+    //工会不存在
+    int GUILD_NOT_EXIST = 36;
+    //工会已存在
+    int GUILD_ALREADY_EXIST = 37;
+    //您已申请过该工会了
+    int GUILD_ALREADY_APPLY = 38;
+    //职位已满不能再任命
+    int GUILD_POSITION_FULL = 39;
+    //工会名称已占用
+    int GUILD_NAME_EXIST = 40;
+    //该成员已经是该职位了
+    int GUILD_BEEN_SAME_POSITION = 41;
+    //会长不能退会
+    int GUILD_LEADER_CAN_NOT_EXIT = 42;
+    //您已退出工会
+    int GUILD_ALREADY_EXIT = 43;
+    //暂时没有任何行会
+    int GUILD_NULL = 44;
+    //该玩家暂未申请入会
+    int GUILD_ACCOUNT_NO_APPLY = 45;
+    //该玩家已加入工会了
+    int GUILD_ACCOUNT_ALREADY_EXIST = 46;
+    //该工会暂时没有申请信息
+    int GUILD_NO_APPLY = 47;
+    //申请工会成功
+    int GUILD_APPLY_SUCCESS = 48;
+    //成功领取任务奖励
+    int TASK_REWARD_SUCCESS = 49;
 }

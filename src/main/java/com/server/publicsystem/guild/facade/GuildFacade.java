@@ -49,5 +49,21 @@ public class GuildFacade {
     @HandlerAnno
     public void changeGuildPosition(TSession session, CM_ChangeGuildPosition req) {
         Account account = SessionUtil.getAccountBySession(session);
+        SpringContext.getGuildService().changeGuildPosition(account, req.getAccountId(), req.getType());
     }
+
+    @HandlerAnno
+    public void handlerGuildApply(TSession session, CM_HandlerGuildApply req) {
+        Account account = SessionUtil.getAccountBySession(session);
+        SpringContext.getGuildService().handlerApply(account, req.getAccountId(), req.getType());
+    }
+
+    @HandlerAnno
+    public void printGuildApplyList(TSession session, CM_GuildApplyList req) {
+        Account account = SessionUtil.getAccountBySession(session);
+        SpringContext.getGuildService().printApplyList(account, req.getGuildId());
+    }
+
+
+
 }

@@ -9,7 +9,7 @@ import com.server.map.command.MapInfoCommand;
 import com.server.map.command.MapMoveCommand;
 import com.server.map.handler.AbstractMapHandler;
 import com.server.map.model.Grid;
-import com.server.map.model.MapInfo;
+import com.server.map.model.Scene;
 import com.server.map.packet.SM_AccountMove;
 import com.server.map.packet.SM_ChangeMap;
 import com.server.map.packet.SM_MapInfo;
@@ -90,7 +90,6 @@ public class WorldService {
 
     }
 
-
     /**
      * 进入地图
      *
@@ -99,16 +98,14 @@ public class WorldService {
      */
     public void enterMap(Account account, int targetMapId) {
         MapResource mapResource = getMapResource(targetMapId);
-        MapInfo mapInfo = mapManager.getMapInfo(targetMapId);
-        int gridX = mapResource.getBornX();
-        int gridY = mapResource.getBornY();
+        Scene scene = mapManager.getMapInfo(targetMapId);
 
         account.setOldMapId(account.getMapId());
         account.setMapId(targetMapId);
-        account.setGridX(gridX);
-        account.setGirdY(gridY);
+        account.setGridX(mapResource.getBornX());
+        account.setGirdY(mapResource.getBornY());
         FightAccount fightAccount = FightAccount.valueOf(account);
-        mapInfo.addFightAccount(fightAccount);
+        scene.addFightAccount(fightAccount);
         account.setFightAccount(fightAccount.copy());
 
         logger.info("账号[{}]进入地图：{}", account.getName(), mapResource.getName());
@@ -116,7 +113,7 @@ public class WorldService {
         SM_ChangeMap packet = SM_ChangeMap.valueOf(account.getAccountId(), targetMapId, account.getOldMapId());
         PacketSendUtil.send(account, packet);
 
-        SM_MapInfo mapInfoPacket = SM_MapInfo.valueOf(mapInfo);
+        SM_MapInfo mapInfoPacket = SM_MapInfo.valueOf(scene);
         PacketSendUtil.send(account, mapInfoPacket);
     }
 
@@ -124,17 +121,17 @@ public class WorldService {
         MapResource mapResource = getMapResource(account.getMapId());
         int preX = account.getGridX();
         int preY = account.getGirdY();
-        MapInfo mapInfo = getMapInfo(account, account.getMapId());
+        Scene scene = getMapInfo(account, account.getMapId());
 
-        if (isCanWalk(mapResource, targetGrid) && mapInfo.isCanWalk(targetGrid.getX(), targetGrid.getY())) {
-            mapInfo.setGridAsRoad(preX, preY);
+        if (isCanWalk(mapResource, targetGrid) && scene.isCanWalk(targetGrid.getX(), targetGrid.getY())) {
+            scene.setGridAsRoad(preX, preY);
             int newX = targetGrid.getX();
             int newY = targetGrid.getY();
             account.setGridX(newX);
             account.setGirdY(newY);
             SpringContext.getAccountService().saveAccountInfo(account.getAccountId());
             account.fightSync(GridSyncStrategy.valueOf(Grid.valueOf(newX, newY)));
-            SpringContext.getSceneExecutorService().submit(MapInfoCommand.valueOf(account, mapInfo.getMapId()));
+            SpringContext.getSceneExecutorService().submit(MapInfoCommand.valueOf(account, scene.getMapId()));
             SM_AccountMove packet = SM_AccountMove.valueOf(account.getAccountId(), newX, newY, preX, preY);
             PacketSendUtil.send(account, packet);
 
@@ -154,14 +151,14 @@ public class WorldService {
     }
 
     public boolean isCanWalk(MapResource mapResource, Grid grid) {
-        MapInfo mapInfo = mapManager.getMapInfo(mapResource.getId());
+        Scene scene = mapManager.getMapInfo(mapResource.getId());
 
-        if (mapInfo != null) {
+        if (scene != null) {
             int gridX = grid.getX();
             int gridY = grid.getY();
             //检查坐标合法性，是否越界
             mapResource.checkGrid(gridX, gridY);
-            return mapResource.isWalkGrid(gridX, gridY) && mapInfo.isCanWalk(gridX, gridY);
+            return mapResource.isWalkGrid(gridX, gridY) && scene.isCanWalk(gridX, gridY);
         }
         return false;
     }
@@ -172,8 +169,8 @@ public class WorldService {
     public void leaveMap(Account account) {
 
         int oldMapId = account.getMapId();
-        MapInfo mapInfo = mapManager.getMapInfo(oldMapId);
-        mapInfo.removeFightAccount(account.getAccountId());
+        Scene scene = mapManager.getMapInfo(oldMapId);
+        scene.removeFightAccount(account.getAccountId());
     }
 
     public void printMapInfo(Account account, int mapId) {
@@ -191,10 +188,9 @@ public class WorldService {
         int id = mapId == 0 ? account.getMapId() : mapId;
         MapResource mapResource = getMapResource(id);
         AbstractMapHandler mapHandler = AbstractMapHandler.getMapHandler(mapResource.getType());
-        //记得传mapinfo
-        MapInfo mapInfo = mapHandler.getMapInfo(account, id);
 
-        SM_MapInfo packet = SM_MapInfo.valueOf(mapInfo);
+        Scene scene = mapHandler.getMapInfo(account, id);
+        SM_MapInfo packet = SM_MapInfo.valueOf(scene);
         PacketSendUtil.send(account, packet);
     }
 
@@ -206,13 +202,13 @@ public class WorldService {
      */
     public void printMonstersInfo(Account account, int mapId) {
 
-        MapInfo mapInfo = getMapInfo(account, mapId);
-        List<Monster> monsters = mapInfo.getMonsters();
+        Scene scene = getMapInfo(account, mapId);
+        List<Monster> monsters = scene.getMonsters();
         if (monsters == null) {
             I18Utils.notifyMessage(account, I18nId.MAP_NULL_MONSTER);
             return;
         }
-        SM_MonsterInfo packet = SM_MonsterInfo.valueOf(monsters, mapInfo.getMapName());
+        SM_MonsterInfo packet = SM_MonsterInfo.valueOf(monsters, scene.getMapName());
         PacketSendUtil.send(account, packet);
     }
 
@@ -256,13 +252,13 @@ public class WorldService {
      */
     public void killMonster(Account account, long monsterGid) {
         int mapId = account.getMapId();
-        MapInfo mapInfo = getMapInfo(account, mapId);
-        Monster monster = mapInfo.getMonsterByGid(monsterGid);
+        Scene scene = getMapInfo(account, mapId);
+        Monster monster = scene.getMonsterByGid(monsterGid);
         if (monster == null) {
             I18Utils.notifyMessage(account, I18nId.NO_MONSTER);
             return;
         }
-        mapInfo.removeMonster(monsterGid);
+        scene.removeMonster(monsterGid);
         Map<Integer, Integer> itemsMap = getMonsterResource(monster.getId()).getItems();
         if (itemsMap == null) {
             I18Utils.notifyMessageThrow(account, I18nId.MONSTER_NULL_DROP);
@@ -285,7 +281,7 @@ public class WorldService {
      * @param mapId   为0时获取 account当前mapId
      * @return
      */
-    public MapInfo getMapInfo(Account account, int mapId) {
+    public Scene getMapInfo(Account account, int mapId) {
         int id = mapId == 0 ? account.getMapId() : mapId;
         MapResource resource = getMapResource(id);
         AbstractMapHandler mapHandler = AbstractMapHandler.getMapHandler(resource.getType());
@@ -297,7 +293,7 @@ public class WorldService {
      */
     public void doRateCommand() {
 
-        Map<Integer, MapInfo> mapInfoMap = SpringContext.getMapManager().getMapInfos();
+        Map<Integer, Scene> mapInfoMap = SpringContext.getMapManager().getMapInfos();
         for (int mapId : mapInfoMap.keySet()) {
             SpringContext.getSceneExecutorService().submit(SceneRateCommand.valueOf(null, mapId, 0, 500));
         }
@@ -320,8 +316,8 @@ public class WorldService {
         if (account == null || monster == null) {
             return;
         }
-        MapInfo mapInfo = mapManager.getMapInfo(account.getMapId());
-        mapInfo.removeMonster(monster.getObjectId());
+        Scene scene = mapManager.getMapInfo(account.getMapId());
+        scene.removeMonster(monster.getObjectId());
 
     }
 

@@ -1,9 +1,9 @@
-package com.server.challengeMap;
+package com.server.challengeMap.handler;
 
 import com.SpringContext;
 import com.server.map.constant.MapType;
 import com.server.map.handler.AbstractMapHandler;
-import com.server.map.model.MapInfo;
+import com.server.map.model.Scene;
 import com.server.monster.model.Monster;
 import com.server.user.account.model.Account;
 import org.springframework.stereotype.Component;
@@ -27,8 +27,8 @@ public class ChallengeMapHandler extends AbstractMapHandler {
         if (account == null || monster == null) {
             return;
         }
-        MapInfo mapInfo = getMapInfo(account, 0);
-        SpringContext.getChallengeMapService().handlerDeadMonster(account, monster, mapInfo);
+        Scene scene = getMapInfo(account, 0);
+        SpringContext.getChallengeMapService().handlerDeadMonster(account, monster, scene);
     }
 
     @Override
@@ -42,14 +42,14 @@ public class ChallengeMapHandler extends AbstractMapHandler {
     }
 
     @Override
-    public MapInfo getMapInfo(Account account, int mapId) {
-        Map<String, MapInfo> mapInfoMap = SpringContext.getChallengeMapService().getMapInfos();
+    public Scene getMapInfo(Account account, int mapId) {
+        Map<String, Scene> mapInfoMap = SpringContext.getChallengeMapService().getMapInfos();
         if (mapId == 0) {
             return mapInfoMap.get(account.getAccountId());
         } else {
-            for (MapInfo mapInfo : mapInfoMap.values()) {
-                if (mapInfo.getMapId() == mapId) {
-                    return mapInfo;
+            for (Scene scene : mapInfoMap.values()) {
+                if (scene.getMapId() == mapId) {
+                    return scene;
                 }
             }
             return null;

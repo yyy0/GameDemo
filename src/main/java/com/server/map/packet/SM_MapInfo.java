@@ -1,6 +1,6 @@
 package com.server.map.packet;
 
-import com.server.map.model.MapInfo;
+import com.server.map.model.Scene;
 import com.server.map.resource.MapResource;
 import com.server.tool.TimeUtil;
 
@@ -18,20 +18,20 @@ public class SM_MapInfo implements Serializable {
 
     private long coutDown;
 
-    public static SM_MapInfo valueOf(MapInfo mapInfo) {
+    public static SM_MapInfo valueOf(Scene scene) {
         SM_MapInfo packet = new SM_MapInfo();
-        char[][] mapGrids = mapInfo.printInfo();
+        char[][] mapGrids = scene.printInfo();
         packet.mapGrids = new char[mapGrids.length][mapGrids[0].length];
 
         for (int i = 0; i < mapGrids.length; i++) {
             packet.mapGrids[i] = Arrays.copyOf(mapGrids[i], mapGrids[i].length);
         }
-        MapResource resource = mapInfo.getMapResource();
+        MapResource resource = scene.getMapResource();
         long duration = resource.getDuration();
         if (duration == 0) {
             packet.coutDown = 0;
         } else {
-            packet.coutDown = duration - (TimeUtil.now() - mapInfo.getCreateTime());
+            packet.coutDown = duration - (TimeUtil.now() - scene.getCreateTime());
         }
 
         return packet;

@@ -4,16 +4,19 @@ import java.io.Serializable;
 
 /**
  * @author yuxianming
- * @date 2019/7/4 11:02
+ * @date 2019/7/5 14:00
  */
-public class CM_ChangeGuildPosition implements Serializable {
+public class CM_HandlerGuildApply implements Serializable {
 
     private String accountId;
 
+    /**
+     * 处理类型
+     */
     private int type;
 
-    public static CM_ChangeGuildPosition valueOf(String accountId, int type) {
-        CM_ChangeGuildPosition packet = new CM_ChangeGuildPosition();
+    public static CM_HandlerGuildApply valueOf(String accountId, int type) {
+        CM_HandlerGuildApply packet = new CM_HandlerGuildApply();
         packet.accountId = accountId;
         packet.type = type;
         return packet;

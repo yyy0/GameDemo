@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @date 2019/6/25 18:03
  */
 @Component
-@GmAnno(title = "方法gm")
+@GmAnno(title = "任务gm")
 public class TaskGm {
 
     @GmMethod(name = "打印当前任务信息", clz = CM_TaskInfo.class)

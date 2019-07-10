@@ -2,7 +2,7 @@ package com.server.map.handler;
 
 import com.SpringContext;
 import com.server.map.constant.MapType;
-import com.server.map.model.MapInfo;
+import com.server.map.model.Scene;
 import com.server.monster.model.Monster;
 import com.server.user.account.model.Account;
 
@@ -46,7 +46,7 @@ public abstract class AbstractMapHandler {
 
     }
 
-    public MapInfo getMapInfo(Account account, int mapId) {
+    public Scene getMapInfo(Account account, int mapId) {
         int id = mapId == 0 ? account.getMapId() : mapId;
         return SpringContext.getMapManager().getMapInfo(id);
     }

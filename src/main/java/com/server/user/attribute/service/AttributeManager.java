@@ -52,6 +52,16 @@ public class AttributeManager {
         return accountAttrs.get(accountId);
     }
 
+    public long getFightPower(String accountId) {
+
+        AccountAttribute accountAttribute = getAccountAttribute(accountId);
+        if (accountAttribute == null) {
+            return 0L;
+        } else {
+            return accountAttribute.getFightPower();
+        }
+    }
+
 
     public void refreshAttr(Account account, AttributeModel model) {
         AccountAttribute accountAttribute = getAccountAttribute(account.getAccountId());

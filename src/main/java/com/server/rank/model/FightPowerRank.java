@@ -3,8 +3,8 @@ package com.server.rank.model;
 import com.server.tool.TimeUtil;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 战力排行榜
@@ -15,13 +15,8 @@ import java.util.Collections;
 @Component
 public class FightPowerRank {
 
+    private CopyOnWriteArrayList<FightPowerInfo> fightPowerList = new CopyOnWriteArrayList<>();
 
-    private ArrayList<FightPowerInfo> fightPowerList = new ArrayList<>();
-
-    /**
-     * 默认上榜数
-     */
-    private static int DEFAULT_RANK_NUM = 100;
 
     public int getIndex(FightPowerInfo info) {
         return fightPowerList.indexOf(info);
@@ -35,7 +30,6 @@ public class FightPowerRank {
                 isAdd = false;
                 temp.setFightPower(info.getFightPower());
                 temp.setRefreshTime(TimeUtil.now());
-
                 break;
             }
         }
@@ -45,11 +39,15 @@ public class FightPowerRank {
         Collections.sort(fightPowerList);
     }
 
-    public ArrayList<FightPowerInfo> getFightPowerList() {
+    public void sortRank() {
+        Collections.sort(fightPowerList);
+    }
+
+    public CopyOnWriteArrayList<FightPowerInfo> getFightPowerList() {
         return fightPowerList;
     }
 
-    public void setFightPowerList(ArrayList<FightPowerInfo> fightPowerList) {
+    public void setFightPowerList(CopyOnWriteArrayList<FightPowerInfo> fightPowerList) {
         this.fightPowerList = fightPowerList;
     }
 

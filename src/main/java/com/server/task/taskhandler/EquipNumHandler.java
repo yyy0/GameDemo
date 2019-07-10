@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class EquipNumHandler extends AbstractTaskHandler {
 
-
     @Override
     public TaskConditionType getTaskConditionType() {
         return TaskConditionType.EQUIP_NUM;
@@ -26,8 +25,6 @@ public class EquipNumHandler extends AbstractTaskHandler {
 
     @Override
     public int getValue(TaskEvent event, TaskCondition condition) {
-
-
         return getEquipNum(event.getAccount());
     }
 
@@ -35,7 +32,6 @@ public class EquipNumHandler extends AbstractTaskHandler {
     public boolean isReplace() {
         return false;
     }
-
 
     /**
      * 初始化任务进度
@@ -54,13 +50,11 @@ public class EquipNumHandler extends AbstractTaskHandler {
         if (value > 0) {
             taskInfo.setProgress(Math.min(value, conditionValue));
         }
-
     }
 
     public int getEquipNum(Account account) {
         EquipStorage equipStorage = account.getEquipStorage();
         return equipStorage.getEquipmentNum();
     }
-
 
 }

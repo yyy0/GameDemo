@@ -3,7 +3,7 @@ package com.server.map.service;
 
 import com.server.common.resource.ResourceManager;
 import com.server.map.constant.MapType;
-import com.server.map.model.MapInfo;
+import com.server.map.model.Scene;
 import com.server.map.resource.MapResource;
 import com.server.monster.model.Monster;
 import com.server.monster.resource.MonsterAreaResource;
@@ -28,7 +28,7 @@ public class MapManager {
     @Autowired
     private ResourceManager resourceManager;
 
-    private Map<Integer, MapInfo> mapInfos = new HashMap<>();
+    private Map<Integer, Scene> mapInfos = new HashMap<>();
     private Map<Integer, Object> mapResources = new HashMap<>();
     private Map<Integer, Object> monsterResources = new HashMap<>();
 
@@ -49,13 +49,13 @@ public class MapManager {
             if (resource.getType() != MapType.COMMON_MAP) {
                 continue;
             }
-            MapInfo mapInfo = MapInfo.valueOf(mapId, resource);
+            Scene scene = Scene.valueOf(mapId, resource);
 
             //加载刷怪 放入地图中
             for (Object object : monsterAreaResource.values()) {
 
                 MonsterAreaResource areaResource = (MonsterAreaResource) object;
-                if (areaResource.getMapId() != mapInfo.getMapId()) {
+                if (areaResource.getMapId() != scene.getMapId()) {
                     continue;
                 }
                 int monsterId = areaResource.getMonsterId();
@@ -64,11 +64,11 @@ public class MapManager {
                 monster.setGridX(areaResource.getGridX());
                 monster.setGridY(areaResource.getGridY());
                 //将怪物放入地图信息中
-                mapInfo.addMonster(monster);
+                scene.addMonster(monster);
 
             }
 
-            mapInfos.put(mapId, mapInfo);
+            mapInfos.put(mapId, scene);
         }
 
     }
@@ -76,11 +76,11 @@ public class MapManager {
     /**
      * 获取对应mapInfo
      */
-    public MapInfo getMapInfo(int mapId) {
+    public Scene getMapInfo(int mapId) {
         return mapInfos.get(mapId);
     }
 
-    public Map<Integer, MapInfo> getMapInfos() {
+    public Map<Integer, Scene> getMapInfos() {
         return mapInfos;
     }
 

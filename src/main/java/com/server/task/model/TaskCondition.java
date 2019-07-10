@@ -1,6 +1,5 @@
 package com.server.task.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.server.task.constant.TaskConditionType;
 
 /**
@@ -14,16 +13,6 @@ public class TaskCondition {
     private TaskConditionType type;
 
     private String param;
-
-    private transient String[] params;
-
-    @JsonIgnore
-    public String[] getParams() {
-        if (params == null) {
-            this.params = param.split(":");
-        }
-        return this.params;
-    }
 
     public TaskConditionType getType() {
         return type;
@@ -39,10 +28,6 @@ public class TaskCondition {
 
     public void setParam(String param) {
         this.param = param;
-    }
-
-    public void setParams(String[] params) {
-        this.params = params;
     }
 
     public boolean isConditionNotEmpty() {

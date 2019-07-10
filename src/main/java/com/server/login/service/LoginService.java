@@ -40,7 +40,6 @@ public class LoginService {
      * @param pwd
      */
     public void login(TSession session, String accountId, String pwd) {
-        System.out.println(accountId);
         Account account = SpringContext.getAccountService().getAccount(accountId);
         if (account == null) {
             logger.error("账号不存在");
@@ -56,9 +55,10 @@ public class LoginService {
             SpringContext.getSessionService().register(session, accountId);
         }
 
+        //登陆时加载属性
         SpringContext.getAttributeManager().loadAccountAttr(account);
-        //登陆切图，没找到地图id 默认进新手村
 
+        //登陆切图，没找到地图id 默认进新手村
         MapResource mapResource = SpringContext.getWorldService().getMapResource(account.getMapId());
         int mapId;
         if (mapResource == null) {
@@ -68,10 +68,6 @@ public class LoginService {
             mapId = account.getMapId();
             worldService.enterMap(account, mapId);
         }
-        //登陆时加载人物所有属性模块
-//        AccountResource resource=SpringContext.getAccountService().getAccountResource(account.getLevel());
-//        SpringContext.getAttributeManager().putAttributes(accountId, AttributeModel.ACCOUNT_BASE,resource.getAttributes());
-
 
         SM_LoginSuccess packet = SM_LoginSuccess.valueOf(accountId, mapId);
         PacketSendUtil.send(session, packet);

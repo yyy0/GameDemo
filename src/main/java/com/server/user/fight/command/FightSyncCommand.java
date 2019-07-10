@@ -1,7 +1,7 @@
 package com.server.user.fight.command;
 
 import com.server.common.command.AbstractSceneCommand;
-import com.server.map.model.MapInfo;
+import com.server.map.model.Scene;
 import com.server.user.fight.FightAccount;
 import com.server.user.fight.syncStrategy.ISyncStrategy;
 
@@ -29,8 +29,8 @@ public class FightSyncCommand extends AbstractSceneCommand {
 
     @Override
     public void action() {
-        MapInfo mapInfo = getMapInfo();
-        FightAccount fightAccount = mapInfo.getFightAccount(getAccountId());
+        Scene scene = getScene();
+        FightAccount fightAccount = scene.getFightAccount(getAccountId());
         strategy.syncInfo(fightAccount);
     }
 

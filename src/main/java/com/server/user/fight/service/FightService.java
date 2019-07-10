@@ -3,7 +3,7 @@ package com.server.user.fight.service;
 import com.SpringContext;
 import com.server.map.handler.AbstractMapHandler;
 import com.server.map.model.Grid;
-import com.server.map.model.MapInfo;
+import com.server.map.model.Scene;
 import com.server.map.resource.MapResource;
 import com.server.monster.model.Monster;
 import com.server.publicsystem.i18n.I18Utils;
@@ -41,8 +41,8 @@ public class FightService {
             I18Utils.notifyMessageThrow(fightAccount.getAccountId(), I18nId.ILLEGAL_VALUE);
         }
         Account acc = SpringContext.getAccountService().getAccount(fightAccount.getAccountId());
-        MapInfo mapInfo = SpringContext.getWorldService().getMapInfo(acc, mapId);
-        FightAccount targetAccount = mapInfo.getFightAccount(targetAccountId);
+        Scene scene = SpringContext.getWorldService().getMapInfo(acc, mapId);
+        FightAccount targetAccount = scene.getFightAccount(targetAccountId);
         if (targetAccount == null) {
             I18Utils.notifyMessageThrow(fightAccount.getAccountId(), I18nId.TARGET_NOT_IN_RANGE);
             return;
@@ -59,7 +59,7 @@ public class FightService {
 
         // 多目标技能攻击周围角色
         if (targetNum > 1) {
-            List<FightAccount> aroundFightAccounts = mapInfo.getAroundFightAccount(fightAccount, skillResource.getRange(), targetNum - 1);
+            List<FightAccount> aroundFightAccounts = scene.getAroundFightAccount(fightAccount, skillResource.getRange(), targetNum - 1);
             if (aroundFightAccounts.size() > 0) {
                 for (FightAccount account : aroundFightAccounts) {
                     if (account.getAccountId().equals(targetAccountId)) {
@@ -91,8 +91,8 @@ public class FightService {
         AbstractMapHandler mapHandler = AbstractMapHandler.getMapHandler(resource.getType());
 
         Account account = SpringContext.getAccountService().getAccount(fightAccount.getAccountId());
-        MapInfo mapInfo = mapHandler.getMapInfo(account, 0);
-        Monster monster = mapInfo.getMonsterByGid(monsterGid);
+        Scene scene = mapHandler.getMapInfo(account, 0);
+        Monster monster = scene.getMonsterByGid(monsterGid);
         if (monster == null) {
             I18Utils.notifyMessageThrow(fightAccount.getAccountId(), I18nId.TARGET_NOT_IN_RANGE);
             return;
@@ -114,7 +114,7 @@ public class FightService {
 
         //多目标攻击怪物
         if (skillResource.getTargetNum() > 1) {
-            List<Monster> monsters = mapInfo.getAroundMonster(fightAccount, skillResource.getRange(), skillResource.getTargetNum() - 1, monsterGid);
+            List<Monster> monsters = scene.getAroundMonster(fightAccount, skillResource.getRange(), skillResource.getTargetNum() - 1, monsterGid);
             if (monsters.size() > 0) {
                 for (Monster monsterTemp : monsters) {
                     causeMonsterDamage(fightAccount, monsterTemp, skillResource);

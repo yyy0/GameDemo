@@ -33,7 +33,7 @@ public class FightUseSkillCommand extends AbstractSceneCommand {
         String accountId = getAccountId();
         int mapId = getMapId();
 
-        FightAccount fightAccount = getMapInfo().getFightAccount(accountId);
+        FightAccount fightAccount = getScene().getFightAccount(accountId);
 
         if (fightAccount == null) {
             LoggerUtil.error("玩家[{}]使用技能攻击玩家，找不到fightAccount,地图:{}", accountId, mapId);

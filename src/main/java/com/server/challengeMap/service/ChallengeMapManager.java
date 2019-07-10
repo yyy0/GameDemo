@@ -1,7 +1,7 @@
-package com.server.challengeMap;
+package com.server.challengeMap.service;
 
 import com.server.common.resource.ResourceManager;
-import com.server.map.model.MapInfo;
+import com.server.map.model.Scene;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +25,9 @@ public class ChallengeMapManager {
     /**
      * 账号id  mapInfo
      */
-    private Map<String, MapInfo> mapInfos = new HashMap<>();
-    private Map<Integer, Object> mapResources = new HashMap<>();
-    private Map<Integer, Object> monsterResources = new HashMap<>();
+    private Map<String, Scene> mapInfos = new HashMap<>();
 
-    public MapInfo getMapInfo(String accountId) {
+    public Scene getMapInfo(String accountId) {
         return mapInfos.get(accountId);
     }
 
@@ -38,14 +36,14 @@ public class ChallengeMapManager {
         mapInfos.remove(accountId);
     }
 
-    public void addMapInfo(String accountId, MapInfo mapInfo) {
-        if (accountId == null || mapInfo == null) {
+    public void addMapInfo(String accountId, Scene scene) {
+        if (accountId == null || scene == null) {
             return;
         }
-        mapInfos.put(accountId, mapInfo);
+        mapInfos.put(accountId, scene);
     }
 
-    public Map<String, MapInfo> getMapInfos() {
+    public Map<String, Scene> getMapInfos() {
         return mapInfos;
     }
 }
