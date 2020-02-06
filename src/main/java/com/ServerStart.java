@@ -18,6 +18,7 @@ public class ServerStart {
     private static Logger logger = LoggerFactory.getLogger("START");
 
     public static void main(String[] args) {
+        // 服务器启动
         long start = System.nanoTime();
         applicationContext = new ClassPathXmlApplicationContext(APPLICATION_CONTEXT);
         applicationContext.start();
